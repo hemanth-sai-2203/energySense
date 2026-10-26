@@ -1,11 +1,13 @@
 {
-  "pipeline_version": "2.0.0",
-  "timestamp": "2026-10-26T15:07:25.663620",
+  "pipeline_version": "2.1.0-audited",
+  "timestamp": "2026-10-26T16:58:06.681465",
   "primary_target_energy": {
     "target": "energy_met_mu",
     "benchmarks": {
       "method_A_row_index_shift": {
         "description": "Row index predecessor (includes crossing missing date 2023-03-30 without calendar gap check)",
+        "evaluated_days": 483,
+        "excluded_days": 0,
         "metrics": {
           "mae": 89.917,
           "rmse": 117.0918,
@@ -15,6 +17,11 @@
       },
       "method_B_strict_calendar_lag_1": {
         "description": "Strict calendar t-1 (excludes 2023-03-31 because 2023-03-30 is absent)",
+        "evaluated_days": 482,
+        "excluded_days": 1,
+        "excluded_dates": [
+          "2023-03-31"
+        ],
         "metrics": {
           "mae": 89.6147,
           "rmse": 116.7209,
@@ -24,6 +31,12 @@
       },
       "method_C_common_valid_evaluation_set": {
         "description": "Common dates where both strict t-1 and t-7 exist (excludes 2023-03-31 and 2023-04-06)",
+        "evaluated_days": 481,
+        "excluded_days": 2,
+        "excluded_dates": [
+          "2023-03-31",
+          "2023-04-06"
+        ],
         "persistence_metrics": {
           "mae": 89.7445,
           "rmse": 116.8356,
@@ -38,287 +51,240 @@
         }
       }
     },
-    "validation": {
-      "persistence": {
-        "mae": 83.5231,
-        "rmse": 108.5689,
-        "mape": 2.08,
-        "count": 338
-      },
-      "seasonal_naive": {
-        "mae": 132.1405,
-        "rmse": 183.044,
-        "mape": 3.2796,
-        "count": 338
-      },
-      "ridge": {
-        "mae": 54.5559,
-        "rmse": 76.9206,
-        "mape": 1.3503,
-        "count": 338
-      },
-      "decision_tree": {
-        "mae": 99.9241,
-        "rmse": 128.322,
-        "mape": 2.4271,
-        "count": 338
-      },
-      "ridge_with_covid_feature": {
-        "mae": 54.4294,
-        "rmse": 76.9188,
-        "mape": 1.3455,
-        "count": 338
-      },
-      "ridge_excluding_2020_lockdown": {
-        "mae": 54.3261,
-        "rmse": 76.6578,
-        "mape": 1.3437,
-        "count": 338
-      }
-    },
-    "holdout": {
-      "persistence": {
-        "mae": 90.0945,
-        "rmse": 117.2095,
-        "mape": 2.084,
-        "count": 477
-      },
-      "seasonal_naive": {
-        "mae": 181.5157,
-        "rmse": 237.2263,
-        "mape": 4.2009,
-        "count": 477
-      },
-      "ridge": {
-        "mae": 63.5365,
-        "rmse": 84.9282,
-        "mape": 1.4563,
-        "count": 477
-      },
-      "decision_tree": {
-        "mae": 203.1331,
-        "rmse": 273.273,
-        "mape": 4.431,
-        "count": 477
-      },
-      "breakdown_2023": {
+    "h1_rolling_evaluation": {
+      "validation": {
         "persistence": {
-          "mae": 93.0832,
-          "rmse": 119.9817,
-          "mape": 2.17,
-          "count": 358
+          "mae": 83.5231,
+          "rmse": 108.5689,
+          "mape": 2.08,
+          "count": 338
+        },
+        "seasonal_naive": {
+          "mae": 132.1405,
+          "rmse": 183.044,
+          "mape": 3.2796,
+          "count": 338
         },
         "ridge": {
-          "mae": 65.9954,
-          "rmse": 87.1057,
-          "mape": 1.5228,
-          "count": 358
+          "mae": 54.5559,
+          "rmse": 76.9206,
+          "mape": 1.3503,
+          "count": 338
+        },
+        "decision_tree": {
+          "mae": 99.9241,
+          "rmse": 128.322,
+          "mape": 2.4271,
+          "count": 338
+        },
+        "ridge_with_covid_feature": {
+          "mae": 54.4294,
+          "rmse": 76.9188,
+          "mape": 1.3455,
+          "count": 338
         }
       },
-      "breakdown_2024": {
+      "holdout": {
         "persistence": {
-          "mae": 81.1034,
-          "rmse": 108.4433,
-          "mape": 1.8254,
-          "count": 119
-        },
-        "ridge": {
-          "mae": 56.1391,
-          "rmse": 78.0115,
-          "mape": 1.256,
-          "count": 119
-        }
-      },
-      "breakdown_summer": {
-        "persistence": {
-          "mae": 112.3033,
-          "rmse": 141.9579,
-          "mape": 2.5246,
-          "count": 61
-        },
-        "ridge": {
-          "mae": 88.2834,
-          "rmse": 112.1719,
-          "mape": 1.9718,
-          "count": 61
-        }
-      },
-      "breakdown_winter": {
-        "persistence": {
-          "mae": 68.2118,
-          "rmse": 87.6736,
-          "mape": 1.678,
-          "count": 93
-        },
-        "ridge": {
-          "mae": 43.2678,
-          "rmse": 58.2423,
-          "mape": 1.0559,
-          "count": 93
-        }
-      }
-    },
-    "multi_horizon_7day": {
-      "horizon_1": {
-        "horizon_days": 1,
-        "persistence_holdout": {
           "mae": 90.0945,
           "rmse": 117.2095,
           "mape": 2.084,
           "count": 477
         },
-        "seasonal_naive_holdout": {
+        "seasonal_naive": {
           "mae": 181.5157,
           "rmse": 237.2263,
           "mape": 4.2009,
           "count": 477
         },
-        "ridge_holdout": {
+        "ridge": {
           "mae": 63.5365,
           "rmse": 84.9282,
           "mape": 1.4563,
           "count": 477
         },
+        "decision_tree": {
+          "mae": 203.1331,
+          "rmse": 273.273,
+          "mape": 4.431,
+          "count": 477
+        },
         "mae_reduction_vs_persistence_pct": 29.48,
         "mae_reduction_vs_snaive_pct": 65.0
-      },
-      "horizon_2": {
-        "horizon_days": 2,
-        "persistence_holdout": {
-          "mae": 134.5352,
-          "rmse": 174.7674,
-          "mape": 3.1116,
-          "count": 477
+      }
+    },
+    "origin_aligned_7day_evaluation": {
+      "eligible_common_origins": 442,
+      "origin_range": "2023-01-01 to 2024-04-21",
+      "horizons": {
+        "horizon_1": {
+          "horizon_days": 1,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 89.3597,
+            "rmse": 116.4712,
+            "mape": 2.0671,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.9068,
+            "rmse": 233.2363,
+            "mape": 4.0996,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 63.356,
+            "rmse": 85.1167,
+            "mape": 1.4532,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 29.1,
+          "improvement_vs_snaive_pct": 64.19
         },
-        "seasonal_naive_holdout": {
-          "mae": 181.4847,
-          "rmse": 237.2191,
-          "mape": 4.2,
-          "count": 477
+        "horizon_2": {
+          "horizon_days": 2,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 132.9462,
+            "rmse": 173.3252,
+            "mape": 3.0762,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.5572,
+            "rmse": 233.0113,
+            "mape": 4.0917,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 105.5948,
+            "rmse": 138.5543,
+            "mape": 2.4212,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 20.57,
+          "improvement_vs_snaive_pct": 40.19
         },
-        "ridge_holdout": {
-          "mae": 107.4769,
-          "rmse": 139.5753,
-          "mape": 2.4609,
-          "count": 477
+        "horizon_3": {
+          "horizon_days": 3,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 155.869,
+            "rmse": 203.1559,
+            "mape": 3.6133,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.6398,
+            "rmse": 233.1941,
+            "mape": 4.0938,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 129.7069,
+            "rmse": 168.9673,
+            "mape": 2.9769,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 16.78,
+          "improvement_vs_snaive_pct": 26.57
         },
-        "mae_reduction_vs_persistence_pct": 20.11,
-        "mae_reduction_vs_snaive_pct": 40.78
-      },
-      "horizon_3": {
-        "horizon_days": 3,
-        "persistence_holdout": {
-          "mae": 158.517,
-          "rmse": 205.825,
-          "mape": 3.6723,
-          "count": 477
+        "horizon_4": {
+          "horizon_days": 4,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 168.893,
+            "rmse": 222.9146,
+            "mape": 3.9137,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 177.0778,
+            "rmse": 233.7484,
+            "mape": 4.1036,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 148.8436,
+            "rmse": 189.8657,
+            "mape": 3.4077,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 11.87,
+          "improvement_vs_snaive_pct": 15.94
         },
-        "seasonal_naive_holdout": {
-          "mae": 181.7503,
-          "rmse": 237.3075,
-          "mape": 4.2068,
-          "count": 477
+        "horizon_5": {
+          "horizon_days": 5,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 177.2419,
+            "rmse": 234.8157,
+            "mape": 4.0992,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.7118,
+            "rmse": 232.6065,
+            "mape": 4.0885,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 163.8302,
+            "rmse": 203.691,
+            "mape": 3.7358,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 7.57,
+          "improvement_vs_snaive_pct": 7.29
         },
-        "ridge_holdout": {
-          "mae": 132.9403,
-          "rmse": 171.3608,
-          "mape": 3.0464,
-          "count": 477
+        "horizon_6": {
+          "horizon_days": 6,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 176.3149,
+            "rmse": 235.059,
+            "mape": 4.0716,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.4941,
+            "rmse": 231.5661,
+            "mape": 4.0772,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 175.2162,
+            "rmse": 213.9594,
+            "mape": 3.9803,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 0.62,
+          "improvement_vs_snaive_pct": 0.72
         },
-        "mae_reduction_vs_persistence_pct": 16.13,
-        "mae_reduction_vs_snaive_pct": 26.86
-      },
-      "horizon_4": {
-        "horizon_days": 4,
-        "persistence_holdout": {
-          "mae": 171.0618,
-          "rmse": 225.3381,
-          "mape": 3.9681,
-          "count": 477
-        },
-        "seasonal_naive_holdout": {
-          "mae": 181.786,
-          "rmse": 237.3155,
-          "mape": 4.2079,
-          "count": 477
-        },
-        "ridge_holdout": {
-          "mae": 152.2163,
-          "rmse": 192.9232,
-          "mape": 3.4837,
-          "count": 477
-        },
-        "mae_reduction_vs_persistence_pct": 11.02,
-        "mae_reduction_vs_snaive_pct": 16.27
-      },
-      "horizon_5": {
-        "horizon_days": 5,
-        "persistence_holdout": {
-          "mae": 181.4082,
-          "rmse": 240.265,
-          "mape": 4.2069,
-          "count": 477
-        },
-        "seasonal_naive_holdout": {
-          "mae": 181.6843,
-          "rmse": 237.2985,
-          "mape": 4.2055,
-          "count": 477
-        },
-        "ridge_holdout": {
-          "mae": 168.1556,
-          "rmse": 209.0994,
-          "mape": 3.8407,
-          "count": 477
-        },
-        "mae_reduction_vs_persistence_pct": 7.31,
-        "mae_reduction_vs_snaive_pct": 7.45
-      },
-      "horizon_6": {
-        "horizon_days": 6,
-        "persistence_holdout": {
-          "mae": 180.5272,
-          "rmse": 241.154,
-          "mape": 4.1835,
-          "count": 478
-        },
-        "seasonal_naive_holdout": {
-          "mae": 181.3985,
-          "rmse": 237.0591,
-          "mape": 4.199,
-          "count": 478
-        },
-        "ridge_holdout": {
-          "mae": 179.4143,
-          "rmse": 220.5179,
-          "mape": 4.0892,
-          "count": 478
-        },
-        "mae_reduction_vs_persistence_pct": 0.62,
-        "mae_reduction_vs_snaive_pct": 1.09
-      },
-      "horizon_7": {
-        "horizon_days": 7,
-        "persistence_holdout": {
-          "mae": 181.136,
-          "rmse": 236.9186,
-          "mape": 4.1928,
-          "count": 478
-        },
-        "seasonal_naive_holdout": {
-          "mae": 181.136,
-          "rmse": 236.9186,
-          "mape": 4.1928,
-          "count": 478
-        },
-        "ridge_holdout": {
-          "mae": 186.7335,
-          "rmse": 228.4124,
-          "mape": 4.2482,
-          "count": 478
-        },
-        "mae_reduction_vs_persistence_pct": -3.09,
-        "mae_reduction_vs_snaive_pct": -3.09
+        "horizon_7": {
+          "horizon_days": 7,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 176.269,
+            "rmse": 230.7237,
+            "mape": 4.0668,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 176.269,
+            "rmse": 230.7237,
+            "mape": 4.0668,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 182.252,
+            "rmse": 221.1792,
+            "mape": 4.128,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": -3.39,
+          "improvement_vs_snaive_pct": -3.39
+        }
       }
     },
     "selected_model": "RidgeRegressor",
@@ -329,6 +295,8 @@
     "benchmarks": {
       "method_A_row_index_shift": {
         "description": "Row index predecessor (includes crossing missing date 2023-03-30 without calendar gap check)",
+        "evaluated_days": 483,
+        "excluded_days": 0,
         "metrics": {
           "mae": 4778.1304,
           "rmse": 6475.7642,
@@ -338,6 +306,11 @@
       },
       "method_B_strict_calendar_lag_1": {
         "description": "Strict calendar t-1 (excludes 2023-03-31 because 2023-03-30 is absent)",
+        "evaluated_days": 482,
+        "excluded_days": 1,
+        "excluded_dates": [
+          "2023-03-31"
+        ],
         "metrics": {
           "mae": 4768.4523,
           "rmse": 6468.1933,
@@ -347,6 +320,12 @@
       },
       "method_C_common_valid_evaluation_set": {
         "description": "Common dates where both strict t-1 and t-7 exist (excludes 2023-03-31 and 2023-04-06)",
+        "evaluated_days": 481,
+        "excluded_days": 2,
+        "excluded_dates": [
+          "2023-03-31",
+          "2023-04-06"
+        ],
         "persistence_metrics": {
           "mae": 4775.0125,
           "rmse": 6474.4958,
@@ -361,287 +340,240 @@
         }
       }
     },
-    "validation": {
-      "persistence": {
-        "mae": 4084.071,
-        "rmse": 5442.795,
-        "mape": 2.0765,
-        "count": 338
-      },
-      "seasonal_naive": {
-        "mae": 5629.3728,
-        "rmse": 7700.3474,
-        "mape": 2.8595,
-        "count": 338
-      },
-      "ridge": {
-        "mae": 2518.7371,
-        "rmse": 3550.948,
-        "mape": 1.278,
-        "count": 338
-      },
-      "decision_tree": {
-        "mae": 4755.0826,
-        "rmse": 5829.9828,
-        "mape": 2.3703,
-        "count": 338
-      },
-      "ridge_with_covid_feature": {
-        "mae": 2517.7084,
-        "rmse": 3551.3456,
-        "mape": 1.2764,
-        "count": 338
-      },
-      "ridge_excluding_2020_lockdown": {
-        "mae": 2498.6756,
-        "rmse": 3537.8561,
-        "mape": 1.2672,
-        "count": 338
-      }
-    },
-    "holdout": {
-      "persistence": {
-        "mae": 4788.7966,
-        "rmse": 6494.7938,
-        "mape": 2.244,
-        "count": 477
-      },
-      "seasonal_naive": {
-        "mae": 8520.6289,
-        "rmse": 11303.5972,
-        "mape": 4.0113,
-        "count": 477
-      },
-      "ridge": {
-        "mae": 3384.4805,
-        "rmse": 4722.03,
-        "mape": 1.5816,
-        "count": 477
-      },
-      "decision_tree": {
-        "mae": 13731.6078,
-        "rmse": 16431.0327,
-        "mape": 6.1391,
-        "count": 477
-      },
-      "breakdown_2023": {
+    "h1_rolling_evaluation": {
+      "validation": {
         "persistence": {
-          "mae": 4820.4637,
-          "rmse": 6514.0251,
-          "mape": 2.286,
-          "count": 358
+          "mae": 4084.071,
+          "rmse": 5442.795,
+          "mape": 2.0765,
+          "count": 338
+        },
+        "seasonal_naive": {
+          "mae": 5629.3728,
+          "rmse": 7700.3474,
+          "mape": 2.8595,
+          "count": 338
         },
         "ridge": {
-          "mae": 3452.5007,
-          "rmse": 4730.6619,
-          "mape": 1.6319,
-          "count": 358
+          "mae": 2518.7371,
+          "rmse": 3550.948,
+          "mape": 1.278,
+          "count": 338
+        },
+        "decision_tree": {
+          "mae": 4755.0826,
+          "rmse": 5829.9828,
+          "mape": 2.3703,
+          "count": 338
+        },
+        "ridge_with_covid_feature": {
+          "mae": 2517.7084,
+          "rmse": 3551.3456,
+          "mape": 1.2764,
+          "count": 338
         }
       },
-      "breakdown_2024": {
+      "holdout": {
         "persistence": {
-          "mae": 4693.5294,
-          "rmse": 6436.5921,
-          "mape": 2.1177,
-          "count": 119
-        },
-        "ridge": {
-          "mae": 3179.8486,
-          "rmse": 4695.9659,
-          "mape": 1.4304,
-          "count": 119
-        }
-      },
-      "breakdown_summer": {
-        "persistence": {
-          "mae": 5053.9672,
-          "rmse": 6926.1752,
-          "mape": 2.3863,
-          "count": 61
-        },
-        "ridge": {
-          "mae": 4020.2968,
-          "rmse": 5542.5058,
-          "mape": 1.9085,
-          "count": 61
-        }
-      },
-      "breakdown_winter": {
-        "persistence": {
-          "mae": 3836.4301,
-          "rmse": 5087.9963,
-          "mape": 1.8135,
-          "count": 93
-        },
-        "ridge": {
-          "mae": 2418.6003,
-          "rmse": 3435.3382,
-          "mape": 1.1345,
-          "count": 93
-        }
-      }
-    },
-    "multi_horizon_7day": {
-      "horizon_1": {
-        "horizon_days": 1,
-        "persistence_holdout": {
           "mae": 4788.7966,
           "rmse": 6494.7938,
           "mape": 2.244,
           "count": 477
         },
-        "seasonal_naive_holdout": {
+        "seasonal_naive": {
           "mae": 8520.6289,
           "rmse": 11303.5972,
           "mape": 4.0113,
           "count": 477
         },
-        "ridge_holdout": {
+        "ridge": {
           "mae": 3384.4805,
           "rmse": 4722.03,
           "mape": 1.5816,
           "count": 477
         },
+        "decision_tree": {
+          "mae": 13731.6078,
+          "rmse": 16431.0327,
+          "mape": 6.1391,
+          "count": 477
+        },
         "mae_reduction_vs_persistence_pct": 29.33,
         "mae_reduction_vs_snaive_pct": 60.28
-      },
-      "horizon_2": {
-        "horizon_days": 2,
-        "persistence_holdout": {
-          "mae": 6461.3291,
-          "rmse": 8725.5839,
-          "mape": 3.0376,
-          "count": 477
+      }
+    },
+    "origin_aligned_7day_evaluation": {
+      "eligible_common_origins": 442,
+      "origin_range": "2023-01-01 to 2024-04-21",
+      "horizons": {
+        "horizon_1": {
+          "horizon_days": 1,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 4744.362,
+            "rmse": 6456.9088,
+            "mape": 2.2215,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8344.8416,
+            "rmse": 11179.1168,
+            "mape": 3.9305,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 3362.1934,
+            "rmse": 4733.9229,
+            "mape": 1.5721,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 29.13,
+          "improvement_vs_snaive_pct": 59.71
         },
-        "seasonal_naive_holdout": {
-          "mae": 8524.6289,
-          "rmse": 11304.7037,
-          "mape": 4.0132,
-          "count": 477
+        "horizon_2": {
+          "horizon_days": 2,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 6369.3416,
+            "rmse": 8630.8464,
+            "mape": 2.993,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8331.1765,
+            "rmse": 11170.9645,
+            "mape": 3.9243,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 5070.812,
+            "rmse": 6798.2845,
+            "mape": 2.3674,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 20.39,
+          "improvement_vs_snaive_pct": 39.13
         },
-        "ridge_holdout": {
-          "mae": 5169.2635,
-          "rmse": 6851.0254,
-          "mape": 2.4113,
-          "count": 477
+        "horizon_3": {
+          "horizon_days": 3,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 7346.0158,
+            "rmse": 9797.0226,
+            "mape": 3.4556,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8322.2059,
+            "rmse": 11168.3649,
+            "mape": 3.92,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 6177.8413,
+            "rmse": 8049.0715,
+            "mape": 2.8875,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 15.9,
+          "improvement_vs_snaive_pct": 25.77
         },
-        "mae_reduction_vs_persistence_pct": 20.0,
-        "mae_reduction_vs_snaive_pct": 39.36
-      },
-      "horizon_3": {
-        "horizon_days": 3,
-        "persistence_holdout": {
-          "mae": 7495.9161,
-          "rmse": 9954.1495,
-          "mape": 3.5274,
-          "count": 477
+        "horizon_4": {
+          "horizon_days": 4,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 8030.7262,
+            "rmse": 10751.9274,
+            "mape": 3.7766,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8336.4412,
+            "rmse": 11186.7767,
+            "mape": 3.9271,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 7021.9226,
+            "rmse": 9069.5151,
+            "mape": 3.2747,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 12.56,
+          "improvement_vs_snaive_pct": 15.77
         },
-        "seasonal_naive_holdout": {
-          "mae": 8540.4382,
-          "rmse": 11310.4059,
-          "mape": 4.0214,
-          "count": 477
+        "horizon_5": {
+          "horizon_days": 5,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 8480.9389,
+            "rmse": 11311.4428,
+            "mape": 3.9774,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8292.3213,
+            "rmse": 11091.6481,
+            "mape": 3.898,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 7666.162,
+            "rmse": 9641.4526,
+            "mape": 3.5564,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 9.61,
+          "improvement_vs_snaive_pct": 7.55
         },
-        "ridge_holdout": {
-          "mae": 6318.5238,
-          "rmse": 8154.3596,
-          "mape": 2.9506,
-          "count": 477
+        "horizon_6": {
+          "horizon_days": 6,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 8705.4299,
+            "rmse": 11445.0758,
+            "mape": 4.0831,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8278.2919,
+            "rmse": 11033.296,
+            "mape": 3.8852,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 8205.285,
+            "rmse": 10136.8986,
+            "mape": 3.7915,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": 5.75,
+          "improvement_vs_snaive_pct": 0.88
         },
-        "mae_reduction_vs_persistence_pct": 15.71,
-        "mae_reduction_vs_snaive_pct": 26.02
-      },
-      "horizon_4": {
-        "horizon_days": 4,
-        "persistence_holdout": {
-          "mae": 8121.9224,
-          "rmse": 10857.2431,
-          "mape": 3.8266,
-          "count": 477
-        },
-        "seasonal_naive_holdout": {
-          "mae": 8540.8679,
-          "rmse": 11310.4845,
-          "mape": 4.0217,
-          "count": 477
-        },
-        "ridge_holdout": {
-          "mae": 7177.1001,
-          "rmse": 9189.5387,
-          "mape": 3.3476,
-          "count": 477
-        },
-        "mae_reduction_vs_persistence_pct": 11.63,
-        "mae_reduction_vs_snaive_pct": 15.97
-      },
-      "horizon_5": {
-        "horizon_days": 5,
-        "persistence_holdout": {
-          "mae": 8683.478,
-          "rmse": 11621.5538,
-          "mape": 4.0899,
-          "count": 477
-        },
-        "seasonal_naive_holdout": {
-          "mae": 8540.6184,
-          "rmse": 11310.4764,
-          "mape": 4.0216,
-          "count": 477
-        },
-        "ridge_holdout": {
-          "mae": 7900.0315,
-          "rmse": 9950.9709,
-          "mape": 3.676,
-          "count": 477
-        },
-        "mae_reduction_vs_persistence_pct": 9.02,
-        "mae_reduction_vs_snaive_pct": 7.5
-      },
-      "horizon_6": {
-        "horizon_days": 6,
-        "persistence_holdout": {
-          "mae": 8876.8473,
-          "rmse": 11760.1789,
-          "mape": 4.1837,
-          "count": 478
-        },
-        "seasonal_naive_holdout": {
-          "mae": 8526.8682,
-          "rmse": 11298.9978,
-          "mape": 4.0152,
-          "count": 478
-        },
-        "ridge_holdout": {
-          "mae": 8445.3167,
-          "rmse": 10496.7262,
-          "mape": 3.9198,
-          "count": 478
-        },
-        "mae_reduction_vs_persistence_pct": 4.86,
-        "mae_reduction_vs_snaive_pct": 0.96
-      },
-      "horizon_7": {
-        "horizon_days": 7,
-        "persistence_holdout": {
-          "mae": 8503.6506,
-          "rmse": 11286.7114,
-          "mape": 4.0042,
-          "count": 478
-        },
-        "seasonal_naive_holdout": {
-          "mae": 8503.6506,
-          "rmse": 11286.7114,
-          "mape": 4.0042,
-          "count": 478
-        },
-        "ridge_holdout": {
-          "mae": 8799.8819,
-          "rmse": 10872.5123,
-          "mape": 4.0764,
-          "count": 478
-        },
-        "mae_reduction_vs_persistence_pct": -3.48,
-        "mae_reduction_vs_snaive_pct": -3.48
+        "horizon_7": {
+          "horizon_days": 7,
+          "evaluated_origins_count": 442,
+          "persistence_metrics": {
+            "mae": 8252.0045,
+            "rmse": 10959.7455,
+            "mape": 3.8664,
+            "count": 442
+          },
+          "seasonal_naive_metrics": {
+            "mae": 8252.0045,
+            "rmse": 10959.7455,
+            "mape": 3.8664,
+            "count": 442
+          },
+          "ridge_metrics": {
+            "mae": 8524.8552,
+            "rmse": 10471.7339,
+            "mape": 3.9264,
+            "count": 442
+          },
+          "improvement_vs_persistence_pct": -3.31,
+          "improvement_vs_snaive_pct": -3.31
+        }
       }
     },
     "selected_model": "RidgeRegressor",

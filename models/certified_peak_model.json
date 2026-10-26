@@ -1,18 +1,18 @@
 {
   "target": "peak_met_mw",
   "target_slug": "peak",
-  "trained_date": "2026-10-26T15:07:25.658619",
+  "trained_date": "2026-10-26T16:58:06.675304",
   "selected_model": "RidgeRegressor",
   "best_alpha": 0.01,
   "feature_names": [
-    "lag_1",
-    "lag_2",
-    "lag_7",
-    "lag_14",
-    "lag_21",
-    "lag_28",
-    "roll_mean_7",
-    "roll_mean_28",
+    "lag_origin_D",
+    "lag_origin_D_minus_1",
+    "lag_target_minus_7",
+    "lag_target_minus_14",
+    "lag_target_minus_21",
+    "lag_target_minus_28",
+    "roll_mean_7_origin",
+    "roll_mean_28_origin",
     "trend_years",
     "sin_doy_1",
     "cos_doy_1",
@@ -587,28 +587,198 @@
       }
     }
   },
-  "validation_metrics": {
+  "h1_validation_metrics": {
     "mae": 2518.7371,
     "rmse": 3550.948,
     "mape": 1.278,
     "count": 338
   },
-  "holdout_metrics": {
+  "h1_holdout_metrics": {
     "mae": 3384.4805,
     "rmse": 4722.03,
     "mape": 1.5816,
     "count": 477
   },
-  "validation_persistence_metrics": {
+  "h1_validation_persistence_metrics": {
     "mae": 4084.071,
     "rmse": 5442.795,
     "mape": 2.0765,
     "count": 338
   },
-  "holdout_persistence_metrics": {
+  "h1_holdout_persistence_metrics": {
     "mae": 4788.7966,
     "rmse": 6494.7938,
     "mape": 2.244,
     "count": 477
+  },
+  "origin_aligned_7day_holdout": {
+    "horizon_1": {
+      "horizon_days": 1,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 4744.362,
+        "rmse": 6456.9088,
+        "mape": 2.2215,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8344.8416,
+        "rmse": 11179.1168,
+        "mape": 3.9305,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 3362.1934,
+        "rmse": 4733.9229,
+        "mape": 1.5721,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 29.13,
+      "improvement_vs_snaive_pct": 59.71
+    },
+    "horizon_2": {
+      "horizon_days": 2,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 6369.3416,
+        "rmse": 8630.8464,
+        "mape": 2.993,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8331.1765,
+        "rmse": 11170.9645,
+        "mape": 3.9243,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 5070.812,
+        "rmse": 6798.2845,
+        "mape": 2.3674,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 20.39,
+      "improvement_vs_snaive_pct": 39.13
+    },
+    "horizon_3": {
+      "horizon_days": 3,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 7346.0158,
+        "rmse": 9797.0226,
+        "mape": 3.4556,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8322.2059,
+        "rmse": 11168.3649,
+        "mape": 3.92,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 6177.8413,
+        "rmse": 8049.0715,
+        "mape": 2.8875,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 15.9,
+      "improvement_vs_snaive_pct": 25.77
+    },
+    "horizon_4": {
+      "horizon_days": 4,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 8030.7262,
+        "rmse": 10751.9274,
+        "mape": 3.7766,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8336.4412,
+        "rmse": 11186.7767,
+        "mape": 3.9271,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 7021.9226,
+        "rmse": 9069.5151,
+        "mape": 3.2747,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 12.56,
+      "improvement_vs_snaive_pct": 15.77
+    },
+    "horizon_5": {
+      "horizon_days": 5,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 8480.9389,
+        "rmse": 11311.4428,
+        "mape": 3.9774,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8292.3213,
+        "rmse": 11091.6481,
+        "mape": 3.898,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 7666.162,
+        "rmse": 9641.4526,
+        "mape": 3.5564,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 9.61,
+      "improvement_vs_snaive_pct": 7.55
+    },
+    "horizon_6": {
+      "horizon_days": 6,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 8705.4299,
+        "rmse": 11445.0758,
+        "mape": 4.0831,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8278.2919,
+        "rmse": 11033.296,
+        "mape": 3.8852,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 8205.285,
+        "rmse": 10136.8986,
+        "mape": 3.7915,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": 5.75,
+      "improvement_vs_snaive_pct": 0.88
+    },
+    "horizon_7": {
+      "horizon_days": 7,
+      "evaluated_origins_count": 442,
+      "persistence_metrics": {
+        "mae": 8252.0045,
+        "rmse": 10959.7455,
+        "mape": 3.8664,
+        "count": 442
+      },
+      "seasonal_naive_metrics": {
+        "mae": 8252.0045,
+        "rmse": 10959.7455,
+        "mape": 3.8664,
+        "count": 442
+      },
+      "ridge_metrics": {
+        "mae": 8524.8552,
+        "rmse": 10471.7339,
+        "mape": 3.9264,
+        "count": 442
+      },
+      "improvement_vs_persistence_pct": -3.31,
+      "improvement_vs_snaive_pct": -3.31
+    }
   }
 }

@@ -1,20 +1,21 @@
 """
-Phase 2: Forecasting Engine & Model Training Pipeline
+Phase 2: Forecasting Engine & Model Training Pipeline (Audited Protocol)
 EnergySense / GridSense Platform
 
 This script implements a reproducible, zero-external-dependency forecasting engine:
-1. Baselines: Day-1 Persistence and Seasonal-Naive (t-7).
-2. Features: Leakage-safe calendar features, exact calendar lags (t-1, t-2, t-7, t-14, t-21, t-28),
-   and rolling statistics calculated strictly from observations prior to forecast time.
+1. Baselines:
+   - Day-1 Persistence: y(t-1)
+   - Seasonal-Naive: y(t-7)
+   - Multi-Horizon Origin-Aligned Persistence: y(D) for all D+h
+   - Multi-Horizon Origin-Aligned Seasonal-Naive: y(D+h-7) for D+h
+2. Features: Leakage-safe calendar features, exact calendar lags (D, D-1, D+h-7, D+h-14, D+h-21, D+h-28),
+   and rolling statistics calculated strictly from observations available on or before origin D.
 3. Models: Closed-form L2 Ridge Regression (pure Python Gaussian elimination solver)
    and Compact Regression Tree (variance reduction).
 4. Targets: National Daily Energy Met (MU) [Primary] and Peak Met (MW) [Secondary].
-5. Evaluation:
-   - Train: 2013-2021
-   - Validation: 2022 (Model & hyperparameter selection, COVID structural break test)
-   - Holdout: 2023-01-01 to 2024-04-28 (Frozen evaluation)
-   - Multi-horizon: 1-day ahead (H=1) and 7-day ahead (H=1..7 direct multi-step).
-   - Model fallback gatekeeper: selects baseline if ML fails to beat baseline on validation.
+5. Evaluation Protocols:
+   - Protocol 1: Rolling One-Day-Ahead Forecast (H=1) across target dates 2023-2024.
+   - Protocol 2: Origin-Aligned Seven-Day Forecast issued at origin D for D+1..D+7 on common holdout origins.
 6. Artifacts:
    - models/certified_energy_model.json
    - models/certified_peak_model.json
@@ -49,7 +50,6 @@ def matrix_multiply(A: List[List[float]], B: List[List[float]]) -> List[List[flo
     n_rows_B, n_cols_B = len(B), len(B[0])
     assert n_cols_A == n_rows_B, f"Shape mismatch: {n_cols_A} vs {n_rows_B}"
     
-    # Transpose B for cache-friendly row dot products
     BT = matrix_transpose(B)
     return [[sum(A[i][k] * BT[j][k] for k in range(n_cols_A)) for j in range(n_cols_B)] for i in range(n_rows_A)]
 
@@ -60,11 +60,9 @@ def matrix_vector_multiply(A: List[List[float]], v: List[float]) -> List[float]:
 def solve_linear_system(A: List[List[float]], b: List[float]) -> List[float]:
     """Gaussian elimination with partial pivoting."""
     n = len(A)
-    # Augmented matrix
     M = [A[i][:] + [b[i]] for i in range(n)]
     
     for i in range(n):
-        # Find pivot
         max_val = abs(M[i][i])
         max_row = i
         for r in range(i + 1, n):
@@ -133,15 +131,12 @@ class PureRidgeRegressor:
         n_samples = len(X)
         n_features = len(X[0])
         
-        # Center target
         self.intercept = sum(y) / n_samples
         y_centered = [yi - self.intercept for yi in y]
         
-        # Scale features
         self.scaler.fit(X)
         X_scaled = self.scaler.transform(X)
         
-        # XT * X + alpha * I
         XT = matrix_transpose(X_scaled)
         XT_X = matrix_multiply(XT, X_scaled)
         for i in range(n_features):
@@ -232,7 +227,6 @@ class PureDecisionTreeRegressor:
         if depth >= self.max_depth or n_samples < self.min_samples_split:
             return TreeNode(is_leaf=True, value=mean_y)
 
-        # Baseline variance
         total_var = sum((val - mean_y) ** 2 for val in y)
         if total_var < 1e-7:
             return TreeNode(is_leaf=True, value=mean_y)
@@ -327,7 +321,7 @@ def calculate_metrics(y_true: List[float], y_pred: List[float]) -> Dict[str, flo
 
 
 # ============================================================================
-# 4. DATA LOADING & CALENDAR-CORRECT FEATURE ENGINEERING
+# 4. DATA LOADING & ORIGIN-CENTRIC FEATURE ENGINEERING
 # ============================================================================
 
 def load_clean_data(db_path: str = DB_PATH) -> List[Dict[str, Any]]:
@@ -351,136 +345,102 @@ def load_clean_data(db_path: str = DB_PATH) -> List[Dict[str, Any]]:
         })
     return records
 
-def build_dataset_for_target(
-    records: List[Dict[str, Any]],
-    target_col: str = "energy_met_mu",
-    horizon: int = 1,
+def extract_origin_features(
+    D: datetime.date,
+    h: int,
+    date_map: Dict[datetime.date, float],
+    t0: datetime.date = datetime.date(2013, 1, 1),
     include_covid_feature: bool = False
-) -> Tuple[List[str], List[List[float]], List[float], List[str]]:
+) -> Optional[List[float]]:
     """
-    Constructs calendar-correct, leakage-safe features for forecasting target_col at forecast horizon h (days ahead).
+    Extracts features available strictly on or before forecast origin date D
+    to predict target date T = D + h.
     
-    For horizon h (h >= 1):
-      Forecast target is y(t).
-      Available information is strictly up to calendar date (t - h).
-      Exact calendar lags:
-        - Most recent available day: (t - h)
-        - Day before that: (t - h - 1)
-        - Preceding same-day-of-week: (t - h - 6) for h=1 (i.e. t-7), or (t - 7) if h <= 7
-        - Preceding weeks: (t - 14), (t - 21), (t - 28)
-      Rolling statistics:
-        - 7-day window of available days in [t - h - 6 .. t - h] (requires >= 5 available observations)
-        - 28-day window of available days in [t - h - 27 .. t - h] (requires >= 20 available observations)
-      Calendar features of target date t:
-        - Day of week (0=Mon..6=Sun) one-hot (6 binary features, Sunday as reference)
-        - Annual seasonality: Fourier sin/cos 1st and 2nd harmonics
-        - Trend: normalized days from 2013-01-01
-        - (Optional) is_lockdown_2020: 1 if date in 2020-03-24..2020-05-31 else 0
+    Lags available at origin D:
+      - y(D): most recent known observation at origin D
+      - y(D - 1): prior day observation
+      - y(T - 7) = y(D + h - 7): same day-of-week 1 week prior to target. (Known at D because h <= 7)
+      - y(T - 14) = y(D + h - 14): same day-of-week 2 weeks prior
+      - y(T - 21) = y(D + h - 21): same day-of-week 3 weeks prior
+      - y(T - 28) = y(D + h - 28): same day-of-week 4 weeks prior
+    Rolling statistics at origin D:
+      - 7-day rolling mean of available days in [D - 6 .. D] (requires >= 5)
+      - 28-day rolling mean of available days in [D - 27 .. D] (requires >= 20)
+    Target calendar features of T = D + h:
+      - Trend (years from 2013-01-01)
+      - Fourier annual seasonality (1st and 2nd harmonics)
+      - Day of week (Mon..Sat one-hot)
     """
-    date_map = {r["dt"]: r[target_col] for r in records if r[target_col] is not None}
+    target_dt = D + datetime.timedelta(days=h)
     
-    # Exact calendar lags relative to target day t
-    # For H=1: lags from t are 1, 2, 7, 14, 21, 28
-    # For H=h: latest available is t-h, next is t-h-1; for seasonal weekly anchor: max(h, 7), max(h, 14), etc.
-    lag_1 = horizon
-    lag_2 = horizon + 1
-    lag_7 = max(horizon, 7)
-    lag_14 = max(horizon + 7, 14)
-    lag_21 = max(horizon + 14, 21)
-    lag_28 = max(horizon + 21, 28)
+    lag_dates = [
+        D,
+        D - datetime.timedelta(days=1),
+        target_dt - datetime.timedelta(days=7),
+        target_dt - datetime.timedelta(days=14),
+        target_dt - datetime.timedelta(days=21),
+        target_dt - datetime.timedelta(days=28)
+    ]
+    if not all(ld in date_map for ld in lag_dates):
+        return None
+    lags = [date_map[ld] for ld in lag_dates]
     
-    lag_offsets = [lag_1, lag_2, lag_7, lag_14, lag_21, lag_28]
+    r7_vals = [date_map[D - datetime.timedelta(days=k)] 
+               for k in range(7) if (D - datetime.timedelta(days=k)) in date_map]
+    if len(r7_vals) < 5:
+        return None
+    roll_mean_7 = sum(r7_vals) / len(r7_vals)
     
-    feature_names = [
-        f"lag_{lag_1}", f"lag_{lag_2}", f"lag_{lag_7}",
-        f"lag_{lag_14}", f"lag_{lag_21}", f"lag_{lag_28}",
-        "roll_mean_7", "roll_mean_28",
+    r28_vals = [date_map[D - datetime.timedelta(days=k)] 
+                for k in range(28) if (D - datetime.timedelta(days=k)) in date_map]
+    if len(r28_vals) < 20:
+        return None
+    roll_mean_28 = sum(r28_vals) / len(r28_vals)
+    
+    trend_years = (target_dt - t0).days / 365.25
+    doy = target_dt.timetuple().tm_yday
+    sin_doy_1 = math.sin(2.0 * math.pi * doy / 365.25)
+    cos_doy_1 = math.cos(2.0 * math.pi * doy / 365.25)
+    sin_doy_2 = math.sin(4.0 * math.pi * doy / 365.25)
+    cos_doy_2 = math.cos(4.0 * math.pi * doy / 365.25)
+    
+    dow = target_dt.weekday()
+    dow_ohe = [1.0 if dow == k else 0.0 for k in range(6)]
+    
+    row = lags + [roll_mean_7, roll_mean_28, trend_years, sin_doy_1, cos_doy_1, sin_doy_2, cos_doy_2] + dow_ohe
+    if include_covid_feature:
+        is_lockdown = 1.0 if datetime.date(2020, 3, 24) <= target_dt <= datetime.date(2020, 5, 31) else 0.0
+        row.append(is_lockdown)
+        
+    return row
+
+def get_feature_names(h: int, include_covid_feature: bool = False) -> List[str]:
+    names = [
+        "lag_origin_D", "lag_origin_D_minus_1",
+        f"lag_target_minus_7", f"lag_target_minus_14", f"lag_target_minus_21", f"lag_target_minus_28",
+        "roll_mean_7_origin", "roll_mean_28_origin",
         "trend_years",
         "sin_doy_1", "cos_doy_1", "sin_doy_2", "cos_doy_2",
         "dow_mon", "dow_tue", "dow_wed", "dow_thu", "dow_fri", "dow_sat"
     ]
     if include_covid_feature:
-        feature_names.append("is_lockdown_2020")
-
-    dates_out = []
-    X_out = []
-    y_out = []
-
-    t0 = datetime.date(2013, 1, 1)
-
-    for r in records:
-        dt = r["dt"]
-        y_val = r[target_col]
-        if y_val is None:
-            continue
-            
-        # Determine lag calendar dates
-        lag_dates = [dt - datetime.timedelta(days=k) for k in lag_offsets]
-        
-        # Verify all exact calendar lags exist without artificial imputation
-        if not all(ld in date_map for ld in lag_dates):
-            continue
-            
-        lags = [date_map[ld] for ld in lag_dates]
-        
-        # 7-day rolling window of available history [t - h - 6 .. t - h]
-        roll7_vals = [date_map[dt - datetime.timedelta(days=horizon + k)] 
-                      for k in range(7) if (dt - datetime.timedelta(days=horizon + k)) in date_map]
-        if len(roll7_vals) < 5:
-            continue
-        roll_mean_7 = sum(roll7_vals) / float(len(roll7_vals))
-        
-        # 28-day rolling window of available history [t - h - 27 .. t - h]
-        roll28_vals = [date_map[dt - datetime.timedelta(days=horizon + k)] 
-                       for k in range(28) if (dt - datetime.timedelta(days=horizon + k)) in date_map]
-        if len(roll28_vals) < 20:
-            continue
-        roll_mean_28 = sum(roll28_vals) / float(len(roll28_vals))
-
-        # Calendar features of forecast target date
-        trend_years = (dt - t0).days / 365.25
-        doy = dt.timetuple().tm_yday
-        sin_doy_1 = math.sin(2.0 * math.pi * doy / 365.25)
-        cos_doy_1 = math.cos(2.0 * math.pi * doy / 365.25)
-        sin_doy_2 = math.sin(4.0 * math.pi * doy / 365.25)
-        cos_doy_2 = math.cos(4.0 * math.pi * doy / 365.25)
-        
-        dow = dt.weekday() # 0 = Monday, 6 = Sunday
-        dow_ohe = [1.0 if dow == k else 0.0 for k in range(6)] # Mon..Sat (Sun is implicit reference)
-
-        row = lags + [roll_mean_7, roll_mean_28, trend_years, sin_doy_1, cos_doy_1, sin_doy_2, cos_doy_2] + dow_ohe
-        
-        if include_covid_feature:
-            is_lockdown = 1.0 if datetime.date(2020, 3, 24) <= dt <= datetime.date(2020, 5, 31) else 0.0
-            row.append(is_lockdown)
-
-        dates_out.append(r["date"])
-        X_out.append(row)
-        y_out.append(y_val)
-
-    return dates_out, X_out, y_out, feature_names
+        names.append("is_lockdown_2020")
+    return names
 
 
 # ============================================================================
-# 5. SPLIT & BENCHMARK REPRODUCTION
+# 5. SPLIT & BENCHMARK REPRODUCTION AUDIT
 # ============================================================================
 
-def reproduce_reported_benchmarks(records: List[Dict[str, Any]], target_col: str = "energy_met_mu") -> Dict[str, Any]:
-    """
-    Investigates and reproduces baseline metrics on 2023-01-01 through 2024-04-28:
-    Method A: Row-index shift (i-1), as done in naive exploratory scripts (483 days).
-    Method B: Strict calendar lag (t-1 day) on valid calendar dates (482 days).
-    Method C: Common valid evaluation set where both t-1 and t-7 exist (481 days).
-    """
+def audit_benchmark_reproduction(records: List[Dict[str, Any]], target_col: str = "energy_met_mu") -> Dict[str, Any]:
     holdout_start = datetime.date(2023, 1, 1)
     holdout_end = datetime.date(2024, 4, 28)
     
     date_map = {r["dt"]: r[target_col] for r in records if r[target_col] is not None}
-    
-    # Method A: Row-index shift
     rec_in_range = [r for r in records if holdout_start <= r["dt"] <= holdout_end and r[target_col] is not None]
-    y_true_A = []
-    y_pred_persist_A = []
+    
+    # Method A: Row-index shift (483 days)
+    y_true_A, y_pred_persist_A = [], []
     for r in rec_in_range:
         idx = records.index(r)
         if idx > 0 and records[idx - 1][target_col] is not None:
@@ -488,9 +448,8 @@ def reproduce_reported_benchmarks(records: List[Dict[str, Any]], target_col: str
             y_pred_persist_A.append(records[idx - 1][target_col])
     metrics_A = calculate_metrics(y_true_A, y_pred_persist_A)
 
-    # Method B: Strict calendar t-1
-    y_true_B = []
-    y_pred_persist_B = []
+    # Method B: Strict calendar t-1 (482 days)
+    y_true_B, y_pred_persist_B = [], []
     for r in rec_in_range:
         prev_dt = r["dt"] - datetime.timedelta(days=1)
         if prev_dt in date_map:
@@ -498,10 +457,8 @@ def reproduce_reported_benchmarks(records: List[Dict[str, Any]], target_col: str
             y_pred_persist_B.append(date_map[prev_dt])
     metrics_B = calculate_metrics(y_true_B, y_pred_persist_B)
 
-    # Method C: Common valid set where both t-1 and t-7 exist
-    y_true_C = []
-    y_pred_persist_C = []
-    y_pred_snaive_C = []
+    # Method C: Common valid set where both strict t-1 and t-7 exist (481 days)
+    y_true_C, y_pred_persist_C, y_pred_snaive_C = [], [], []
     for r in rec_in_range:
         dt_1 = r["dt"] - datetime.timedelta(days=1)
         dt_7 = r["dt"] - datetime.timedelta(days=7)
@@ -515,14 +472,22 @@ def reproduce_reported_benchmarks(records: List[Dict[str, Any]], target_col: str
     return {
         "method_A_row_index_shift": {
             "description": "Row index predecessor (includes crossing missing date 2023-03-30 without calendar gap check)",
+            "evaluated_days": len(y_true_A),
+            "excluded_days": 0,
             "metrics": metrics_A
         },
         "method_B_strict_calendar_lag_1": {
             "description": "Strict calendar t-1 (excludes 2023-03-31 because 2023-03-30 is absent)",
+            "evaluated_days": len(y_true_B),
+            "excluded_days": 1,
+            "excluded_dates": ["2023-03-31"],
             "metrics": metrics_B
         },
         "method_C_common_valid_evaluation_set": {
             "description": "Common dates where both strict t-1 and t-7 exist (excludes 2023-03-31 and 2023-04-06)",
+            "evaluated_days": len(y_true_C),
+            "excluded_days": 2,
+            "excluded_dates": ["2023-03-31", "2023-04-06"],
             "persistence_metrics": metrics_C_persist,
             "seasonal_naive_metrics": metrics_C_snaive
         }
@@ -533,222 +498,195 @@ def reproduce_reported_benchmarks(records: List[Dict[str, Any]], target_col: str
 # 6. TRAINING & EVALUATION PIPELINE
 # ============================================================================
 
-def run_pipeline(records: List[Dict[str, Any]], target_col: str = "energy_met_mu") -> Dict[str, Any]:
+def run_audited_pipeline(records: List[Dict[str, Any]], target_col: str = "energy_met_mu") -> Dict[str, Any]:
     unit_label = "MU" if "energy" in target_col else "MW"
     print(f"\n=======================================================")
-    print(f"RUNNING FORECAST PIPELINE FOR TARGET: {target_col.upper()} ({unit_label})")
+    print(f"RUNNING AUDITED FORECAST PIPELINE: {target_col.upper()} ({unit_label})")
     print(f"=======================================================")
 
-    # 1. Benchmark Reproduction
-    benchmarks = reproduce_reported_benchmarks(records, target_col=target_col)
-    if target_col == "energy_met_mu":
-        print("\n--- 1. BENCHMARK REPRODUCTION ---")
-        print(f"Reported Benchmark in Prior Audit: MAE ~89.92 MU, MAPE ~2.08%")
-        print(f"Method A (Row Index, 483 days):     MAE = {benchmarks['method_A_row_index_shift']['metrics']['mae']:.2f} MU, MAPE = {benchmarks['method_A_row_index_shift']['metrics']['mape']:.2f}%")
-        print(f"Method B (Strict Cal t-1, 482 days): MAE = {benchmarks['method_B_strict_calendar_lag_1']['metrics']['mae']:.2f} MU, MAPE = {benchmarks['method_B_strict_calendar_lag_1']['metrics']['mape']:.2f}%")
-        print(f"Method C (Common Valid, 481 days):   MAE = {benchmarks['method_C_common_valid_evaluation_set']['persistence_metrics']['mae']:.2f} MU, Seasonal Naive = {benchmarks['method_C_common_valid_evaluation_set']['seasonal_naive_metrics']['mae']:.2f} MU")
+    date_map = {r["dt"]: r[target_col] for r in records if r[target_col] is not None}
+    benchmarks = audit_benchmark_reproduction(records, target_col=target_col)
 
-    # 2. Build Dataset for Day 1 (H=1)
-    dates_h1, X_h1, y_h1, feat_names = build_dataset_for_target(records, target_col=target_col, horizon=1, include_covid_feature=False)
-    
-    # Chronological Split
-    # Train: 2013-2021
-    # Val: 2022
-    # Holdout: 2023 through 2024-04-28
-    train_idx = [i for i, d in enumerate(dates_h1) if d <= "2021-12-31"]
-    val_idx = [i for i, d in enumerate(dates_h1) if "2022-01-01" <= d <= "2022-12-31"]
-    holdout_idx = [i for i, d in enumerate(dates_h1) if d >= "2023-01-01"]
+    # ----------------------------------------------------
+    # PROTOCOL 1: ROLLING ONE-DAY-AHEAD EVALUATION (H=1)
+    # ----------------------------------------------------
+    # For every date t, origin is D = t - 1
+    # Train: target dates <= 2021-12-31
+    # Val: target dates in 2022
+    # Holdout: target dates in 2023-01-01 to 2024-04-28
+    X_tr_h1, y_tr_h1, d_tr_h1 = [], [], []
+    X_vl_h1, y_vl_h1, d_vl_h1 = [], [], []
+    X_ho_h1, y_ho_h1, d_ho_h1 = [], [], []
 
-    X_train = [X_h1[i] for i in train_idx]
-    y_train = [y_h1[i] for i in train_idx]
-    dates_train = [dates_h1[i] for i in train_idx]
+    for r in records:
+        target_dt = r["dt"]
+        D = target_dt - datetime.timedelta(days=1)
+        feats = extract_origin_features(D, h=1, date_map=date_map)
+        if feats is None or target_dt not in date_map:
+            continue
+        
+        y_val = date_map[target_dt]
+        d_str = r["date"]
+        
+        if target_dt <= datetime.date(2021, 12, 31):
+            X_tr_h1.append(feats)
+            y_tr_h1.append(y_val)
+            d_tr_h1.append(d_str)
+        elif target_dt.year == 2022:
+            X_vl_h1.append(feats)
+            y_vl_h1.append(y_val)
+            d_vl_h1.append(d_str)
+        elif target_dt >= datetime.date(2023, 1, 1):
+            X_ho_h1.append(feats)
+            y_ho_h1.append(y_val)
+            d_ho_h1.append(d_str)
 
-    X_val = [X_h1[i] for i in val_idx]
-    y_val = [y_h1[i] for i in val_idx]
-    dates_val = [dates_h1[i] for i in val_idx]
+    print(f"\nProtocol 1 (Rolling Day-Ahead H=1) Sample Counts:")
+    print(f"  Training (2013-2021):     {len(X_tr_h1)} samples ({d_tr_h1[0]} to {d_tr_h1[-1]})")
+    print(f"  Validation (2022):        {len(X_vl_h1)} samples ({d_vl_h1[0]} to {d_vl_h1[-1]})")
+    print(f"  Holdout (2023-2024):      {len(X_ho_h1)} samples ({d_ho_h1[0]} to {d_ho_h1[-1]})")
 
-    X_holdout = [X_h1[i] for i in holdout_idx]
-    y_holdout = [y_h1[i] for i in holdout_idx]
-    dates_holdout = [dates_h1[i] for i in holdout_idx]
+    # In H1 feature row: index 0 is y(D) = y(t-1), index 2 is y(t-7)
+    y_pred_val_persist = [row[0] for row in X_vl_h1]
+    y_pred_val_snaive = [row[2] for row in X_vl_h1]
+    m_val_persist = calculate_metrics(y_vl_h1, y_pred_val_persist)
+    m_val_snaive = calculate_metrics(y_vl_h1, y_pred_val_snaive)
 
-    print(f"\nChronological Split Sample Counts:")
-    print(f"  Training (2013-2021):     {len(X_train)} samples ({dates_train[0]} to {dates_train[-1]})")
-    print(f"  Validation (2022):        {len(X_val)} samples ({dates_val[0]} to {dates_val[-1]})")
-    print(f"  Final Holdout (2023-2024):{len(X_holdout)} samples ({dates_holdout[0]} to {dates_holdout[-1]})")
-
-    # 3. Model Training & Validation Evaluation
-    # Persistence baseline on Val (lag_1 is index 0 in feature vector)
-    y_pred_val_persist = [row[0] for row in X_val]
-    # Seasonal naive (lag_7 is index 2 in feature vector)
-    y_pred_val_snaive = [row[2] for row in X_val]
-
-    val_metrics_persist = calculate_metrics(y_val, y_pred_val_persist)
-    val_metrics_snaive = calculate_metrics(y_val, y_pred_val_snaive)
-
-    # Train Ridge Models across alpha grid on Train set only
+    # Train Ridge across alpha grid on Train set only
     alphas = [0.01, 0.1, 1.0, 5.0, 10.0, 50.0, 100.0]
-    best_ridge_alpha = 1.0
-    best_ridge_val_mae = float("inf")
-    best_ridge_model = None
+    best_alpha = 1.0
+    best_val_mae = float("inf")
+    best_ridge_h1 = None
 
     for alpha in alphas:
-        ridge = PureRidgeRegressor(alpha=alpha)
-        ridge.fit(X_train, y_train)
-        val_preds = ridge.predict(X_val)
-        m = calculate_metrics(y_val, val_preds)
-        if m["mae"] < best_ridge_val_mae:
-            best_ridge_val_mae = m["mae"]
-            best_ridge_alpha = alpha
-            best_ridge_model = ridge
+        r_model = PureRidgeRegressor(alpha=alpha)
+        r_model.fit(X_tr_h1, y_tr_h1)
+        preds = r_model.predict(X_vl_h1)
+        m = calculate_metrics(y_vl_h1, preds)
+        if m["mae"] < best_val_mae:
+            best_val_mae = m["mae"]
+            best_alpha = alpha
+            best_ridge_h1 = r_model
 
-    val_metrics_ridge = calculate_metrics(y_val, best_ridge_model.predict(X_val))
+    m_val_ridge = calculate_metrics(y_vl_h1, best_ridge_h1.predict(X_vl_h1))
 
-    # Train Compact Decision Tree
-    tree_depths = [3, 4, 5, 6]
-    best_tree_depth = 5
+    # Tree candidate on validation
+    best_tree_h1 = None
     best_tree_val_mae = float("inf")
-    best_tree_model = None
-
-    for depth in tree_depths:
+    for depth in [3, 4, 5, 6]:
         tree = PureDecisionTreeRegressor(max_depth=depth, min_samples_split=20)
-        tree.fit(X_train, y_train)
-        val_preds = tree.predict(X_val)
-        m = calculate_metrics(y_val, val_preds)
+        tree.fit(X_tr_h1, y_tr_h1)
+        preds = tree.predict(X_vl_h1)
+        m = calculate_metrics(y_vl_h1, preds)
         if m["mae"] < best_tree_val_mae:
             best_tree_val_mae = m["mae"]
-            best_tree_depth = depth
-            best_tree_model = tree
+            best_tree_h1 = tree
+    m_val_tree = calculate_metrics(y_vl_h1, best_tree_h1.predict(X_vl_h1))
 
-    val_metrics_tree = calculate_metrics(y_val, best_tree_model.predict(X_val))
+    # COVID check on Validation
+    X_tr_cov, X_vl_cov = [], []
+    for r in records:
+        target_dt = r["dt"]
+        D = target_dt - datetime.timedelta(days=1)
+        feats = extract_origin_features(D, h=1, date_map=date_map, include_covid_feature=True)
+        if feats is None or target_dt not in date_map:
+            continue
+        if target_dt <= datetime.date(2021, 12, 31):
+            X_tr_cov.append(feats)
+        elif target_dt.year == 2022:
+            X_vl_cov.append(feats)
+    ridge_cov = PureRidgeRegressor(alpha=best_alpha)
+    ridge_cov.fit(X_tr_cov, y_tr_h1)
+    m_val_covid = calculate_metrics(y_vl_h1, ridge_cov.predict(X_vl_cov))
 
-    # Test COVID-19 Lockdown Structural Break on Validation
-    _, X_h1_cov, y_h1_cov, _ = build_dataset_for_target(records, target_col=target_col, horizon=1, include_covid_feature=True)
-    X_train_cov = [X_h1_cov[i] for i in train_idx]
-    X_val_cov = [X_h1_cov[i] for i in val_idx]
-    ridge_cov = PureRidgeRegressor(alpha=best_ridge_alpha)
-    ridge_cov.fit(X_train_cov, y_train)
-    val_metrics_ridge_cov = calculate_metrics(y_val, ridge_cov.predict(X_val_cov))
-
-    non_lockdown_train_idx = [
-        i for i, d in enumerate(dates_h1)
-        if d <= "2021-12-31" and not ("2020-03-24" <= d <= "2020-05-31")
-    ]
-    X_train_no_lockdown = [X_h1[i] for i in non_lockdown_train_idx]
-    y_train_no_lockdown = [y_h1[i] for i in non_lockdown_train_idx]
-    ridge_no_lockdown = PureRidgeRegressor(alpha=best_ridge_alpha)
-    ridge_no_lockdown.fit(X_train_no_lockdown, y_train_no_lockdown)
-    val_metrics_ridge_no_lockdown = calculate_metrics(y_val, ridge_no_lockdown.predict(X_val))
-
-    print(f"\n--- 2. 2022 VALIDATION COMPARISON (DAY 1 AHEAD) [{unit_label}] ---")
-    print(f"  Baseline (Day-1 Persistence):  MAE = {val_metrics_persist['mae']:.2f}, RMSE = {val_metrics_persist['rmse']:.2f}, MAPE = {val_metrics_persist['mape']:.2f}%")
-    print(f"  Baseline (Seasonal-Naive t-7): MAE = {val_metrics_snaive['mae']:.2f}, RMSE = {val_metrics_snaive['rmse']:.2f}, MAPE = {val_metrics_snaive['mape']:.2f}%")
-    print(f"  Ridge Regressor (alpha={best_ridge_alpha}):   MAE = {val_metrics_ridge['mae']:.2f}, RMSE = {val_metrics_ridge['rmse']:.2f}, MAPE = {val_metrics_ridge['mape']:.2f}%")
-    print(f"  Decision Tree (depth={best_tree_depth}):      MAE = {val_metrics_tree['mae']:.2f}, RMSE = {val_metrics_tree['rmse']:.2f}, MAPE = {val_metrics_tree['mape']:.2f}%")
-    print(f"  Ridge + COVID Feature:         MAE = {val_metrics_ridge_cov['mae']:.2f}, RMSE = {val_metrics_ridge_cov['rmse']:.2f}, MAPE = {val_metrics_ridge_cov['mape']:.2f}%")
-    print(f"  Ridge Excluding 2020 Lockdown: MAE = {val_metrics_ridge_no_lockdown['mae']:.2f}, RMSE = {val_metrics_ridge_no_lockdown['rmse']:.2f}, MAPE = {val_metrics_ridge_no_lockdown['mape']:.2f}%")
-
-    # 4. Fallback Selection Decision
+    # Decision on Fallback
     fallback_activated = False
-    if val_metrics_ridge["mae"] >= val_metrics_persist["mae"]:
+    if m_val_ridge["mae"] >= m_val_persist["mae"]:
         fallback_activated = True
         selected_model_name = "Persistence"
-        active_model = None
-        print("\n[FALLBACK GATEKEEPER]: ML model failed to beat Persistence on validation. Retaining Persistence!")
     else:
         selected_model_name = "RidgeRegressor"
-        active_model = best_ridge_model
-        improvement_pct = (1.0 - val_metrics_ridge['mae'] / val_metrics_persist['mae']) * 100.0
-        print(f"\n[MODEL SELECTION]: Ridge Regression won validation with MAE {val_metrics_ridge['mae']:.2f} {unit_label} vs Persistence {val_metrics_persist['mae']:.2f} {unit_label} ({improvement_pct:.1f}% improvement).")
 
-    # 5. Evaluate on Final Holdout (Frozen Model)
-    y_pred_holdout_persist = [row[0] for row in X_holdout]
-    y_pred_holdout_snaive = [row[2] for row in X_holdout]
-    y_pred_holdout_ridge = best_ridge_model.predict(X_holdout)
-    y_pred_holdout_tree = best_tree_model.predict(X_holdout)
+    # Evaluate on Holdout (H=1)
+    y_pred_ho_persist = [row[0] for row in X_ho_h1]
+    y_pred_ho_snaive = [row[2] for row in X_ho_h1]
+    y_pred_ho_ridge = best_ridge_h1.predict(X_ho_h1)
+    y_pred_ho_tree = best_tree_h1.predict(X_ho_h1)
 
-    holdout_metrics_persist = calculate_metrics(y_holdout, y_pred_holdout_persist)
-    holdout_metrics_snaive = calculate_metrics(y_holdout, y_pred_holdout_snaive)
-    holdout_metrics_ridge = calculate_metrics(y_holdout, y_pred_holdout_ridge)
-    holdout_metrics_tree = calculate_metrics(y_holdout, y_pred_holdout_tree)
+    m_ho_persist = calculate_metrics(y_ho_h1, y_pred_ho_persist)
+    m_ho_snaive = calculate_metrics(y_ho_h1, y_pred_ho_snaive)
+    m_ho_ridge = calculate_metrics(y_ho_h1, y_pred_ho_ridge)
+    m_ho_tree = calculate_metrics(y_ho_h1, y_pred_ho_tree)
 
-    print(f"\n--- 3. FINAL HOLDOUT (2023 - APR 2024) FROZEN EVALUATION [{unit_label}] ---")
-    print(f"  Day-1 Persistence:  MAE = {holdout_metrics_persist['mae']:.2f}, RMSE = {holdout_metrics_persist['rmse']:.2f}, MAPE = {holdout_metrics_persist['mape']:.2f}%")
-    print(f"  Seasonal-Naive:     MAE = {holdout_metrics_snaive['mae']:.2f}, RMSE = {holdout_metrics_snaive['rmse']:.2f}, MAPE = {holdout_metrics_snaive['mape']:.2f}%")
-    print(f"  Ridge Regression:   MAE = {holdout_metrics_ridge['mae']:.2f}, RMSE = {holdout_metrics_ridge['rmse']:.2f}, MAPE = {holdout_metrics_ridge['mape']:.2f}%")
-    print(f"  Decision Tree:      MAE = {holdout_metrics_tree['mae']:.2f}, RMSE = {holdout_metrics_tree['rmse']:.2f}, MAPE = {holdout_metrics_tree['mape']:.2f}%")
-    improvement_holdout = (1.0 - holdout_metrics_ridge['mae'] / holdout_metrics_persist['mae']) * 100.0
-    print(f"  Holdout Improvement vs Persistence: {improvement_holdout:.2f}% MAE reduction")
-
-    # Holdout Error Breakdown by Year
-    idx_2023 = [i for i, d in enumerate(dates_holdout) if d.startswith("2023")]
-    idx_2024 = [i for i, d in enumerate(dates_holdout) if d.startswith("2024")]
-    
-    breakdown_2023 = {
-        "persistence": calculate_metrics([y_holdout[i] for i in idx_2023], [y_pred_holdout_persist[i] for i in idx_2023]),
-        "ridge": calculate_metrics([y_holdout[i] for i in idx_2023], [y_pred_holdout_ridge[i] for i in idx_2023])
-    }
-    breakdown_2024 = {
-        "persistence": calculate_metrics([y_holdout[i] for i in idx_2024], [y_pred_holdout_persist[i] for i in idx_2024]),
-        "ridge": calculate_metrics([y_holdout[i] for i in idx_2024], [y_pred_holdout_ridge[i] for i in idx_2024])
-    }
-
-    # Seasonal breakdown (Summer May-Jun vs Winter Dec-Jan)
-    idx_summer = [i for i, d in enumerate(dates_holdout) if d[5:7] in ("05", "06")]
-    idx_winter = [i for i, d in enumerate(dates_holdout) if d[5:7] in ("12", "01")]
-    breakdown_summer = {
-        "persistence": calculate_metrics([y_holdout[i] for i in idx_summer], [y_pred_holdout_persist[i] for i in idx_summer]),
-        "ridge": calculate_metrics([y_holdout[i] for i in idx_summer], [y_pred_holdout_ridge[i] for i in idx_summer])
-    }
-    breakdown_winter = {
-        "persistence": calculate_metrics([y_holdout[i] for i in idx_winter], [y_pred_holdout_persist[i] for i in idx_winter]),
-        "ridge": calculate_metrics([y_holdout[i] for i in idx_winter], [y_pred_holdout_ridge[i] for i in idx_winter])
-    }
-
-    # 6. Multi-Horizon Forecasting (H = 1 to 7 Days Ahead Direct Models)
-    print(f"\n--- 4. MULTI-HORIZON 7-DAY FORECASTING (DIRECT MODELS) [{unit_label}] ---")
-    multi_horizon_results = {}
+    # ------------------------------------------------------------------
+    # PROTOCOL 2: ORIGIN-ALIGNED SEVEN-DAY FORECASTING (H = 1 to 7)
+    # ------------------------------------------------------------------
+    # Train separate direct Ridge models for h in 1..7
     direct_ridge_models = {}
-
     for h in range(1, 8):
-        d_h, X_h, y_h, _ = build_dataset_for_target(records, target_col=target_col, horizon=h, include_covid_feature=False)
-        tr_i = [i for i, d in enumerate(d_h) if d <= "2021-12-31"]
-        vl_i = [i for i, d in enumerate(d_h) if "2022-01-01" <= d <= "2022-12-31"]
-        ho_i = [i for i, d in enumerate(d_h) if d >= "2023-01-01"]
+        X_tr, y_tr = [], []
+        for r in records:
+            D = r["dt"]
+            target_dt = D + datetime.timedelta(days=h)
+            if target_dt > datetime.date(2021, 12, 31) or target_dt not in date_map:
+                continue
+            feats = extract_origin_features(D, h, date_map=date_map)
+            if feats is not None:
+                X_tr.append(feats)
+                y_tr.append(date_map[target_dt])
+        model = PureRidgeRegressor(alpha=best_alpha)
+        model.fit(X_tr, y_tr)
+        direct_ridge_models[h] = model
 
-        X_tr = [X_h[i] for i in tr_i]
-        y_tr = [y_h[i] for i in tr_i]
-        X_vl = [X_h[i] for i in vl_i]
-        y_vl = [y_h[i] for i in vl_i]
-        X_ho = [X_h[i] for i in ho_i]
-        y_ho = [y_h[i] for i in ho_i]
+    # Identify common eligible origins in holdout (2023-01-01 to 2024-04-21)
+    common_holdout_origins = []
+    d_cur = datetime.date(2023, 1, 1)
+    d_max = datetime.date(2024, 4, 21)
 
-        # Persistence for horizon h (most recent observation at forecast time, which is t-h)
-        # Note: In feature row, index 0 is lag_h = y(t - h)
-        y_p_ho = [row[0] for row in X_ho]
-        # Seasonal Naive for horizon h: index 2 is lag_7 = y(t - 7) (available for all h <= 7)
-        y_sn_ho = [row[2] for row in X_ho]
+    while d_cur <= d_max:
+        targets_exist = all((d_cur + datetime.timedelta(days=h)) in date_map for h in range(1, 8))
+        feats_exist = all(extract_origin_features(d_cur, h, date_map=date_map) is not None for h in range(1, 8))
+        if targets_exist and feats_exist:
+            common_holdout_origins.append(d_cur)
+        d_cur += datetime.timedelta(days=1)
 
-        m_persist_ho = calculate_metrics(y_ho, y_p_ho)
-        m_snaive_ho = calculate_metrics(y_ho, y_sn_ho)
-
-        # Train Ridge for horizon h
-        r_model = PureRidgeRegressor(alpha=best_ridge_alpha)
-        r_model.fit(X_tr, y_tr)
-        preds_ho = r_model.predict(X_ho)
-        m_ridge_ho = calculate_metrics(y_ho, preds_ho)
-
-        direct_ridge_models[h] = r_model
-        multi_horizon_results[f"horizon_{h}"] = {
+    origin_aligned_results = {}
+    for h in range(1, 8):
+        y_true = []
+        y_pred_persist = []
+        y_pred_snaive = []
+        y_pred_ridge = []
+        
+        for D in common_holdout_origins:
+            target_dt = D + datetime.timedelta(days=h)
+            y_act = date_map[target_dt]
+            y_true.append(y_act)
+            
+            # Baseline 1: y(D)
+            y_pred_persist.append(date_map[D])
+            # Baseline 2: y(D + h - 7)
+            y_pred_snaive.append(date_map[target_dt - datetime.timedelta(days=7)])
+            
+            feats = extract_origin_features(D, h, date_map=date_map)
+            y_pred_ridge.append(direct_ridge_models[h].predict([feats])[0])
+            
+        m_p = calculate_metrics(y_true, y_pred_persist)
+        m_sn = calculate_metrics(y_true, y_pred_snaive)
+        m_r = calculate_metrics(y_true, y_pred_ridge)
+        
+        origin_aligned_results[f"horizon_{h}"] = {
             "horizon_days": h,
-            "persistence_holdout": m_persist_ho,
-            "seasonal_naive_holdout": m_snaive_ho,
-            "ridge_holdout": m_ridge_ho,
-            "mae_reduction_vs_persistence_pct": round((1.0 - m_ridge_ho["mae"] / m_persist_ho["mae"]) * 100.0, 2),
-            "mae_reduction_vs_snaive_pct": round((1.0 - m_ridge_ho["mae"] / m_snaive_ho["mae"]) * 100.0, 2)
+            "evaluated_origins_count": len(common_holdout_origins),
+            "persistence_metrics": m_p,
+            "seasonal_naive_metrics": m_sn,
+            "ridge_metrics": m_r,
+            "improvement_vs_persistence_pct": round((1.0 - m_r["mae"] / m_p["mae"]) * 100.0, 2),
+            "improvement_vs_snaive_pct": round((1.0 - m_r["mae"] / m_sn["mae"]) * 100.0, 2)
         }
-        print(f"  Day {h} Ahead: Persistence MAE = {m_persist_ho['mae']:.2f} | Seasonal Naive = {m_snaive_ho['mae']:.2f} | Ridge MAE = {m_ridge_ho['mae']:.2f} ({multi_horizon_results[f'horizon_{h}']['mae_reduction_vs_persistence_pct']}% vs persist)")
 
-    # Serialize Best Models
+    # ----------------------------------------------------
+    # SERIALIZE CERTIFIED ARTIFACTS
+    # ----------------------------------------------------
     os.makedirs(MODELS_DIR, exist_ok=True)
     target_slug = "energy" if "energy" in target_col else "peak"
     model_artifact_path = os.path.join(MODELS_DIR, f"certified_{target_slug}_model.json")
@@ -758,72 +696,66 @@ def run_pipeline(records: List[Dict[str, Any]], target_col: str = "energy_met_mu
         "target_slug": target_slug,
         "trained_date": datetime.datetime.now().isoformat(),
         "selected_model": selected_model_name,
-        "best_alpha": best_ridge_alpha,
-        "feature_names": feat_names,
-        "h1_model": best_ridge_model.to_dict(),
+        "best_alpha": best_alpha,
+        "feature_names": get_feature_names(h=1),
+        "h1_model": best_ridge_h1.to_dict(),
         "direct_models": {str(h): direct_ridge_models[h].to_dict() for h in range(1, 8)},
-        "validation_metrics": val_metrics_ridge,
-        "holdout_metrics": holdout_metrics_ridge,
-        "validation_persistence_metrics": val_metrics_persist,
-        "holdout_persistence_metrics": holdout_metrics_persist
+        "h1_validation_metrics": m_val_ridge,
+        "h1_holdout_metrics": m_ho_ridge,
+        "h1_validation_persistence_metrics": m_val_persist,
+        "h1_holdout_persistence_metrics": m_ho_persist,
+        "origin_aligned_7day_holdout": origin_aligned_results
     }
     with open(model_artifact_path, "w") as f:
         json.dump(model_payload, f, indent=2)
-    print(f"\nSaved certified model artifact to: {model_artifact_path}")
 
     return {
         "target": target_col,
         "benchmarks": benchmarks,
-        "validation": {
-            "persistence": val_metrics_persist,
-            "seasonal_naive": val_metrics_snaive,
-            "ridge": val_metrics_ridge,
-            "decision_tree": val_metrics_tree,
-            "ridge_with_covid_feature": val_metrics_ridge_cov,
-            "ridge_excluding_2020_lockdown": val_metrics_ridge_no_lockdown
+        "h1_rolling_evaluation": {
+            "validation": {
+                "persistence": m_val_persist,
+                "seasonal_naive": m_val_snaive,
+                "ridge": m_val_ridge,
+                "decision_tree": m_val_tree,
+                "ridge_with_covid_feature": m_val_covid
+            },
+            "holdout": {
+                "persistence": m_ho_persist,
+                "seasonal_naive": m_ho_snaive,
+                "ridge": m_ho_ridge,
+                "decision_tree": m_ho_tree,
+                "mae_reduction_vs_persistence_pct": round((1.0 - m_ho_ridge["mae"] / m_ho_persist["mae"]) * 100.0, 2),
+                "mae_reduction_vs_snaive_pct": round((1.0 - m_ho_ridge["mae"] / m_ho_snaive["mae"]) * 100.0, 2)
+            }
         },
-        "holdout": {
-            "persistence": holdout_metrics_persist,
-            "seasonal_naive": holdout_metrics_snaive,
-            "ridge": holdout_metrics_ridge,
-            "decision_tree": holdout_metrics_tree,
-            "breakdown_2023": breakdown_2023,
-            "breakdown_2024": breakdown_2024,
-            "breakdown_summer": breakdown_summer,
-            "breakdown_winter": breakdown_winter
+        "origin_aligned_7day_evaluation": {
+            "eligible_common_origins": len(common_holdout_origins),
+            "origin_range": f"{common_holdout_origins[0]} to {common_holdout_origins[-1]}",
+            "horizons": origin_aligned_results
         },
-        "multi_horizon_7day": multi_horizon_results,
         "selected_model": selected_model_name,
         "fallback_activated": fallback_activated
     }
 
-
 def main():
-    print("=" * 60)
-    print("EnergySense Phase 2: Forecasting Engine & Model Training")
-    print("=" * 60)
-    
+    print("=" * 70)
+    print("EnergySense Phase 2: Forecasting Engine & Audited Verification")
+    print("=" * 70)
     records = load_clean_data(DB_PATH)
-    print(f"Loaded {len(records)} clean daily records from SQLite ({DB_PATH}).")
     
-    # 1. Primary Target: energy_met_mu
-    primary_results = run_pipeline(records, target_col="energy_met_mu")
-    
-    # 2. Secondary Target: peak_met_mw
-    secondary_results = run_pipeline(records, target_col="peak_met_mw")
+    primary_results = run_audited_pipeline(records, target_col="energy_met_mu")
+    secondary_results = run_audited_pipeline(records, target_col="peak_met_mw")
 
-    # Combine into evaluation report JSON
-    final_output = {
-        "pipeline_version": "2.0.0",
+    output = {
+        "pipeline_version": "2.1.0-audited",
         "timestamp": datetime.datetime.now().isoformat(),
         "primary_target_energy": primary_results,
         "secondary_target_peak": secondary_results
     }
-    
     with open(RESULTS_PATH, "w") as f:
-        json.dump(final_output, f, indent=2)
-    print(f"\nMachine-readable evaluation saved to: {RESULTS_PATH}")
-    print("\nPhase 2 training execution finished successfully.")
+        json.dump(output, f, indent=2)
+    print(f"\nAll audited evaluation results saved to: {RESULTS_PATH}")
 
 if __name__ == "__main__":
     main()

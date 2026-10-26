@@ -1,0 +1,100 @@
+{
+  "audit_timestamp": "2026-10-26T09:12:19.663657+00:00",
+  "phase": "Phase 1: Invariant Verification & Hardening",
+  "overall_status": "PASS",
+  "invariants": {
+    "daily_demand_rows": {
+      "expected": 3900,
+      "actual": 3900,
+      "sqlite_actual": 3900,
+      "status": "PASS"
+    },
+    "missing_calendar_dates": {
+      "expected": 236,
+      "actual": 236,
+      "calendar_range": "2013-01-01 to 2024-04-28",
+      "status": "PASS"
+    },
+    "missing_weather_observations": {
+      "expected": 1196,
+      "actual": 1196,
+      "pct_missing": 30.67,
+      "status": "PASS"
+    },
+    "negative_peak_unmet_values": {
+      "expected": 6,
+      "actual": 6,
+      "flagged_records": [
+        {
+          "date": "2014-07-19",
+          "peak_met_mw": 133430.0,
+          "peak_unmet_mw": -1665.0
+        },
+        {
+          "date": "2014-07-23",
+          "peak_met_mw": 133792.0,
+          "peak_unmet_mw": -3171.0
+        },
+        {
+          "date": "2014-07-28",
+          "peak_met_mw": 134286.0,
+          "peak_unmet_mw": -830.0
+        },
+        {
+          "date": "2015-10-18",
+          "peak_met_mw": 147252.0,
+          "peak_unmet_mw": -783.0
+        },
+        {
+          "date": "2016-08-01",
+          "peak_met_mw": 142664.0,
+          "peak_unmet_mw": -337.0
+        },
+        {
+          "date": "2017-04-21",
+          "peak_met_mw": 169397.0,
+          "peak_unmet_mw": -1089.0
+        }
+      ],
+      "status": "PASS"
+    },
+    "monthly_generation_rows": {
+      "expected": 83,
+      "actual": 83,
+      "sqlite_actual": 83,
+      "status": "PASS"
+    },
+    "state_daily_rows": {
+      "expected": 32072,
+      "actual": 32072,
+      "sqlite_actual": 32072,
+      "status": "PASS"
+    },
+    "state_annual_rows": {
+      "expected": 456,
+      "actual": 456,
+      "sqlite_actual": 456,
+      "status": "PASS"
+    }
+  },
+  "benchmarks": {
+    "test_sample_count": 483,
+    "persistence_day1": {
+      "mae_mu": 89.92,
+      "mape_pct": 2.08
+    },
+    "seasonal_naive_lag7": {
+      "mae_mu": 182.13,
+      "mape_pct": 4.22
+    },
+    "cagr_audit": {
+      "reported_unadjusted_pct": 8.27,
+      "corrected_daily_mean_pct": 5.12,
+      "methodological_distortion": "Missing 94 days in 2013 inflated raw calendar sum"
+    }
+  },
+  "storage": {
+    "sqlite_db_bytes": 4325376,
+    "clean_csv_bytes": 1816981
+  }
+}

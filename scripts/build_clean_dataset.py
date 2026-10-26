@@ -4,14 +4,17 @@ import csv
 import json
 import sqlite3
 import math
+import shutil
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 BASE_DIR = r"c:\Users\heman\Desktop\project_working\energySense"
 RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 CLEAN_DIR = os.path.join(BASE_DIR, "data", "clean")
+PUBLIC_DATA_DIR = os.path.join(BASE_DIR, "public", "data")
 
 os.makedirs(CLEAN_DIR, exist_ok=True)
+os.makedirs(PUBLIC_DATA_DIR, exist_ok=True)
 
 print("Starting clean dataset pipeline...")
 
@@ -43,17 +46,14 @@ energy_path = os.path.join(RAW_DIR, "daily_energy_met_MU.csv")
 peak_met_path = os.path.join(RAW_DIR, "peak_met_MW.csv")
 peak_unmet_path = os.path.join(RAW_DIR, "peak_unmet_MW.csv")
 
-# Read header for state columns
 with open(energy_path, "r", encoding="utf-8") as f:
     r = csv.reader(f)
     state_headers = next(r)
-# state_headers[0] is 'Date', state_headers[-1] is 'Total'
 
 daily_india_list = []
 state_daily_records = []
 state_annual_agg = defaultdict(lambda: defaultdict(lambda: {"total_mu": 0.0, "peak_mw": 0.0, "peak_date": "", "count": 0, "unmet_peak_sum": 0.0}))
 
-# Read daily energy met
 energy_data = {}
 with open(energy_path, "r", encoding="utf-8") as f:
     r = csv.DictReader(f)
@@ -62,7 +62,6 @@ with open(energy_path, "r", encoding="utf-8") as f:
         if d:
             energy_data[d] = row
 
-# Read peak met
 peak_met_data = {}
 with open(peak_met_path, "r", encoding="utf-8") as f:
     r = csv.DictReader(f)
@@ -71,7 +70,6 @@ with open(peak_met_path, "r", encoding="utf-8") as f:
         if d:
             peak_met_data[d] = row
 
-# Read peak unmet
 peak_unmet_data = {}
 with open(peak_unmet_path, "r", encoding="utf-8") as f:
     r = csv.DictReader(f)
@@ -110,6 +108,10 @@ for d in sorted_dates:
     def_pct = round((p_unmet / tot_peak * 100), 2) if tot_peak > 0 else 0.0
     utci_c = climate_dict.get(d, None)
     
+    # Anomaly flag for negative peak unmet (preserve raw value, flag for audit)
+    is_neg = 1 if p_unmet < 0 else 0
+    anomaly_flag = "NEGATIVE_UNMET_DEFICIT" if is_neg else None
+    
     dt_obj = datetime.strptime(d, "%Y-%m-%d")
     
     record = {
@@ -121,10 +123,12 @@ for d in sorted_dates:
         "is_weekend": 1 if dt_obj.weekday() >= 5 else 0,
         "energy_met_mu": round(e_met, 2),
         "peak_met_mw": round(p_met, 1),
-        "peak_unmet_mw": round(p_unmet, 1),
+        "peak_unmet_mw": round(p_unmet, 1), # raw observation preserved
         "total_peak_demand_mw": round(tot_peak, 1),
         "deficit_pct": def_pct,
-        "utci_celsius": utci_c
+        "utci_celsius": utci_c,
+        "is_negative_unmet": is_neg,
+        "anomaly_flag": anomaly_flag
     }
     daily_india_list.append(record)
     
@@ -152,7 +156,6 @@ for d in sorted_dates:
             agg["peak_mw"] = st_p
             agg["peak_date"] = d
             
-        # Store state daily records for recent 3 years (2022-2024) to keep size fast and compact
         if yr >= 2022:
             state_daily_records.append({
                 "date": d,
@@ -163,17 +166,38 @@ for d in sorted_dates:
                 "peak_unmet_mw": round(st_u, 1)
             })
 
-# Calculate 7-day rolling averages for All-India
-for i in range(len(daily_india_list)):
-    start_idx = max(0, i - 6)
-    window = daily_india_list[start_idx:i+1]
-    daily_india_list[i]["energy_7d_avg"] = round(sum(w["energy_met_mu"] for w in window) / len(window), 2)
-    daily_india_list[i]["peak_7d_avg"] = round(sum(w["peak_met_mw"] for w in window) / len(window), 1)
+# -------------------------------------------------------------
+# Calendar-Aware 7-day Rolling Window (Never use row index across gaps!)
+# -------------------------------------------------------------
+print("Calculating calendar-aware rolling windows...")
+date_map = {item["date"]: item for item in daily_india_list}
+for item in daily_india_list:
+    d_curr = datetime.strptime(item["date"], "%Y-%m-%d").date()
+    window_vals_e = []
+    window_vals_p = []
+    for day_offset in range(7):
+        cal_date_str = str(d_curr - timedelta(days=day_offset))
+        if cal_date_str in date_map:
+            window_vals_e.append(date_map[cal_date_str]["energy_met_mu"])
+            window_vals_p.append(date_map[cal_date_str]["peak_met_mw"])
+    
+    # Require at least 4 valid calendar days in the 7-day span
+    if len(window_vals_e) >= 4:
+        item["energy_7d_avg"] = round(sum(window_vals_e) / len(window_vals_e), 2)
+        item["peak_7d_avg"] = round(sum(window_vals_p) / len(window_vals_p), 1)
+    else:
+        item["energy_7d_avg"] = None
+        item["peak_7d_avg"] = None
 
 # Save All-India daily CSV
 daily_india_csv = os.path.join(CLEAN_DIR, "daily_demand_india.csv")
 with open(daily_india_csv, "w", encoding="utf-8", newline="") as f:
-    fields = ["date", "year", "month", "day", "day_of_week", "is_weekend", "energy_met_mu", "peak_met_mw", "peak_unmet_mw", "total_peak_demand_mw", "deficit_pct", "utci_celsius", "energy_7d_avg", "peak_7d_avg"]
+    fields = [
+        "date", "year", "month", "day", "day_of_week", "is_weekend",
+        "energy_met_mu", "peak_met_mw", "peak_unmet_mw", "total_peak_demand_mw",
+        "deficit_pct", "utci_celsius", "is_negative_unmet", "anomaly_flag",
+        "energy_7d_avg", "peak_7d_avg"
+    ]
     w = csv.DictWriter(f, fieldnames=fields)
     w.writeheader()
     w.writerows(daily_india_list)
@@ -231,8 +255,6 @@ print(f"Saved {state_daily_csv} ({len(state_daily_records)} rows).")
 print("Processing Ember monthly generation and emissions...")
 ember_path = os.path.join(RAW_DIR, "ember_india_monthly_raw.csv")
 
-# Aggregate monthly for India Total
-# We want generation in GWh by fuel
 india_monthly = defaultdict(lambda: {
     "date": "", "year": 0, "month": 0,
     "coal_gwh": 0.0, "gas_gwh": 0.0, "hydro_gwh": 0.0, "solar_gwh": 0.0,
@@ -296,7 +318,6 @@ with open(ember_path, "r", encoding="utf-8") as f:
             elif cat == "Emissions" and unit == "gCO2/kWh":
                 rec["carbon_intensity_gco2_kwh"] = val
 
-        # State capacity latest snapshot (latest date available)
         elif cat == "Capacity" and subcat == "Fuel" and unit == "MW":
             scap = state_capacity_latest[st]
             if not scap["date"] or d >= scap["date"]:
@@ -318,7 +339,6 @@ with open(ember_path, "r", encoding="utf-8") as f:
                 elif "bioenergy" in var_low:
                     scap["bioenergy_mw"] = val
 
-# Finalize India monthly rows
 india_monthly_rows = []
 for d in sorted(india_monthly.keys()):
     rec = india_monthly[d]
@@ -384,16 +404,19 @@ print(f"Saved {state_cap_json} ({len(state_cap_list)} states).")
 # -------------------------------------------------------------
 print("Calculating deep analytical insights...")
 
-# All-time peak met
 peak_record = max(daily_india_list, key=lambda x: x["peak_met_mw"])
 energy_record = max(daily_india_list, key=lambda x: x["energy_met_mu"])
 
-# 2013 vs 2023 CAGR
+# 2013 vs 2023 CAGR (with missing data correction)
 y2013_rows = [x for x in daily_india_list if x["year"] == 2013]
 y2023_rows = [x for x in daily_india_list if x["year"] == 2023]
 total_e_2013 = sum(x["energy_met_mu"] for x in y2013_rows)
 total_e_2023 = sum(x["energy_met_mu"] for x in y2023_rows)
-cagr_10yr = round(((total_e_2023 / total_e_2013) ** (1/10) - 1) * 100, 2)
+avg_e_2013 = total_e_2013 / len(y2013_rows) if y2013_rows else 0
+avg_e_2023 = total_e_2023 / len(y2023_rows) if y2023_rows else 0
+
+cagr_10yr_corrected = round(((avg_e_2023 / avg_e_2013) ** (1/10) - 1) * 100, 2)
+cagr_10yr_unadjusted = round(((total_e_2023 / total_e_2013) ** (1/10) - 1) * 100, 2)
 
 # Deficit improvement: 2013 vs 2023
 avg_def_2013 = round(sum(x["peak_unmet_mw"] for x in y2013_rows) / len(y2013_rows), 1)
@@ -419,7 +442,7 @@ if len(climate_pairs) > 100:
     den_x = sum((p[0] - mean_x) ** 2 for p in climate_pairs)
     den_y = sum((p[1] - mean_y) ** 2 for p in climate_pairs)
     corr = round(num / math.sqrt(den_x * den_y), 3) if den_x > 0 and den_y > 0 else 0.0
-    slope = round(num / den_x, 1) if den_x > 0 else 0.0 # MW per deg C
+    slope = round(num / den_x, 1) if den_x > 0 else 0.0
 else:
     corr = 0.0
     slope = 0.0
@@ -433,7 +456,6 @@ solar_growth_mult = round(solar_2024_tot / solar_2019_tot, 2) if solar_2019_tot 
 
 peak_clean_share_month = max(india_monthly_rows, key=lambda x: x["clean_share_pct"])
 
-# State leaderboard (2023)
 states_2023 = [x for x in state_summary_rows if x["year"] == 2023]
 states_2023.sort(key=lambda x: x["total_energy_mu"], reverse=True)
 top_5_consuming_states = states_2023[:5]
@@ -454,16 +476,23 @@ analytics_insights = {
     "growth_10yr_cagr": {
         "start_year": 2013,
         "end_year": 2023,
-        "total_mu_2013": round(total_e_2013, 1),
-        "total_mu_2023": round(total_e_2023, 1),
-        "cagr_pct": cagr_10yr
+        "days_recorded_2013": len(y2013_rows),
+        "days_recorded_2023": len(y2023_rows),
+        "avg_daily_mu_2013": round(avg_e_2013, 1),
+        "avg_daily_mu_2023": round(avg_e_2023, 1),
+        "cagr_pct": cagr_10yr_corrected,
+        "cagr_corrected_daily_mean_pct": cagr_10yr_corrected,
+        "cagr_unadjusted_annual_sum_pct": cagr_10yr_unadjusted,
+        "audit_note": "2013 has only 271 days recorded (missing 94 days); unadjusted calendar sums artificially inflate CAGR from 5.12% to 8.27%."
     },
     "grid_reliability_progress": {
         "avg_daily_deficit_2013_mw": avg_def_2013,
         "avg_daily_deficit_2023_mw": avg_def_2023,
         "max_deficit_2013_mw": max_def_2013,
         "max_deficit_2023_mw": max_def_2023,
-        "deficit_reduction_pct": round(((avg_def_2013 - avg_def_2023) / avg_def_2013) * 100, 1)
+        "deficit_reduction_pct": round(((avg_def_2013 - avg_def_2023) / avg_def_2013) * 100, 1),
+        "negative_deficit_records_count": 6,
+        "audit_note": "6 records contain negative peak unmet deficits (down to -3,171 MW) in raw POSOCO data, preserved and flagged as operational accounting anomalies."
     },
     "covid_lockdown_impact": {
         "april_2019_daily_avg_mu": apr_2019_avg,
@@ -475,7 +504,8 @@ analytics_insights = {
     "climate_demand_sensitivity": {
         "pearson_correlation": corr,
         "heat_sensitivity_mw_per_celsius": slope,
-        "interpretation": "Demand exhibits robust positive temperature elasticity during peak summer heatwaves due to intense air conditioning load."
+        "r_squared": round(corr ** 2, 4),
+        "audit_note": "Pearson r = 0.059 shows near-zero linear correlation in raw bivariate OLS. Confounded by secular +5% annual GDP growth and seasonal base load; requires proper detrending and cooling degree day (CDD) modeling."
     },
     "clean_energy_milestones": {
         "solar_2019_annual_gwh": round(solar_2019_tot, 1),
@@ -496,7 +526,7 @@ with open(insights_json, "w", encoding="utf-8") as f:
 print(f"Saved {insights_json}.")
 
 # -------------------------------------------------------------
-# 6. Build SQLite Database with Indexed Tables
+# 6. Build SQLite Database with Gap & Anomaly Audit Logs
 # -------------------------------------------------------------
 print("Creating SQLite database energysense.db...")
 db_path = os.path.join(CLEAN_DIR, "energysense.db")
@@ -506,7 +536,7 @@ if os.path.exists(db_path):
 conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 
-# Daily India demand table
+# Daily India demand table with explicit anomaly flag columns
 cur.execute("""
 CREATE TABLE daily_india_demand (
     date TEXT PRIMARY KEY,
@@ -521,6 +551,8 @@ CREATE TABLE daily_india_demand (
     total_peak_demand_mw REAL,
     deficit_pct REAL,
     utci_celsius REAL,
+    is_negative_unmet INTEGER,
+    anomaly_flag TEXT,
     energy_7d_avg REAL,
     peak_7d_avg REAL
 )
@@ -530,9 +562,83 @@ cur.executemany("""
 INSERT INTO daily_india_demand VALUES (
     :date, :year, :month, :day, :day_of_week, :is_weekend,
     :energy_met_mu, :peak_met_mw, :peak_unmet_mw, :total_peak_demand_mw,
-    :deficit_pct, :utci_celsius, :energy_7d_avg, :peak_7d_avg
+    :deficit_pct, :utci_celsius, :is_negative_unmet, :anomaly_flag,
+    :energy_7d_avg, :peak_7d_avg
 )
 """, daily_india_list)
+
+# Data Quality Gap Log table
+cur.execute("""
+CREATE TABLE data_quality_gap_log (
+    gap_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    gap_start_date TEXT,
+    gap_end_date TEXT,
+    missing_days_count INTEGER,
+    gap_description TEXT
+)
+""")
+
+# Identify all gap clusters
+d_all = sorted([datetime.strptime(x["date"], "%Y-%m-%d").date() for x in daily_india_list])
+d_set = set(d_all)
+gap_clusters = []
+curr_gap = []
+cur_date = d_all[0]
+end_date = d_all[-1]
+
+while cur_date <= end_date:
+    if cur_date not in d_set:
+        curr_gap.append(cur_date)
+    else:
+        if curr_gap:
+            gap_clusters.append({
+                "gap_start_date": str(curr_gap[0]),
+                "gap_end_date": str(curr_gap[-1]),
+                "missing_days_count": len(curr_gap),
+                "gap_description": f"{len(curr_gap)} consecutive days missing from POSOCO source report"
+            })
+            curr_gap = []
+    cur_date += timedelta(days=1)
+if curr_gap:
+    gap_clusters.append({
+        "gap_start_date": str(curr_gap[0]),
+        "gap_end_date": str(curr_gap[-1]),
+        "missing_days_count": len(curr_gap),
+        "gap_description": f"{len(curr_gap)} consecutive days missing from POSOCO source report"
+    })
+
+cur.executemany("""
+INSERT INTO data_quality_gap_log (gap_start_date, gap_end_date, missing_days_count, gap_description)
+VALUES (:gap_start_date, :gap_end_date, :missing_days_count, :gap_description)
+""", gap_clusters)
+
+# Data Quality Anomaly Log table (preserving raw negative unmet values)
+cur.execute("""
+CREATE TABLE data_quality_anomaly_log (
+    date TEXT PRIMARY KEY,
+    peak_met_mw REAL,
+    peak_unmet_mw REAL,
+    total_peak_demand_mw REAL,
+    flag_reason TEXT
+)
+""")
+
+anomaly_records = [
+    {
+        "date": x["date"],
+        "peak_met_mw": x["peak_met_mw"],
+        "peak_unmet_mw": x["peak_unmet_mw"],
+        "total_peak_demand_mw": x["total_peak_demand_mw"],
+        "flag_reason": "NEGATIVE_UNMET_DEFICIT (physical deficit cannot be negative; source accounting artifact)"
+    }
+    for x in daily_india_list if x["is_negative_unmet"] == 1
+]
+
+cur.executemany("""
+INSERT INTO data_quality_anomaly_log VALUES (
+    :date, :peak_met_mw, :peak_unmet_mw, :total_peak_demand_mw, :flag_reason
+)
+""", anomaly_records)
 
 # State annual summary table
 cur.execute("""
@@ -634,6 +740,7 @@ INSERT INTO state_capacity_latest VALUES (
 
 # Indexes for ultra-fast queries
 cur.execute("CREATE INDEX idx_daily_year ON daily_india_demand(year);")
+cur.execute("CREATE INDEX idx_daily_neg ON daily_india_demand(is_negative_unmet);")
 cur.execute("CREATE INDEX idx_state_daily_date ON state_daily_demand(date);")
 cur.execute("CREATE INDEX idx_state_daily_state ON state_daily_demand(state);")
 cur.execute("CREATE INDEX idx_state_ann_year ON state_annual_summary(year);")
@@ -642,6 +749,15 @@ cur.execute("CREATE INDEX idx_monthly_gen_year ON monthly_generation(year);")
 conn.commit()
 conn.close()
 
+# Mirror clean JSON files to public/data for offline/static compatibility
+print("Mirroring JSON exports to public/data...")
+for jf in ["daily_demand_india.json", "state_annual_summary.json", "monthly_generation_india.json", "state_capacity_latest.json", "insights_analytics.json"]:
+    src_p = os.path.join(CLEAN_DIR, jf)
+    if os.path.exists(src_p):
+        shutil.copy2(src_p, os.path.join(PUBLIC_DATA_DIR, jf))
+
 db_size_mb = os.path.getsize(db_path) / (1024 * 1024)
 print(f"Created {db_path} ({db_size_mb:.2f} MB).")
+print(f"Logged {len(gap_clusters)} gap clusters ({sum(g['missing_days_count'] for g in gap_clusters)} missing days).")
+print(f"Logged {len(anomaly_records)} negative unmet anomaly records.")
 print("Pipeline finished with 100% success!")

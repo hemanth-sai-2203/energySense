@@ -14,16 +14,23 @@
   "growth_10yr_cagr": {
     "start_year": 2013,
     "end_year": 2023,
-    "total_mu_2013": 716799.6,
-    "total_mu_2023": 1586382.8,
-    "cagr_pct": 8.27
+    "days_recorded_2013": 271,
+    "days_recorded_2023": 364,
+    "avg_daily_mu_2013": 2645.0,
+    "avg_daily_mu_2023": 4358.2,
+    "cagr_pct": 5.12,
+    "cagr_corrected_daily_mean_pct": 5.12,
+    "cagr_unadjusted_annual_sum_pct": 8.27,
+    "audit_note": "2013 has only 271 days recorded (missing 94 days); unadjusted calendar sums artificially inflate CAGR from 5.12% to 8.27%."
   },
   "grid_reliability_progress": {
     "avg_daily_deficit_2013_mw": 5685.6,
     "avg_daily_deficit_2023_mw": 383.0,
     "max_deficit_2013_mw": 12251.0,
     "max_deficit_2023_mw": 5083.0,
-    "deficit_reduction_pct": 93.3
+    "deficit_reduction_pct": 93.3,
+    "negative_deficit_records_count": 6,
+    "audit_note": "6 records contain negative peak unmet deficits (down to -3,171 MW) in raw POSOCO data, preserved and flagged as operational accounting anomalies."
   },
   "covid_lockdown_impact": {
     "april_2019_daily_avg_mu": 3733.0,
@@ -35,7 +42,8 @@
   "climate_demand_sensitivity": {
     "pearson_correlation": 0.059,
     "heat_sensitivity_mw_per_celsius": 199.7,
-    "interpretation": "Demand exhibits robust positive temperature elasticity during peak summer heatwaves due to intense air conditioning load."
+    "r_squared": 0.0035,
+    "audit_note": "Pearson r = 0.059 shows near-zero linear correlation in raw bivariate OLS. Confounded by secular +5% annual GDP growth and seasonal base load; requires proper detrending and cooling degree day (CDD) modeling."
   },
   "clean_energy_milestones": {
     "solar_2019_annual_gwh": 46267.7,

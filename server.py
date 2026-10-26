@@ -24,6 +24,8 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         # API routes
         if path == "/api/analytics":
             self.send_json_file(os.path.join(DATA_DIR, "insights_analytics.json"))
+        elif path == "/api/audit":
+            self.send_json_file(os.path.join(DATA_DIR, "data_audit_results.json"))
         elif path == "/api/daily":
             self.handle_daily(query)
         elif path == "/api/generation":
@@ -33,7 +35,7 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         elif path == "/api/state_daily":
             self.handle_state_daily(query)
         elif path == "/api/capacity":
-            self.send_json_file(os.path.join(DATA_DIR, "state_capacity_latest.json"))
+            self.handle_capacity()
         elif path == "/api/download":
             self.handle_download(query)
         else:
@@ -161,6 +163,21 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         conn.close()
         self.send_json(rows)
 
+    def handle_capacity(self):
+        try:
+            conn = sqlite3.connect(DB_PATH)
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM state_capacity_latest ORDER BY total_mw DESC")
+            rows = [dict(r) for r in cur.fetchall()]
+            conn.close()
+            if rows:
+                self.send_json(rows)
+                return
+        except Exception:
+            pass
+        self.send_json_file(os.path.join(DATA_DIR, "state_capacity_latest.json"))
+
     def handle_sql(self, query_sql):
         # Security check: only allow SELECT statements
         clean_q = query_sql.strip()
@@ -191,7 +208,8 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             "monthly_generation": "monthly_generation_india.csv",
             "state_annual": "state_annual_summary.csv",
             "state_daily": "state_daily_demand.csv",
-            "insights": "insights_analytics.json"
+            "insights": "insights_analytics.json",
+            "audit": "data_audit_results.json"
         }
         if target in safe_files:
             fname = safe_files[target]

@@ -1,0 +1,74 @@
+{
+  "all_time_peak_met": {
+    "date": "2023-09-01",
+    "peak_met_mw": 249623.0,
+    "energy_met_mu": 5219.2,
+    "formatted_mw": "249,623 MW"
+  },
+  "all_time_daily_energy_met": {
+    "date": "2023-09-02",
+    "energy_met_mu": 5224.3,
+    "peak_met_mw": 248198.0,
+    "formatted_mu": "5,224.3 MU"
+  },
+  "growth_10yr_cagr": {
+    "start_year": 2013,
+    "end_year": 2023,
+    "total_mu_2013": 716799.6,
+    "total_mu_2023": 1586382.8,
+    "cagr_pct": 8.27
+  },
+  "grid_reliability_progress": {
+    "avg_daily_deficit_2013_mw": 5685.6,
+    "avg_daily_deficit_2023_mw": 383.0,
+    "max_deficit_2013_mw": 12251.0,
+    "max_deficit_2023_mw": 5083.0,
+    "deficit_reduction_pct": 93.3
+  },
+  "covid_lockdown_impact": {
+    "april_2019_daily_avg_mu": 3733.0,
+    "april_2020_daily_avg_mu": 2838.6,
+    "april_2021_daily_avg_mu": 3984.9,
+    "lockdown_drop_pct": -24.0,
+    "rebound_2021_pct": 40.4
+  },
+  "climate_demand_sensitivity": {
+    "pearson_correlation": 0.059,
+    "heat_sensitivity_mw_per_celsius": 199.7,
+    "interpretation": "Demand exhibits robust positive temperature elasticity during peak summer heatwaves due to intense air conditioning load."
+  },
+  "clean_energy_milestones": {
+    "solar_2019_annual_gwh": 46267.7,
+    "solar_2024_annual_gwh": 133795.0,
+    "solar_expansion_multiplier": 2.89,
+    "record_clean_month": "2025-07-01",
+    "record_clean_share_pct": 35.74
+  },
+  "top_consuming_states_2023": [
+    {
+      "state": "Maharashtra",
+      "total_energy_mu": 199747.4,
+      "peak_mw": 28584.0
+    },
+    {
+      "state": "Uttar Pradesh",
+      "total_energy_mu": 145393.4,
+      "peak_mw": 28553.0
+    },
+    {
+      "state": "Gujarat",
+      "total_energy_mu": 145037.6,
+      "peak_mw": 24544.0
+    },
+    {
+      "state": "Tamil Nadu",
+      "total_energy_mu": 122963.0,
+      "peak_mw": 19387.0
+    },
+    {
+      "state": "Rajasthan",
+      "total_energy_mu": 103546.0,
+      "peak_mw": 17772.0
+    }
+  ]
+}

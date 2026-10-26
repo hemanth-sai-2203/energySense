@@ -1,0 +1,4106 @@
+[
+  {
+    "state": "AMNSIL",
+    "year": 2013,
+    "total_energy_mu": 1257.9,
+    "peak_demand_mw": 513.0,
+    "peak_date": "2013-07-09",
+    "avg_daily_mu": 4.64,
+    "days_recorded": 271
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2014,
+    "total_energy_mu": 2956.4,
+    "peak_demand_mw": 621.0,
+    "peak_date": "2014-04-04",
+    "avg_daily_mu": 8.3,
+    "days_recorded": 356
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2015,
+    "total_energy_mu": 2517.2,
+    "peak_demand_mw": 597.0,
+    "peak_date": "2015-04-08",
+    "avg_daily_mu": 7.15,
+    "days_recorded": 352
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2016,
+    "total_energy_mu": 3407.9,
+    "peak_demand_mw": 805.0,
+    "peak_date": "2016-12-24",
+    "avg_daily_mu": 9.68,
+    "days_recorded": 352
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2017,
+    "total_energy_mu": 2792.6,
+    "peak_demand_mw": 826.0,
+    "peak_date": "2017-04-08",
+    "avg_daily_mu": 8.31,
+    "days_recorded": 336
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2018,
+    "total_energy_mu": 3314.1,
+    "peak_demand_mw": 854.0,
+    "peak_date": "2018-07-12",
+    "avg_daily_mu": 9.23,
+    "days_recorded": 359
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2019,
+    "total_energy_mu": 2524.2,
+    "peak_demand_mw": 679.0,
+    "peak_date": "2019-02-25",
+    "avg_daily_mu": 6.97,
+    "days_recorded": 362
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2020,
+    "total_energy_mu": 3830.1,
+    "peak_demand_mw": 907.0,
+    "peak_date": "2020-12-25",
+    "avg_daily_mu": 12.12,
+    "days_recorded": 316
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2021,
+    "total_energy_mu": 6310.1,
+    "peak_demand_mw": 1105.0,
+    "peak_date": "2021-01-09",
+    "avg_daily_mu": 17.93,
+    "days_recorded": 352
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2022,
+    "total_energy_mu": 6157.1,
+    "peak_demand_mw": 935.0,
+    "peak_date": "2022-05-15",
+    "avg_daily_mu": 17.06,
+    "days_recorded": 361
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2023,
+    "total_energy_mu": 6557.1,
+    "peak_demand_mw": 942.0,
+    "peak_date": "2023-08-04",
+    "avg_daily_mu": 18.01,
+    "days_recorded": 364
+  },
+  {
+    "state": "AMNSIL",
+    "year": 2024,
+    "total_energy_mu": 2250.8,
+    "peak_demand_mw": 1083.0,
+    "peak_date": "2024-01-10",
+    "avg_daily_mu": 18.91,
+    "days_recorded": 119
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2013,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 271
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2014,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 356
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2015,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2016,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2017,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 336
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2018,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 359
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2019,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 362
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2020,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 316
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2021,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2022,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 361
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2023,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 364
+  },
+  {
+    "state": "Andaman and Nicobar Islands",
+    "year": 2024,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 119
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2013,
+    "total_energy_mu": 63921.4,
+    "peak_demand_mw": 11914.0,
+    "peak_date": "2013-10-01",
+    "avg_daily_mu": 235.87,
+    "days_recorded": 271
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2014,
+    "total_energy_mu": 65156.7,
+    "peak_demand_mw": 13162.0,
+    "peak_date": "2014-03-23",
+    "avg_daily_mu": 183.02,
+    "days_recorded": 356
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2015,
+    "total_energy_mu": 48194.6,
+    "peak_demand_mw": 6885.0,
+    "peak_date": "2015-10-24",
+    "avg_daily_mu": 136.92,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2016,
+    "total_energy_mu": 51516.0,
+    "peak_demand_mw": 7960.0,
+    "peak_date": "2016-08-23",
+    "avg_daily_mu": 146.35,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2017,
+    "total_energy_mu": 52158.7,
+    "peak_demand_mw": 8400.0,
+    "peak_date": "2017-12-30",
+    "avg_daily_mu": 155.23,
+    "days_recorded": 336
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2018,
+    "total_energy_mu": 62426.4,
+    "peak_demand_mw": 9453.0,
+    "peak_date": "2018-10-14",
+    "avg_daily_mu": 173.89,
+    "days_recorded": 359
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2019,
+    "total_energy_mu": 63441.3,
+    "peak_demand_mw": 10170.0,
+    "peak_date": "2019-06-19",
+    "avg_daily_mu": 175.25,
+    "days_recorded": 362
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2020,
+    "total_energy_mu": 53535.4,
+    "peak_demand_mw": 10207.0,
+    "peak_date": "2020-03-18",
+    "avg_daily_mu": 169.42,
+    "days_recorded": 316
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2021,
+    "total_energy_mu": 65035.5,
+    "peak_demand_mw": 11472.0,
+    "peak_date": "2021-04-01",
+    "avg_daily_mu": 184.76,
+    "days_recorded": 352
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2022,
+    "total_energy_mu": 70139.4,
+    "peak_demand_mw": 12293.0,
+    "peak_date": "2022-04-08",
+    "avg_daily_mu": 194.29,
+    "days_recorded": 361
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2023,
+    "total_energy_mu": 79126.2,
+    "peak_demand_mw": 13039.0,
+    "peak_date": "2023-10-19",
+    "avg_daily_mu": 217.38,
+    "days_recorded": 364
+  },
+  {
+    "state": "Andhra Pradesh",
+    "year": 2024,
+    "total_energy_mu": 27299.4,
+    "peak_demand_mw": 13319.0,
+    "peak_date": "2024-04-19",
+    "avg_daily_mu": 229.41,
+    "days_recorded": 119
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2013,
+    "total_energy_mu": 354.3,
+    "peak_demand_mw": 124.0,
+    "peak_date": "2013-12-13",
+    "avg_daily_mu": 1.31,
+    "days_recorded": 271
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2014,
+    "total_energy_mu": 579.5,
+    "peak_demand_mw": 126.0,
+    "peak_date": "2014-10-25",
+    "avg_daily_mu": 1.63,
+    "days_recorded": 356
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2015,
+    "total_energy_mu": 541.3,
+    "peak_demand_mw": 145.0,
+    "peak_date": "2015-08-25",
+    "avg_daily_mu": 1.54,
+    "days_recorded": 352
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2016,
+    "total_energy_mu": 671.6,
+    "peak_demand_mw": 136.0,
+    "peak_date": "2016-02-13",
+    "avg_daily_mu": 1.91,
+    "days_recorded": 352
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2017,
+    "total_energy_mu": 699.6,
+    "peak_demand_mw": 145.0,
+    "peak_date": "2017-05-06",
+    "avg_daily_mu": 2.08,
+    "days_recorded": 336
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2018,
+    "total_energy_mu": 775.0,
+    "peak_demand_mw": 134.0,
+    "peak_date": "2018-01-01",
+    "avg_daily_mu": 2.16,
+    "days_recorded": 359
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2019,
+    "total_energy_mu": 784.2,
+    "peak_demand_mw": 165.0,
+    "peak_date": "2019-04-27",
+    "avg_daily_mu": 2.17,
+    "days_recorded": 362
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2020,
+    "total_energy_mu": 631.0,
+    "peak_demand_mw": 142.0,
+    "peak_date": "2020-11-05",
+    "avg_daily_mu": 2.0,
+    "days_recorded": 316
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2021,
+    "total_energy_mu": 791.6,
+    "peak_demand_mw": 154.0,
+    "peak_date": "2021-01-07",
+    "avg_daily_mu": 2.25,
+    "days_recorded": 352
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2022,
+    "total_energy_mu": 849.8,
+    "peak_demand_mw": 186.0,
+    "peak_date": "2022-02-13",
+    "avg_daily_mu": 2.35,
+    "days_recorded": 361
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2023,
+    "total_energy_mu": 970.8,
+    "peak_demand_mw": 188.0,
+    "peak_date": "2023-12-06",
+    "avg_daily_mu": 2.67,
+    "days_recorded": 364
+  },
+  {
+    "state": "Arunachal Pradesh",
+    "year": 2024,
+    "total_energy_mu": 337.4,
+    "peak_demand_mw": 189.0,
+    "peak_date": "2024-03-17",
+    "avg_daily_mu": 2.84,
+    "days_recorded": 119
+  },
+  {
+    "state": "Assam",
+    "year": 2013,
+    "total_energy_mu": 5372.1,
+    "peak_demand_mw": 1220.0,
+    "peak_date": "2013-09-30",
+    "avg_daily_mu": 19.82,
+    "days_recorded": 271
+  },
+  {
+    "state": "Assam",
+    "year": 2014,
+    "total_energy_mu": 7530.2,
+    "peak_demand_mw": 1257.0,
+    "peak_date": "2014-10-21",
+    "avg_daily_mu": 21.15,
+    "days_recorded": 356
+  },
+  {
+    "state": "Assam",
+    "year": 2015,
+    "total_energy_mu": 7891.2,
+    "peak_demand_mw": 1405.0,
+    "peak_date": "2015-10-15",
+    "avg_daily_mu": 22.42,
+    "days_recorded": 352
+  },
+  {
+    "state": "Assam",
+    "year": 2016,
+    "total_energy_mu": 8546.9,
+    "peak_demand_mw": 1624.0,
+    "peak_date": "2016-08-23",
+    "avg_daily_mu": 24.28,
+    "days_recorded": 352
+  },
+  {
+    "state": "Assam",
+    "year": 2017,
+    "total_energy_mu": 8397.1,
+    "peak_demand_mw": 1750.0,
+    "peak_date": "2017-10-11",
+    "avg_daily_mu": 24.99,
+    "days_recorded": 336
+  },
+  {
+    "state": "Assam",
+    "year": 2018,
+    "total_energy_mu": 9298.2,
+    "peak_demand_mw": 1829.0,
+    "peak_date": "2018-09-18",
+    "avg_daily_mu": 25.9,
+    "days_recorded": 359
+  },
+  {
+    "state": "Assam",
+    "year": 2019,
+    "total_energy_mu": 9554.8,
+    "peak_demand_mw": 1968.0,
+    "peak_date": "2019-08-29",
+    "avg_daily_mu": 26.39,
+    "days_recorded": 362
+  },
+  {
+    "state": "Assam",
+    "year": 2020,
+    "total_energy_mu": 8014.8,
+    "peak_demand_mw": 1989.0,
+    "peak_date": "2020-10-15",
+    "avg_daily_mu": 25.36,
+    "days_recorded": 316
+  },
+  {
+    "state": "Assam",
+    "year": 2021,
+    "total_energy_mu": 10464.3,
+    "peak_demand_mw": 2132.0,
+    "peak_date": "2021-10-12",
+    "avg_daily_mu": 29.73,
+    "days_recorded": 352
+  },
+  {
+    "state": "Assam",
+    "year": 2022,
+    "total_energy_mu": 11341.4,
+    "peak_demand_mw": 2376.0,
+    "peak_date": "2022-08-12",
+    "avg_daily_mu": 31.42,
+    "days_recorded": 361
+  },
+  {
+    "state": "Assam",
+    "year": 2023,
+    "total_energy_mu": 12118.8,
+    "peak_demand_mw": 2498.0,
+    "peak_date": "2023-09-16",
+    "avg_daily_mu": 33.29,
+    "days_recorded": 364
+  },
+  {
+    "state": "Assam",
+    "year": 2024,
+    "total_energy_mu": 3431.1,
+    "peak_demand_mw": 2012.0,
+    "peak_date": "2024-04-27",
+    "avg_daily_mu": 28.83,
+    "days_recorded": 119
+  },
+  {
+    "state": "Bihar",
+    "year": 2013,
+    "total_energy_mu": 10523.0,
+    "peak_demand_mw": 2334.0,
+    "peak_date": "2013-11-03",
+    "avg_daily_mu": 38.83,
+    "days_recorded": 271
+  },
+  {
+    "state": "Bihar",
+    "year": 2014,
+    "total_energy_mu": 16310.6,
+    "peak_demand_mw": 2899.0,
+    "peak_date": "2014-07-29",
+    "avg_daily_mu": 45.82,
+    "days_recorded": 356
+  },
+  {
+    "state": "Bihar",
+    "year": 2015,
+    "total_energy_mu": 20709.2,
+    "peak_demand_mw": 3463.0,
+    "peak_date": "2015-10-18",
+    "avg_daily_mu": 58.83,
+    "days_recorded": 352
+  },
+  {
+    "state": "Bihar",
+    "year": 2016,
+    "total_energy_mu": 23081.7,
+    "peak_demand_mw": 3743.0,
+    "peak_date": "2016-11-04",
+    "avg_daily_mu": 65.57,
+    "days_recorded": 352
+  },
+  {
+    "state": "Bihar",
+    "year": 2017,
+    "total_energy_mu": 23836.7,
+    "peak_demand_mw": 4698.0,
+    "peak_date": "2017-10-05",
+    "avg_daily_mu": 70.94,
+    "days_recorded": 336
+  },
+  {
+    "state": "Bihar",
+    "year": 2018,
+    "total_energy_mu": 29022.0,
+    "peak_demand_mw": 5306.0,
+    "peak_date": "2018-09-26",
+    "avg_daily_mu": 80.84,
+    "days_recorded": 359
+  },
+  {
+    "state": "Bihar",
+    "year": 2019,
+    "total_energy_mu": 31085.2,
+    "peak_demand_mw": 5972.0,
+    "peak_date": "2019-09-03",
+    "avg_daily_mu": 85.87,
+    "days_recorded": 362
+  },
+  {
+    "state": "Bihar",
+    "year": 2020,
+    "total_energy_mu": 27595.7,
+    "peak_demand_mw": 6189.0,
+    "peak_date": "2020-09-10",
+    "avg_daily_mu": 87.33,
+    "days_recorded": 316
+  },
+  {
+    "state": "Bihar",
+    "year": 2021,
+    "total_energy_mu": 34459.4,
+    "peak_demand_mw": 6868.0,
+    "peak_date": "2021-07-09",
+    "avg_daily_mu": 97.9,
+    "days_recorded": 352
+  },
+  {
+    "state": "Bihar",
+    "year": 2022,
+    "total_energy_mu": 38084.7,
+    "peak_demand_mw": 6990.0,
+    "peak_date": "2022-08-06",
+    "avg_daily_mu": 105.5,
+    "days_recorded": 361
+  },
+  {
+    "state": "Bihar",
+    "year": 2023,
+    "total_energy_mu": 40665.9,
+    "peak_demand_mw": 7578.0,
+    "peak_date": "2023-07-27",
+    "avg_daily_mu": 111.72,
+    "days_recorded": 364
+  },
+  {
+    "state": "Bihar",
+    "year": 2024,
+    "total_energy_mu": 12006.6,
+    "peak_demand_mw": 6987.0,
+    "peak_date": "2024-04-28",
+    "avg_daily_mu": 100.9,
+    "days_recorded": 119
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2013,
+    "total_energy_mu": 1225.3,
+    "peak_demand_mw": 345.0,
+    "peak_date": "2013-06-24",
+    "avg_daily_mu": 4.52,
+    "days_recorded": 271
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2014,
+    "total_energy_mu": 1572.2,
+    "peak_demand_mw": 367.0,
+    "peak_date": "2014-07-11",
+    "avg_daily_mu": 4.42,
+    "days_recorded": 356
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2015,
+    "total_energy_mu": 1553.9,
+    "peak_demand_mw": 342.0,
+    "peak_date": "2015-06-19",
+    "avg_daily_mu": 4.41,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2016,
+    "total_energy_mu": 1594.5,
+    "peak_demand_mw": 361.0,
+    "peak_date": "2016-05-20",
+    "avg_daily_mu": 4.53,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2017,
+    "total_energy_mu": 1508.4,
+    "peak_demand_mw": 363.0,
+    "peak_date": "2017-07-17",
+    "avg_daily_mu": 4.49,
+    "days_recorded": 336
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2018,
+    "total_energy_mu": 1521.8,
+    "peak_demand_mw": 369.0,
+    "peak_date": "2018-06-14",
+    "avg_daily_mu": 4.24,
+    "days_recorded": 359
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2019,
+    "total_energy_mu": 1603.0,
+    "peak_demand_mw": 380.0,
+    "peak_date": "2019-07-02",
+    "avg_daily_mu": 4.43,
+    "days_recorded": 362
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2020,
+    "total_energy_mu": 1284.9,
+    "peak_demand_mw": 374.0,
+    "peak_date": "2020-07-03",
+    "avg_daily_mu": 4.07,
+    "days_recorded": 316
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2021,
+    "total_energy_mu": 1540.4,
+    "peak_demand_mw": 426.0,
+    "peak_date": "2021-07-08",
+    "avg_daily_mu": 4.38,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2022,
+    "total_energy_mu": 1760.7,
+    "peak_demand_mw": 407.0,
+    "peak_date": "2022-06-15",
+    "avg_daily_mu": 4.88,
+    "days_recorded": 361
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2023,
+    "total_energy_mu": 1747.0,
+    "peak_demand_mw": 412.0,
+    "peak_date": "2023-08-02",
+    "avg_daily_mu": 4.8,
+    "days_recorded": 364
+  },
+  {
+    "state": "Chandigarh",
+    "year": 2024,
+    "total_energy_mu": 504.6,
+    "peak_demand_mw": 348.0,
+    "peak_date": "2024-01-24",
+    "avg_daily_mu": 4.24,
+    "days_recorded": 119
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2013,
+    "total_energy_mu": 16850.2,
+    "peak_demand_mw": 3459.0,
+    "peak_date": "2013-04-17",
+    "avg_daily_mu": 62.18,
+    "days_recorded": 271
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2014,
+    "total_energy_mu": 24158.1,
+    "peak_demand_mw": 3486.0,
+    "peak_date": "2014-04-06",
+    "avg_daily_mu": 67.86,
+    "days_recorded": 356
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2015,
+    "total_energy_mu": 26450.9,
+    "peak_demand_mw": 3913.0,
+    "peak_date": "2015-10-01",
+    "avg_daily_mu": 75.14,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2016,
+    "total_energy_mu": 26319.9,
+    "peak_demand_mw": 3999.0,
+    "peak_date": "2016-08-23",
+    "avg_daily_mu": 74.77,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2017,
+    "total_energy_mu": 26729.5,
+    "peak_demand_mw": 4074.0,
+    "peak_date": "2017-04-22",
+    "avg_daily_mu": 79.55,
+    "days_recorded": 336
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2018,
+    "total_energy_mu": 29434.8,
+    "peak_demand_mw": 4504.0,
+    "peak_date": "2018-10-08",
+    "avg_daily_mu": 81.99,
+    "days_recorded": 359
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2019,
+    "total_energy_mu": 31352.6,
+    "peak_demand_mw": 4736.0,
+    "peak_date": "2019-07-21",
+    "avg_daily_mu": 86.61,
+    "days_recorded": 362
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2020,
+    "total_energy_mu": 25486.6,
+    "peak_demand_mw": 4569.0,
+    "peak_date": "2020-07-30",
+    "avg_daily_mu": 80.65,
+    "days_recorded": 316
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2021,
+    "total_energy_mu": 32458.2,
+    "peak_demand_mw": 4870.0,
+    "peak_date": "2021-09-03",
+    "avg_daily_mu": 92.21,
+    "days_recorded": 352
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2022,
+    "total_energy_mu": 36092.6,
+    "peak_demand_mw": 5285.0,
+    "peak_date": "2022-04-19",
+    "avg_daily_mu": 99.98,
+    "days_recorded": 361
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2023,
+    "total_energy_mu": 38514.2,
+    "peak_demand_mw": 5832.0,
+    "peak_date": "2023-09-02",
+    "avg_daily_mu": 105.81,
+    "days_recorded": 364
+  },
+  {
+    "state": "Chhattisgarh",
+    "year": 2024,
+    "total_energy_mu": 14306.9,
+    "peak_demand_mw": 6347.0,
+    "peak_date": "2024-04-05",
+    "avg_daily_mu": 120.23,
+    "days_recorded": 119
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2013,
+    "total_energy_mu": 3868.5,
+    "peak_demand_mw": 656.0,
+    "peak_date": "2013-10-17",
+    "avg_daily_mu": 14.27,
+    "days_recorded": 271
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2014,
+    "total_energy_mu": 5216.8,
+    "peak_demand_mw": 721.0,
+    "peak_date": "2014-07-05",
+    "avg_daily_mu": 14.65,
+    "days_recorded": 356
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2015,
+    "total_energy_mu": 5517.6,
+    "peak_demand_mw": 745.0,
+    "peak_date": "2015-04-28",
+    "avg_daily_mu": 15.68,
+    "days_recorded": 352
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2016,
+    "total_energy_mu": 5775.0,
+    "peak_demand_mw": 781.0,
+    "peak_date": "2016-06-13",
+    "avg_daily_mu": 16.41,
+    "days_recorded": 352
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2017,
+    "total_energy_mu": 5603.9,
+    "peak_demand_mw": 777.0,
+    "peak_date": "2017-10-17",
+    "avg_daily_mu": 16.68,
+    "days_recorded": 336
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2018,
+    "total_energy_mu": 6158.0,
+    "peak_demand_mw": 815.0,
+    "peak_date": "2018-09-12",
+    "avg_daily_mu": 17.15,
+    "days_recorded": 359
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2019,
+    "total_energy_mu": 6524.4,
+    "peak_demand_mw": 826.0,
+    "peak_date": "2019-07-24",
+    "avg_daily_mu": 18.02,
+    "days_recorded": 362
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2020,
+    "total_energy_mu": 4476.8,
+    "peak_demand_mw": 835.0,
+    "peak_date": "2020-12-30",
+    "avg_daily_mu": 14.17,
+    "days_recorded": 316
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2021,
+    "total_energy_mu": 6618.0,
+    "peak_demand_mw": 888.0,
+    "peak_date": "2021-03-10",
+    "avg_daily_mu": 18.8,
+    "days_recorded": 352
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2022,
+    "total_energy_mu": 2940.9,
+    "peak_demand_mw": 890.0,
+    "peak_date": "2022-04-21",
+    "avg_daily_mu": 8.15,
+    "days_recorded": 361
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2023,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 364
+  },
+  {
+    "state": "Dadra and Nagar Haveli",
+    "year": 2024,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 119
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2013,
+    "total_energy_mu": 1585.3,
+    "peak_demand_mw": 287.0,
+    "peak_date": "2013-09-15",
+    "avg_daily_mu": 5.85,
+    "days_recorded": 271
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2014,
+    "total_energy_mu": 2078.2,
+    "peak_demand_mw": 659.0,
+    "peak_date": "2014-08-06",
+    "avg_daily_mu": 5.84,
+    "days_recorded": 356
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2015,
+    "total_energy_mu": 2188.8,
+    "peak_demand_mw": 311.0,
+    "peak_date": "2015-10-27",
+    "avg_daily_mu": 6.22,
+    "days_recorded": 352
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2016,
+    "total_energy_mu": 2306.0,
+    "peak_demand_mw": 375.0,
+    "peak_date": "2016-06-10",
+    "avg_daily_mu": 6.55,
+    "days_recorded": 352
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2017,
+    "total_energy_mu": 2294.9,
+    "peak_demand_mw": 344.0,
+    "peak_date": "2017-10-10",
+    "avg_daily_mu": 6.83,
+    "days_recorded": 336
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2018,
+    "total_energy_mu": 2542.7,
+    "peak_demand_mw": 662.0,
+    "peak_date": "2018-07-05",
+    "avg_daily_mu": 7.08,
+    "days_recorded": 359
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2019,
+    "total_energy_mu": 2573.1,
+    "peak_demand_mw": 350.0,
+    "peak_date": "2019-06-18",
+    "avg_daily_mu": 7.11,
+    "days_recorded": 362
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2020,
+    "total_energy_mu": 1816.6,
+    "peak_demand_mw": 350.0,
+    "peak_date": "2020-10-21",
+    "avg_daily_mu": 5.75,
+    "days_recorded": 316
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2021,
+    "total_energy_mu": 2507.2,
+    "peak_demand_mw": 369.0,
+    "peak_date": "2021-11-17",
+    "avg_daily_mu": 7.12,
+    "days_recorded": 352
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2022,
+    "total_energy_mu": 1118.3,
+    "peak_demand_mw": 367.0,
+    "peak_date": "2022-05-31",
+    "avg_daily_mu": 3.1,
+    "days_recorded": 361
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2023,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 364
+  },
+  {
+    "state": "Daman and Diu",
+    "year": 2024,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 119
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2013,
+    "total_energy_mu": 15260.6,
+    "peak_demand_mw": 3330.0,
+    "peak_date": "2013-10-24",
+    "avg_daily_mu": 56.31,
+    "days_recorded": 271
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2014,
+    "total_energy_mu": 19810.0,
+    "peak_demand_mw": 2916.0,
+    "peak_date": "2014-11-20",
+    "avg_daily_mu": 55.65,
+    "days_recorded": 356
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2015,
+    "total_energy_mu": 20203.5,
+    "peak_demand_mw": 3128.0,
+    "peak_date": "2015-10-01",
+    "avg_daily_mu": 57.4,
+    "days_recorded": 352
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2016,
+    "total_energy_mu": 21101.1,
+    "peak_demand_mw": 3458.0,
+    "peak_date": "2016-01-31",
+    "avg_daily_mu": 59.95,
+    "days_recorded": 352
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2017,
+    "total_energy_mu": 21428.8,
+    "peak_demand_mw": 3406.0,
+    "peak_date": "2017-11-06",
+    "avg_daily_mu": 63.78,
+    "days_recorded": 336
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2018,
+    "total_energy_mu": 23668.9,
+    "peak_demand_mw": 3601.0,
+    "peak_date": "2018-07-12",
+    "avg_daily_mu": 65.93,
+    "days_recorded": 359
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2019,
+    "total_energy_mu": 23188.9,
+    "peak_demand_mw": 3543.0,
+    "peak_date": "2019-12-21",
+    "avg_daily_mu": 64.06,
+    "days_recorded": 362
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2020,
+    "total_energy_mu": 18307.7,
+    "peak_demand_mw": 3700.0,
+    "peak_date": "2020-10-28",
+    "avg_daily_mu": 57.94,
+    "days_recorded": 316
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2021,
+    "total_energy_mu": 23182.9,
+    "peak_demand_mw": 3514.0,
+    "peak_date": "2021-01-18",
+    "avg_daily_mu": 65.86,
+    "days_recorded": 352
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2022,
+    "total_energy_mu": 26248.2,
+    "peak_demand_mw": 4030.0,
+    "peak_date": "2022-03-29",
+    "avg_daily_mu": 72.71,
+    "days_recorded": 361
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2023,
+    "total_energy_mu": 26925.8,
+    "peak_demand_mw": 3876.0,
+    "peak_date": "2023-09-02",
+    "avg_daily_mu": 73.97,
+    "days_recorded": 364
+  },
+  {
+    "state": "Damodar Valley Corporation",
+    "year": 2024,
+    "total_energy_mu": 8498.2,
+    "peak_demand_mw": 3684.0,
+    "peak_date": "2024-03-11",
+    "avg_daily_mu": 71.41,
+    "days_recorded": 119
+  },
+  {
+    "state": "Delhi",
+    "year": 2013,
+    "total_energy_mu": 22020.2,
+    "peak_demand_mw": 5567.0,
+    "peak_date": "2013-06-06",
+    "avg_daily_mu": 81.26,
+    "days_recorded": 271
+  },
+  {
+    "state": "Delhi",
+    "year": 2014,
+    "total_energy_mu": 28410.8,
+    "peak_demand_mw": 5852.0,
+    "peak_date": "2014-07-15",
+    "avg_daily_mu": 79.81,
+    "days_recorded": 356
+  },
+  {
+    "state": "Delhi",
+    "year": 2015,
+    "total_energy_mu": 28012.1,
+    "peak_demand_mw": 5710.0,
+    "peak_date": "2015-06-10",
+    "avg_daily_mu": 79.58,
+    "days_recorded": 352
+  },
+  {
+    "state": "Delhi",
+    "year": 2016,
+    "total_energy_mu": 29226.0,
+    "peak_demand_mw": 6208.0,
+    "peak_date": "2016-07-01",
+    "avg_daily_mu": 83.03,
+    "days_recorded": 352
+  },
+  {
+    "state": "Delhi",
+    "year": 2017,
+    "total_energy_mu": 29283.4,
+    "peak_demand_mw": 6441.0,
+    "peak_date": "2017-06-06",
+    "avg_daily_mu": 87.15,
+    "days_recorded": 336
+  },
+  {
+    "state": "Delhi",
+    "year": 2018,
+    "total_energy_mu": 31344.7,
+    "peak_demand_mw": 6924.0,
+    "peak_date": "2018-07-09",
+    "avg_daily_mu": 87.31,
+    "days_recorded": 359
+  },
+  {
+    "state": "Delhi",
+    "year": 2019,
+    "total_energy_mu": 32781.2,
+    "peak_demand_mw": 7254.0,
+    "peak_date": "2019-07-02",
+    "avg_daily_mu": 90.56,
+    "days_recorded": 362
+  },
+  {
+    "state": "Delhi",
+    "year": 2020,
+    "total_energy_mu": 24454.8,
+    "peak_demand_mw": 6291.0,
+    "peak_date": "2020-07-03",
+    "avg_daily_mu": 77.39,
+    "days_recorded": 316
+  },
+  {
+    "state": "Delhi",
+    "year": 2021,
+    "total_energy_mu": 29573.9,
+    "peak_demand_mw": 7244.0,
+    "peak_date": "2021-07-02",
+    "avg_daily_mu": 84.02,
+    "days_recorded": 352
+  },
+  {
+    "state": "Delhi",
+    "year": 2022,
+    "total_energy_mu": 34439.8,
+    "peak_demand_mw": 7770.0,
+    "peak_date": "2022-06-29",
+    "avg_daily_mu": 95.4,
+    "days_recorded": 361
+  },
+  {
+    "state": "Delhi",
+    "year": 2023,
+    "total_energy_mu": 34602.5,
+    "peak_demand_mw": 7344.0,
+    "peak_date": "2023-07-21",
+    "avg_daily_mu": 95.06,
+    "days_recorded": 364
+  },
+  {
+    "state": "Delhi",
+    "year": 2024,
+    "total_energy_mu": 9741.8,
+    "peak_demand_mw": 5769.0,
+    "peak_date": "2024-01-19",
+    "avg_daily_mu": 81.86,
+    "days_recorded": 119
+  },
+  {
+    "state": "Goa",
+    "year": 2013,
+    "total_energy_mu": 2074.7,
+    "peak_demand_mw": 489.0,
+    "peak_date": "2013-11-06",
+    "avg_daily_mu": 7.66,
+    "days_recorded": 271
+  },
+  {
+    "state": "Goa",
+    "year": 2014,
+    "total_energy_mu": 2878.2,
+    "peak_demand_mw": 488.0,
+    "peak_date": "2014-04-25",
+    "avg_daily_mu": 8.08,
+    "days_recorded": 356
+  },
+  {
+    "state": "Goa",
+    "year": 2015,
+    "total_energy_mu": 2984.4,
+    "peak_demand_mw": 548.0,
+    "peak_date": "2015-03-10",
+    "avg_daily_mu": 8.48,
+    "days_recorded": 352
+  },
+  {
+    "state": "Goa",
+    "year": 2016,
+    "total_energy_mu": 3086.3,
+    "peak_demand_mw": 611.0,
+    "peak_date": "2016-10-05",
+    "avg_daily_mu": 8.77,
+    "days_recorded": 352
+  },
+  {
+    "state": "Goa",
+    "year": 2017,
+    "total_energy_mu": 3082.9,
+    "peak_demand_mw": 571.0,
+    "peak_date": "2017-03-03",
+    "avg_daily_mu": 9.18,
+    "days_recorded": 336
+  },
+  {
+    "state": "Goa",
+    "year": 2018,
+    "total_energy_mu": 3684.3,
+    "peak_demand_mw": 603.0,
+    "peak_date": "2018-04-04",
+    "avg_daily_mu": 10.26,
+    "days_recorded": 359
+  },
+  {
+    "state": "Goa",
+    "year": 2019,
+    "total_energy_mu": 4194.3,
+    "peak_demand_mw": 613.0,
+    "peak_date": "2019-12-13",
+    "avg_daily_mu": 11.59,
+    "days_recorded": 362
+  },
+  {
+    "state": "Goa",
+    "year": 2020,
+    "total_energy_mu": 2993.2,
+    "peak_demand_mw": 613.0,
+    "peak_date": "2020-01-13",
+    "avg_daily_mu": 9.47,
+    "days_recorded": 316
+  },
+  {
+    "state": "Goa",
+    "year": 2021,
+    "total_energy_mu": 4076.2,
+    "peak_demand_mw": 644.0,
+    "peak_date": "2021-10-04",
+    "avg_daily_mu": 11.58,
+    "days_recorded": 352
+  },
+  {
+    "state": "Goa",
+    "year": 2022,
+    "total_energy_mu": 4544.6,
+    "peak_demand_mw": 713.0,
+    "peak_date": "2022-04-28",
+    "avg_daily_mu": 12.59,
+    "days_recorded": 361
+  },
+  {
+    "state": "Goa",
+    "year": 2023,
+    "total_energy_mu": 5009.6,
+    "peak_demand_mw": 776.0,
+    "peak_date": "2023-06-07",
+    "avg_daily_mu": 13.76,
+    "days_recorded": 364
+  },
+  {
+    "state": "Goa",
+    "year": 2024,
+    "total_energy_mu": 1672.1,
+    "peak_demand_mw": 803.0,
+    "peak_date": "2024-04-19",
+    "avg_daily_mu": 14.05,
+    "days_recorded": 119
+  },
+  {
+    "state": "Gujarat",
+    "year": 2013,
+    "total_energy_mu": 63209.2,
+    "peak_demand_mw": 12536.0,
+    "peak_date": "2013-09-21",
+    "avg_daily_mu": 233.24,
+    "days_recorded": 271
+  },
+  {
+    "state": "Gujarat",
+    "year": 2014,
+    "total_energy_mu": 92888.7,
+    "peak_demand_mw": 14005.0,
+    "peak_date": "2014-10-11",
+    "avg_daily_mu": 260.92,
+    "days_recorded": 356
+  },
+  {
+    "state": "Gujarat",
+    "year": 2015,
+    "total_energy_mu": 96888.1,
+    "peak_demand_mw": 14976.0,
+    "peak_date": "2015-09-11",
+    "avg_daily_mu": 275.25,
+    "days_recorded": 352
+  },
+  {
+    "state": "Gujarat",
+    "year": 2016,
+    "total_energy_mu": 99963.2,
+    "peak_demand_mw": 15142.0,
+    "peak_date": "2016-05-19",
+    "avg_daily_mu": 283.99,
+    "days_recorded": 352
+  },
+  {
+    "state": "Gujarat",
+    "year": 2017,
+    "total_energy_mu": 100359.9,
+    "peak_demand_mw": 17097.0,
+    "peak_date": "2017-10-09",
+    "avg_daily_mu": 298.69,
+    "days_recorded": 336
+  },
+  {
+    "state": "Gujarat",
+    "year": 2018,
+    "total_energy_mu": 118398.7,
+    "peak_demand_mw": 18221.0,
+    "peak_date": "2018-09-21",
+    "avg_daily_mu": 329.8,
+    "days_recorded": 359
+  },
+  {
+    "state": "Gujarat",
+    "year": 2019,
+    "total_energy_mu": 118958.4,
+    "peak_demand_mw": 18305.0,
+    "peak_date": "2019-06-07",
+    "avg_daily_mu": 328.61,
+    "days_recorded": 362
+  },
+  {
+    "state": "Gujarat",
+    "year": 2020,
+    "total_energy_mu": 97940.8,
+    "peak_demand_mw": 17298.0,
+    "peak_date": "2020-10-17",
+    "avg_daily_mu": 309.94,
+    "days_recorded": 316
+  },
+  {
+    "state": "Gujarat",
+    "year": 2021,
+    "total_energy_mu": 123980.2,
+    "peak_demand_mw": 19431.0,
+    "peak_date": "2021-08-17",
+    "avg_daily_mu": 352.22,
+    "days_recorded": 352
+  },
+  {
+    "state": "Gujarat",
+    "year": 2022,
+    "total_energy_mu": 137647.9,
+    "peak_demand_mw": 21382.0,
+    "peak_date": "2022-04-29",
+    "avg_daily_mu": 381.3,
+    "days_recorded": 361
+  },
+  {
+    "state": "Gujarat",
+    "year": 2023,
+    "total_energy_mu": 145037.6,
+    "peak_demand_mw": 24544.0,
+    "peak_date": "2023-09-01",
+    "avg_daily_mu": 398.45,
+    "days_recorded": 364
+  },
+  {
+    "state": "Gujarat",
+    "year": 2024,
+    "total_energy_mu": 50226.4,
+    "peak_demand_mw": 23916.0,
+    "peak_date": "2024-04-19",
+    "avg_daily_mu": 422.07,
+    "days_recorded": 119
+  },
+  {
+    "state": "Haryana",
+    "year": 2013,
+    "total_energy_mu": 33542.8,
+    "peak_demand_mw": 8091.0,
+    "peak_date": "2013-07-04",
+    "avg_daily_mu": 123.77,
+    "days_recorded": 271
+  },
+  {
+    "state": "Haryana",
+    "year": 2014,
+    "total_energy_mu": 44802.5,
+    "peak_demand_mw": 9043.0,
+    "peak_date": "2014-08-25",
+    "avg_daily_mu": 125.85,
+    "days_recorded": 356
+  },
+  {
+    "state": "Haryana",
+    "year": 2015,
+    "total_energy_mu": 44950.0,
+    "peak_demand_mw": 8994.0,
+    "peak_date": "2015-09-15",
+    "avg_daily_mu": 127.7,
+    "days_recorded": 352
+  },
+  {
+    "state": "Haryana",
+    "year": 2016,
+    "total_energy_mu": 47350.5,
+    "peak_demand_mw": 9219.0,
+    "peak_date": "2016-07-22",
+    "avg_daily_mu": 134.52,
+    "days_recorded": 352
+  },
+  {
+    "state": "Haryana",
+    "year": 2017,
+    "total_energy_mu": 46645.9,
+    "peak_demand_mw": 9489.0,
+    "peak_date": "2017-07-20",
+    "avg_daily_mu": 138.83,
+    "days_recorded": 336
+  },
+  {
+    "state": "Haryana",
+    "year": 2018,
+    "total_energy_mu": 50823.0,
+    "peak_demand_mw": 10163.0,
+    "peak_date": "2018-07-11",
+    "avg_daily_mu": 141.57,
+    "days_recorded": 359
+  },
+  {
+    "state": "Haryana",
+    "year": 2019,
+    "total_energy_mu": 54043.2,
+    "peak_demand_mw": 10850.0,
+    "peak_date": "2019-07-03",
+    "avg_daily_mu": 149.29,
+    "days_recorded": 362
+  },
+  {
+    "state": "Haryana",
+    "year": 2020,
+    "total_energy_mu": 43209.3,
+    "peak_demand_mw": 10877.0,
+    "peak_date": "2020-07-03",
+    "avg_daily_mu": 136.74,
+    "days_recorded": 316
+  },
+  {
+    "state": "Haryana",
+    "year": 2021,
+    "total_energy_mu": 53288.9,
+    "peak_demand_mw": 12040.0,
+    "peak_date": "2021-07-08",
+    "avg_daily_mu": 151.39,
+    "days_recorded": 352
+  },
+  {
+    "state": "Haryana",
+    "year": 2022,
+    "total_energy_mu": 59112.2,
+    "peak_demand_mw": 12540.0,
+    "peak_date": "2022-06-28",
+    "avg_daily_mu": 163.75,
+    "days_recorded": 361
+  },
+  {
+    "state": "Haryana",
+    "year": 2023,
+    "total_energy_mu": 62475.7,
+    "peak_demand_mw": 12692.0,
+    "peak_date": "2023-08-18",
+    "avg_daily_mu": 171.64,
+    "days_recorded": 364
+  },
+  {
+    "state": "Haryana",
+    "year": 2024,
+    "total_energy_mu": 17782.6,
+    "peak_demand_mw": 9386.0,
+    "peak_date": "2024-04-27",
+    "avg_daily_mu": 149.43,
+    "days_recorded": 119
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2013,
+    "total_energy_mu": 6404.9,
+    "peak_demand_mw": 1733.0,
+    "peak_date": "2013-12-16",
+    "avg_daily_mu": 23.63,
+    "days_recorded": 271
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2014,
+    "total_energy_mu": 8567.1,
+    "peak_demand_mw": 1403.0,
+    "peak_date": "2014-11-25",
+    "avg_daily_mu": 24.06,
+    "days_recorded": 356
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2015,
+    "total_energy_mu": 8624.0,
+    "peak_demand_mw": 1636.0,
+    "peak_date": "2015-12-29",
+    "avg_daily_mu": 24.5,
+    "days_recorded": 352
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2016,
+    "total_energy_mu": 8755.7,
+    "peak_demand_mw": 1545.0,
+    "peak_date": "2016-02-07",
+    "avg_daily_mu": 24.87,
+    "days_recorded": 352
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2017,
+    "total_energy_mu": 8565.1,
+    "peak_demand_mw": 1563.0,
+    "peak_date": "2017-11-22",
+    "avg_daily_mu": 25.49,
+    "days_recorded": 336
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2018,
+    "total_energy_mu": 9492.0,
+    "peak_demand_mw": 1700.0,
+    "peak_date": "2018-12-28",
+    "avg_daily_mu": 26.44,
+    "days_recorded": 359
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2019,
+    "total_energy_mu": 10180.4,
+    "peak_demand_mw": 1729.0,
+    "peak_date": "2019-12-27",
+    "avg_daily_mu": 28.12,
+    "days_recorded": 362
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2020,
+    "total_energy_mu": 8262.9,
+    "peak_demand_mw": 1892.0,
+    "peak_date": "2020-12-30",
+    "avg_daily_mu": 26.15,
+    "days_recorded": 316
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2021,
+    "total_energy_mu": 10756.3,
+    "peak_demand_mw": 1969.0,
+    "peak_date": "2021-12-31",
+    "avg_daily_mu": 30.56,
+    "days_recorded": 352
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2022,
+    "total_energy_mu": 11715.8,
+    "peak_demand_mw": 2030.0,
+    "peak_date": "2022-01-07",
+    "avg_daily_mu": 32.45,
+    "days_recorded": 361
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2023,
+    "total_energy_mu": 11892.1,
+    "peak_demand_mw": 2162.0,
+    "peak_date": "2023-12-27",
+    "avg_daily_mu": 32.67,
+    "days_recorded": 364
+  },
+  {
+    "state": "Himachal Pradesh",
+    "year": 2024,
+    "total_energy_mu": 4001.8,
+    "peak_demand_mw": 2235.0,
+    "peak_date": "2024-01-20",
+    "avg_daily_mu": 33.63,
+    "days_recorded": 119
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2013,
+    "total_energy_mu": 8512.8,
+    "peak_demand_mw": 2192.0,
+    "peak_date": "2013-12-01",
+    "avg_daily_mu": 31.41,
+    "days_recorded": 271
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2014,
+    "total_energy_mu": 11653.5,
+    "peak_demand_mw": 2464.0,
+    "peak_date": "2014-12-04",
+    "avg_daily_mu": 32.73,
+    "days_recorded": 356
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2015,
+    "total_energy_mu": 13305.7,
+    "peak_demand_mw": 2299.0,
+    "peak_date": "2015-09-21",
+    "avg_daily_mu": 37.8,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2016,
+    "total_energy_mu": 13332.8,
+    "peak_demand_mw": 2433.0,
+    "peak_date": "2016-10-14",
+    "avg_daily_mu": 37.88,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2017,
+    "total_energy_mu": 13462.4,
+    "peak_demand_mw": 2633.0,
+    "peak_date": "2017-03-31",
+    "avg_daily_mu": 40.07,
+    "days_recorded": 336
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2018,
+    "total_energy_mu": 14942.8,
+    "peak_demand_mw": 2831.0,
+    "peak_date": "2018-02-18",
+    "avg_daily_mu": 41.62,
+    "days_recorded": 359
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2019,
+    "total_energy_mu": 15831.0,
+    "peak_demand_mw": 2928.0,
+    "peak_date": "2019-09-18",
+    "avg_daily_mu": 43.73,
+    "days_recorded": 362
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2020,
+    "total_energy_mu": 14504.6,
+    "peak_demand_mw": 3186.0,
+    "peak_date": "2020-12-25",
+    "avg_daily_mu": 45.9,
+    "days_recorded": 316
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2021,
+    "total_energy_mu": 17447.6,
+    "peak_demand_mw": 3027.0,
+    "peak_date": "2021-12-22",
+    "avg_daily_mu": 49.57,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2022,
+    "total_energy_mu": 18967.0,
+    "peak_demand_mw": 3537.0,
+    "peak_date": "2022-01-25",
+    "avg_daily_mu": 52.54,
+    "days_recorded": 361
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2023,
+    "total_energy_mu": 19728.3,
+    "peak_demand_mw": 3145.0,
+    "peak_date": "2023-01-03",
+    "avg_daily_mu": 54.2,
+    "days_recorded": 364
+  },
+  {
+    "state": "Jammu and Kashmir",
+    "year": 2024,
+    "total_energy_mu": 6795.8,
+    "peak_demand_mw": 3107.0,
+    "peak_date": "2024-01-12",
+    "avg_daily_mu": 57.11,
+    "days_recorded": 119
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2013,
+    "total_energy_mu": 5311.2,
+    "peak_demand_mw": 1339.0,
+    "peak_date": "2013-04-14",
+    "avg_daily_mu": 19.6,
+    "days_recorded": 271
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2014,
+    "total_energy_mu": 7173.5,
+    "peak_demand_mw": 1232.0,
+    "peak_date": "2014-01-30",
+    "avg_daily_mu": 20.15,
+    "days_recorded": 356
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2015,
+    "total_energy_mu": 7692.9,
+    "peak_demand_mw": 1232.0,
+    "peak_date": "2015-07-23",
+    "avg_daily_mu": 21.85,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2016,
+    "total_energy_mu": 7579.0,
+    "peak_demand_mw": 1544.0,
+    "peak_date": "2016-07-26",
+    "avg_daily_mu": 21.53,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2017,
+    "total_energy_mu": 7747.6,
+    "peak_demand_mw": 1567.0,
+    "peak_date": "2017-03-27",
+    "avg_daily_mu": 23.06,
+    "days_recorded": 336
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2018,
+    "total_energy_mu": 8385.5,
+    "peak_demand_mw": 1362.0,
+    "peak_date": "2018-05-19",
+    "avg_daily_mu": 23.36,
+    "days_recorded": 359
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2019,
+    "total_energy_mu": 8694.6,
+    "peak_demand_mw": 1391.0,
+    "peak_date": "2019-12-31",
+    "avg_daily_mu": 24.02,
+    "days_recorded": 362
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2020,
+    "total_energy_mu": 7920.2,
+    "peak_demand_mw": 1870.0,
+    "peak_date": "2020-09-26",
+    "avg_daily_mu": 25.06,
+    "days_recorded": 316
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2021,
+    "total_energy_mu": 9571.1,
+    "peak_demand_mw": 1718.0,
+    "peak_date": "2021-07-19",
+    "avg_daily_mu": 27.19,
+    "days_recorded": 352
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2022,
+    "total_energy_mu": 11022.0,
+    "peak_demand_mw": 1830.0,
+    "peak_date": "2022-04-19",
+    "avg_daily_mu": 30.53,
+    "days_recorded": 361
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2023,
+    "total_energy_mu": 11799.8,
+    "peak_demand_mw": 1929.0,
+    "peak_date": "2023-08-10",
+    "avg_daily_mu": 32.42,
+    "days_recorded": 364
+  },
+  {
+    "state": "Jharkhand",
+    "year": 2024,
+    "total_energy_mu": 4082.8,
+    "peak_demand_mw": 2155.0,
+    "peak_date": "2024-04-28",
+    "avg_daily_mu": 34.31,
+    "days_recorded": 119
+  },
+  {
+    "state": "Karnataka",
+    "year": 2013,
+    "total_energy_mu": 41266.4,
+    "peak_demand_mw": 8806.0,
+    "peak_date": "2013-01-03",
+    "avg_daily_mu": 152.27,
+    "days_recorded": 271
+  },
+  {
+    "state": "Karnataka",
+    "year": 2014,
+    "total_energy_mu": 58862.3,
+    "peak_demand_mw": 9503.0,
+    "peak_date": "2014-04-07",
+    "avg_daily_mu": 165.34,
+    "days_recorded": 356
+  },
+  {
+    "state": "Karnataka",
+    "year": 2015,
+    "total_energy_mu": 59082.1,
+    "peak_demand_mw": 9549.0,
+    "peak_date": "2015-03-26",
+    "avg_daily_mu": 167.85,
+    "days_recorded": 352
+  },
+  {
+    "state": "Karnataka",
+    "year": 2016,
+    "total_energy_mu": 64536.9,
+    "peak_demand_mw": 9871.0,
+    "peak_date": "2016-11-07",
+    "avg_daily_mu": 183.34,
+    "days_recorded": 352
+  },
+  {
+    "state": "Karnataka",
+    "year": 2017,
+    "total_energy_mu": 61116.0,
+    "peak_demand_mw": 10242.0,
+    "peak_date": "2017-02-24",
+    "avg_daily_mu": 181.89,
+    "days_recorded": 336
+  },
+  {
+    "state": "Karnataka",
+    "year": 2018,
+    "total_energy_mu": 70166.5,
+    "peak_demand_mw": 11233.0,
+    "peak_date": "2018-11-12",
+    "avg_daily_mu": 195.45,
+    "days_recorded": 359
+  },
+  {
+    "state": "Karnataka",
+    "year": 2019,
+    "total_energy_mu": 71128.0,
+    "peak_demand_mw": 12881.0,
+    "peak_date": "2019-03-29",
+    "avg_daily_mu": 196.49,
+    "days_recorded": 362
+  },
+  {
+    "state": "Karnataka",
+    "year": 2020,
+    "total_energy_mu": 61518.6,
+    "peak_demand_mw": 13258.0,
+    "peak_date": "2020-03-16",
+    "avg_daily_mu": 194.68,
+    "days_recorded": 316
+  },
+  {
+    "state": "Karnataka",
+    "year": 2021,
+    "total_energy_mu": 69188.5,
+    "peak_demand_mw": 14367.0,
+    "peak_date": "2021-03-26",
+    "avg_daily_mu": 196.56,
+    "days_recorded": 352
+  },
+  {
+    "state": "Karnataka",
+    "year": 2022,
+    "total_energy_mu": 74852.9,
+    "peak_demand_mw": 14818.0,
+    "peak_date": "2022-03-18",
+    "avg_daily_mu": 207.35,
+    "days_recorded": 361
+  },
+  {
+    "state": "Karnataka",
+    "year": 2023,
+    "total_energy_mu": 91328.5,
+    "peak_demand_mw": 16950.0,
+    "peak_date": "2023-08-25",
+    "avg_daily_mu": 250.9,
+    "days_recorded": 364
+  },
+  {
+    "state": "Karnataka",
+    "year": 2024,
+    "total_energy_mu": 36006.2,
+    "peak_demand_mw": 17220.0,
+    "peak_date": "2024-03-12",
+    "avg_daily_mu": 302.57,
+    "days_recorded": 119
+  },
+  {
+    "state": "Kerala",
+    "year": 2013,
+    "total_energy_mu": 14999.4,
+    "peak_demand_mw": 3333.0,
+    "peak_date": "2013-12-16",
+    "avg_daily_mu": 55.35,
+    "days_recorded": 271
+  },
+  {
+    "state": "Kerala",
+    "year": 2014,
+    "total_energy_mu": 21188.2,
+    "peak_demand_mw": 3588.0,
+    "peak_date": "2014-03-18",
+    "avg_daily_mu": 59.52,
+    "days_recorded": 356
+  },
+  {
+    "state": "Kerala",
+    "year": 2015,
+    "total_energy_mu": 21505.1,
+    "peak_demand_mw": 3641.0,
+    "peak_date": "2015-05-27",
+    "avg_daily_mu": 61.09,
+    "days_recorded": 352
+  },
+  {
+    "state": "Kerala",
+    "year": 2016,
+    "total_energy_mu": 22967.0,
+    "peak_demand_mw": 4004.0,
+    "peak_date": "2016-04-27",
+    "avg_daily_mu": 65.25,
+    "days_recorded": 352
+  },
+  {
+    "state": "Kerala",
+    "year": 2017,
+    "total_energy_mu": 22187.9,
+    "peak_demand_mw": 3868.0,
+    "peak_date": "2017-04-24",
+    "avg_daily_mu": 66.04,
+    "days_recorded": 336
+  },
+  {
+    "state": "Kerala",
+    "year": 2018,
+    "total_energy_mu": 24440.4,
+    "peak_demand_mw": 4029.0,
+    "peak_date": "2018-05-03",
+    "avg_daily_mu": 68.08,
+    "days_recorded": 359
+  },
+  {
+    "state": "Kerala",
+    "year": 2019,
+    "total_energy_mu": 25890.2,
+    "peak_demand_mw": 4316.0,
+    "peak_date": "2019-04-13",
+    "avg_daily_mu": 71.52,
+    "days_recorded": 362
+  },
+  {
+    "state": "Kerala",
+    "year": 2020,
+    "total_energy_mu": 21905.1,
+    "peak_demand_mw": 4182.0,
+    "peak_date": "2020-03-18",
+    "avg_daily_mu": 69.32,
+    "days_recorded": 316
+  },
+  {
+    "state": "Kerala",
+    "year": 2021,
+    "total_energy_mu": 25383.6,
+    "peak_demand_mw": 4284.0,
+    "peak_date": "2021-03-31",
+    "avg_daily_mu": 72.11,
+    "days_recorded": 352
+  },
+  {
+    "state": "Kerala",
+    "year": 2022,
+    "total_energy_mu": 27314.1,
+    "peak_demand_mw": 4385.0,
+    "peak_date": "2022-04-27",
+    "avg_daily_mu": 75.66,
+    "days_recorded": 361
+  },
+  {
+    "state": "Kerala",
+    "year": 2023,
+    "total_energy_mu": 29895.1,
+    "peak_demand_mw": 5024.0,
+    "peak_date": "2023-04-18",
+    "avg_daily_mu": 82.13,
+    "days_recorded": 364
+  },
+  {
+    "state": "Kerala",
+    "year": 2024,
+    "total_energy_mu": 11154.2,
+    "peak_demand_mw": 5608.0,
+    "peak_date": "2024-04-26",
+    "avg_daily_mu": 93.73,
+    "days_recorded": 119
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2013,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 271
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2014,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 356
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2015,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2016,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2017,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 336
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2018,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 359
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2019,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 362
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2020,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 316
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2021,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2022,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 361
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2023,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 364
+  },
+  {
+    "state": "Lakshadweep",
+    "year": 2024,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 119
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2013,
+    "total_energy_mu": 38464.5,
+    "peak_demand_mw": 9970.0,
+    "peak_date": "2013-12-14",
+    "avg_daily_mu": 141.94,
+    "days_recorded": 271
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2014,
+    "total_energy_mu": 55178.8,
+    "peak_demand_mw": 10050.0,
+    "peak_date": "2014-12-09",
+    "avg_daily_mu": 155.0,
+    "days_recorded": 356
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2015,
+    "total_energy_mu": 58207.4,
+    "peak_demand_mw": 11114.0,
+    "peak_date": "2015-12-25",
+    "avg_daily_mu": 165.36,
+    "days_recorded": 352
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2016,
+    "total_energy_mu": 60894.7,
+    "peak_demand_mw": 11580.0,
+    "peak_date": "2016-12-26",
+    "avg_daily_mu": 173.0,
+    "days_recorded": 352
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2017,
+    "total_energy_mu": 62792.2,
+    "peak_demand_mw": 12447.0,
+    "peak_date": "2017-12-20",
+    "avg_daily_mu": 186.88,
+    "days_recorded": 336
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2018,
+    "total_energy_mu": 72567.7,
+    "peak_demand_mw": 14019.0,
+    "peak_date": "2018-12-27",
+    "avg_daily_mu": 202.14,
+    "days_recorded": 359
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2019,
+    "total_energy_mu": 74895.4,
+    "peak_demand_mw": 14498.0,
+    "peak_date": "2019-12-31",
+    "avg_daily_mu": 206.89,
+    "days_recorded": 362
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2020,
+    "total_energy_mu": 69917.4,
+    "peak_demand_mw": 15547.0,
+    "peak_date": "2020-12-30",
+    "avg_daily_mu": 221.26,
+    "days_recorded": 316
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2021,
+    "total_energy_mu": 82639.4,
+    "peak_demand_mw": 15917.0,
+    "peak_date": "2021-12-24",
+    "avg_daily_mu": 234.77,
+    "days_recorded": 352
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2022,
+    "total_energy_mu": 90824.1,
+    "peak_demand_mw": 17111.0,
+    "peak_date": "2022-12-30",
+    "avg_daily_mu": 251.59,
+    "days_recorded": 361
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2023,
+    "total_energy_mu": 96626.5,
+    "peak_demand_mw": 17819.0,
+    "peak_date": "2023-12-29",
+    "avg_daily_mu": 265.46,
+    "days_recorded": 364
+  },
+  {
+    "state": "Madhya Pradesh",
+    "year": 2024,
+    "total_energy_mu": 33372.2,
+    "peak_demand_mw": 17817.0,
+    "peak_date": "2024-01-26",
+    "avg_daily_mu": 280.44,
+    "days_recorded": 119
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2013,
+    "total_energy_mu": 91951.0,
+    "peak_demand_mw": 18739.0,
+    "peak_date": "2013-11-29",
+    "avg_daily_mu": 339.3,
+    "days_recorded": 271
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2014,
+    "total_energy_mu": 135021.1,
+    "peak_demand_mw": 20662.0,
+    "peak_date": "2014-10-14",
+    "avg_daily_mu": 379.27,
+    "days_recorded": 356
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2015,
+    "total_energy_mu": 137237.2,
+    "peak_demand_mw": 21064.0,
+    "peak_date": "2015-10-19",
+    "avg_daily_mu": 389.88,
+    "days_recorded": 352
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2016,
+    "total_energy_mu": 138644.7,
+    "peak_demand_mw": 20951.0,
+    "peak_date": "2016-10-26",
+    "avg_daily_mu": 393.88,
+    "days_recorded": 352
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2017,
+    "total_energy_mu": 141598.3,
+    "peak_demand_mw": 22994.0,
+    "peak_date": "2017-04-11",
+    "avg_daily_mu": 421.42,
+    "days_recorded": 336
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2018,
+    "total_energy_mu": 160748.3,
+    "peak_demand_mw": 24962.0,
+    "peak_date": "2018-10-22",
+    "avg_daily_mu": 447.77,
+    "days_recorded": 359
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2019,
+    "total_energy_mu": 155667.9,
+    "peak_demand_mw": 23613.0,
+    "peak_date": "2019-05-23",
+    "avg_daily_mu": 430.02,
+    "days_recorded": 362
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2020,
+    "total_energy_mu": 131805.3,
+    "peak_demand_mw": 24550.0,
+    "peak_date": "2020-02-19",
+    "avg_daily_mu": 417.11,
+    "days_recorded": 316
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2021,
+    "total_energy_mu": 166887.7,
+    "peak_demand_mw": 25644.0,
+    "peak_date": "2021-04-08",
+    "avg_daily_mu": 474.11,
+    "days_recorded": 352
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2022,
+    "total_energy_mu": 186221.0,
+    "peak_demand_mw": 28914.0,
+    "peak_date": "2022-04-07",
+    "avg_daily_mu": 515.85,
+    "days_recorded": 361
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2023,
+    "total_energy_mu": 199747.4,
+    "peak_demand_mw": 28584.0,
+    "peak_date": "2023-04-18",
+    "avg_daily_mu": 548.76,
+    "days_recorded": 364
+  },
+  {
+    "state": "Maharashtra",
+    "year": 2024,
+    "total_energy_mu": 70681.9,
+    "peak_demand_mw": 28969.0,
+    "peak_date": "2024-02-07",
+    "avg_daily_mu": 593.97,
+    "days_recorded": 119
+  },
+  {
+    "state": "Manipur",
+    "year": 2013,
+    "total_energy_mu": 380.6,
+    "peak_demand_mw": 134.0,
+    "peak_date": "2013-12-27",
+    "avg_daily_mu": 1.4,
+    "days_recorded": 271
+  },
+  {
+    "state": "Manipur",
+    "year": 2014,
+    "total_energy_mu": 623.9,
+    "peak_demand_mw": 139.0,
+    "peak_date": "2014-12-03",
+    "avg_daily_mu": 1.75,
+    "days_recorded": 356
+  },
+  {
+    "state": "Manipur",
+    "year": 2015,
+    "total_energy_mu": 722.6,
+    "peak_demand_mw": 170.0,
+    "peak_date": "2015-12-31",
+    "avg_daily_mu": 2.05,
+    "days_recorded": 352
+  },
+  {
+    "state": "Manipur",
+    "year": 2016,
+    "total_energy_mu": 716.6,
+    "peak_demand_mw": 166.0,
+    "peak_date": "2016-01-02",
+    "avg_daily_mu": 2.04,
+    "days_recorded": 352
+  },
+  {
+    "state": "Manipur",
+    "year": 2017,
+    "total_energy_mu": 741.4,
+    "peak_demand_mw": 185.0,
+    "peak_date": "2017-12-25",
+    "avg_daily_mu": 2.21,
+    "days_recorded": 336
+  },
+  {
+    "state": "Manipur",
+    "year": 2018,
+    "total_energy_mu": 840.6,
+    "peak_demand_mw": 208.0,
+    "peak_date": "2018-12-28",
+    "avg_daily_mu": 2.34,
+    "days_recorded": 359
+  },
+  {
+    "state": "Manipur",
+    "year": 2019,
+    "total_energy_mu": 904.1,
+    "peak_demand_mw": 214.0,
+    "peak_date": "2019-12-30",
+    "avg_daily_mu": 2.5,
+    "days_recorded": 362
+  },
+  {
+    "state": "Manipur",
+    "year": 2020,
+    "total_energy_mu": 822.1,
+    "peak_demand_mw": 248.0,
+    "peak_date": "2020-12-30",
+    "avg_daily_mu": 2.6,
+    "days_recorded": 316
+  },
+  {
+    "state": "Manipur",
+    "year": 2021,
+    "total_energy_mu": 938.9,
+    "peak_demand_mw": 245.0,
+    "peak_date": "2021-12-28",
+    "avg_daily_mu": 2.67,
+    "days_recorded": 352
+  },
+  {
+    "state": "Manipur",
+    "year": 2022,
+    "total_energy_mu": 1011.3,
+    "peak_demand_mw": 258.0,
+    "peak_date": "2022-01-31",
+    "avg_daily_mu": 2.8,
+    "days_recorded": 361
+  },
+  {
+    "state": "Manipur",
+    "year": 2023,
+    "total_energy_mu": 988.4,
+    "peak_demand_mw": 253.0,
+    "peak_date": "2023-01-19",
+    "avg_daily_mu": 2.72,
+    "days_recorded": 364
+  },
+  {
+    "state": "Manipur",
+    "year": 2024,
+    "total_energy_mu": 356.5,
+    "peak_demand_mw": 248.0,
+    "peak_date": "2024-01-29",
+    "avg_daily_mu": 3.0,
+    "days_recorded": 119
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2013,
+    "total_energy_mu": 1179.2,
+    "peak_demand_mw": 313.0,
+    "peak_date": "2013-12-03",
+    "avg_daily_mu": 4.35,
+    "days_recorded": 271
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2014,
+    "total_energy_mu": 1531.0,
+    "peak_demand_mw": 367.0,
+    "peak_date": "2014-12-26",
+    "avg_daily_mu": 4.3,
+    "days_recorded": 356
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2015,
+    "total_energy_mu": 1658.4,
+    "peak_demand_mw": 369.0,
+    "peak_date": "2015-11-26",
+    "avg_daily_mu": 4.71,
+    "days_recorded": 352
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2016,
+    "total_energy_mu": 1653.2,
+    "peak_demand_mw": 364.0,
+    "peak_date": "2016-01-12",
+    "avg_daily_mu": 4.7,
+    "days_recorded": 352
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2017,
+    "total_energy_mu": 1639.4,
+    "peak_demand_mw": 332.0,
+    "peak_date": "2017-01-19",
+    "avg_daily_mu": 4.88,
+    "days_recorded": 336
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2018,
+    "total_energy_mu": 1944.4,
+    "peak_demand_mw": 380.0,
+    "peak_date": "2018-11-23",
+    "avg_daily_mu": 5.42,
+    "days_recorded": 359
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2019,
+    "total_energy_mu": 2094.5,
+    "peak_demand_mw": 393.0,
+    "peak_date": "2019-02-18",
+    "avg_daily_mu": 5.79,
+    "days_recorded": 362
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2020,
+    "total_energy_mu": 1741.3,
+    "peak_demand_mw": 400.0,
+    "peak_date": "2020-11-18",
+    "avg_daily_mu": 5.51,
+    "days_recorded": 316
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2021,
+    "total_energy_mu": 2094.5,
+    "peak_demand_mw": 440.0,
+    "peak_date": "2021-01-20",
+    "avg_daily_mu": 5.95,
+    "days_recorded": 352
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2022,
+    "total_energy_mu": 2251.1,
+    "peak_demand_mw": 415.0,
+    "peak_date": "2022-02-09",
+    "avg_daily_mu": 6.24,
+    "days_recorded": 361
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2023,
+    "total_energy_mu": 2112.7,
+    "peak_demand_mw": 410.0,
+    "peak_date": "2023-01-04",
+    "avg_daily_mu": 5.8,
+    "days_recorded": 364
+  },
+  {
+    "state": "Meghalaya",
+    "year": 2024,
+    "total_energy_mu": 730.1,
+    "peak_demand_mw": 408.0,
+    "peak_date": "2024-04-24",
+    "avg_daily_mu": 6.14,
+    "days_recorded": 119
+  },
+  {
+    "state": "Mizoram",
+    "year": 2013,
+    "total_energy_mu": 284.2,
+    "peak_demand_mw": 79.0,
+    "peak_date": "2013-12-31",
+    "avg_daily_mu": 1.05,
+    "days_recorded": 271
+  },
+  {
+    "state": "Mizoram",
+    "year": 2014,
+    "total_energy_mu": 393.7,
+    "peak_demand_mw": 86.0,
+    "peak_date": "2014-12-19",
+    "avg_daily_mu": 1.11,
+    "days_recorded": 356
+  },
+  {
+    "state": "Mizoram",
+    "year": 2015,
+    "total_energy_mu": 416.5,
+    "peak_demand_mw": 94.0,
+    "peak_date": "2015-12-23",
+    "avg_daily_mu": 1.18,
+    "days_recorded": 352
+  },
+  {
+    "state": "Mizoram",
+    "year": 2016,
+    "total_energy_mu": 448.2,
+    "peak_demand_mw": 97.0,
+    "peak_date": "2016-01-27",
+    "avg_daily_mu": 1.27,
+    "days_recorded": 352
+  },
+  {
+    "state": "Mizoram",
+    "year": 2017,
+    "total_energy_mu": 452.8,
+    "peak_demand_mw": 105.0,
+    "peak_date": "2017-11-25",
+    "avg_daily_mu": 1.35,
+    "days_recorded": 336
+  },
+  {
+    "state": "Mizoram",
+    "year": 2018,
+    "total_energy_mu": 568.3,
+    "peak_demand_mw": 109.0,
+    "peak_date": "2018-01-01",
+    "avg_daily_mu": 1.58,
+    "days_recorded": 359
+  },
+  {
+    "state": "Mizoram",
+    "year": 2019,
+    "total_energy_mu": 629.0,
+    "peak_demand_mw": 112.0,
+    "peak_date": "2019-02-02",
+    "avg_daily_mu": 1.74,
+    "days_recorded": 362
+  },
+  {
+    "state": "Mizoram",
+    "year": 2020,
+    "total_energy_mu": 512.4,
+    "peak_demand_mw": 126.0,
+    "peak_date": "2020-01-28",
+    "avg_daily_mu": 1.62,
+    "days_recorded": 316
+  },
+  {
+    "state": "Mizoram",
+    "year": 2021,
+    "total_energy_mu": 573.0,
+    "peak_demand_mw": 138.0,
+    "peak_date": "2021-12-23",
+    "avg_daily_mu": 1.63,
+    "days_recorded": 352
+  },
+  {
+    "state": "Mizoram",
+    "year": 2022,
+    "total_energy_mu": 632.5,
+    "peak_demand_mw": 147.0,
+    "peak_date": "2022-01-29",
+    "avg_daily_mu": 1.75,
+    "days_recorded": 361
+  },
+  {
+    "state": "Mizoram",
+    "year": 2023,
+    "total_energy_mu": 677.8,
+    "peak_demand_mw": 157.0,
+    "peak_date": "2023-01-16",
+    "avg_daily_mu": 1.86,
+    "days_recorded": 364
+  },
+  {
+    "state": "Mizoram",
+    "year": 2024,
+    "total_energy_mu": 245.5,
+    "peak_demand_mw": 162.0,
+    "peak_date": "2024-01-27",
+    "avg_daily_mu": 2.06,
+    "days_recorded": 119
+  },
+  {
+    "state": "Nagaland",
+    "year": 2013,
+    "total_energy_mu": 386.5,
+    "peak_demand_mw": 104.0,
+    "peak_date": "2013-12-24",
+    "avg_daily_mu": 1.43,
+    "days_recorded": 271
+  },
+  {
+    "state": "Nagaland",
+    "year": 2014,
+    "total_energy_mu": 610.4,
+    "peak_demand_mw": 123.0,
+    "peak_date": "2014-12-22",
+    "avg_daily_mu": 1.71,
+    "days_recorded": 356
+  },
+  {
+    "state": "Nagaland",
+    "year": 2015,
+    "total_energy_mu": 652.9,
+    "peak_demand_mw": 138.0,
+    "peak_date": "2015-07-11",
+    "avg_daily_mu": 1.85,
+    "days_recorded": 352
+  },
+  {
+    "state": "Nagaland",
+    "year": 2016,
+    "total_energy_mu": 640.1,
+    "peak_demand_mw": 134.0,
+    "peak_date": "2016-05-24",
+    "avg_daily_mu": 1.82,
+    "days_recorded": 352
+  },
+  {
+    "state": "Nagaland",
+    "year": 2017,
+    "total_energy_mu": 689.2,
+    "peak_demand_mw": 143.0,
+    "peak_date": "2017-06-23",
+    "avg_daily_mu": 2.05,
+    "days_recorded": 336
+  },
+  {
+    "state": "Nagaland",
+    "year": 2018,
+    "total_energy_mu": 763.2,
+    "peak_demand_mw": 148.0,
+    "peak_date": "2018-09-19",
+    "avg_daily_mu": 2.13,
+    "days_recorded": 359
+  },
+  {
+    "state": "Nagaland",
+    "year": 2019,
+    "total_energy_mu": 784.8,
+    "peak_demand_mw": 170.0,
+    "peak_date": "2019-09-05",
+    "avg_daily_mu": 2.17,
+    "days_recorded": 362
+  },
+  {
+    "state": "Nagaland",
+    "year": 2020,
+    "total_energy_mu": 703.6,
+    "peak_demand_mw": 152.0,
+    "peak_date": "2020-10-16",
+    "avg_daily_mu": 2.23,
+    "days_recorded": 316
+  },
+  {
+    "state": "Nagaland",
+    "year": 2021,
+    "total_energy_mu": 821.6,
+    "peak_demand_mw": 166.0,
+    "peak_date": "2021-02-24",
+    "avg_daily_mu": 2.33,
+    "days_recorded": 352
+  },
+  {
+    "state": "Nagaland",
+    "year": 2022,
+    "total_energy_mu": 884.3,
+    "peak_demand_mw": 168.0,
+    "peak_date": "2022-09-19",
+    "avg_daily_mu": 2.45,
+    "days_recorded": 361
+  },
+  {
+    "state": "Nagaland",
+    "year": 2023,
+    "total_energy_mu": 904.9,
+    "peak_demand_mw": 179.0,
+    "peak_date": "2023-09-28",
+    "avg_daily_mu": 2.49,
+    "days_recorded": 364
+  },
+  {
+    "state": "Nagaland",
+    "year": 2024,
+    "total_energy_mu": 273.5,
+    "peak_demand_mw": 173.0,
+    "peak_date": "2024-04-09",
+    "avg_daily_mu": 2.3,
+    "days_recorded": 119
+  },
+  {
+    "state": "Odisha",
+    "year": 2013,
+    "total_energy_mu": 18102.0,
+    "peak_demand_mw": 3832.0,
+    "peak_date": "2013-09-24",
+    "avg_daily_mu": 66.8,
+    "days_recorded": 271
+  },
+  {
+    "state": "Odisha",
+    "year": 2014,
+    "total_energy_mu": 24899.5,
+    "peak_demand_mw": 4280.0,
+    "peak_date": "2014-03-24",
+    "avg_daily_mu": 69.94,
+    "days_recorded": 356
+  },
+  {
+    "state": "Odisha",
+    "year": 2015,
+    "total_energy_mu": 24346.4,
+    "peak_demand_mw": 4500.0,
+    "peak_date": "2015-03-26",
+    "avg_daily_mu": 69.17,
+    "days_recorded": 352
+  },
+  {
+    "state": "Odisha",
+    "year": 2016,
+    "total_energy_mu": 25751.7,
+    "peak_demand_mw": 4597.0,
+    "peak_date": "2016-06-29",
+    "avg_daily_mu": 73.16,
+    "days_recorded": 352
+  },
+  {
+    "state": "Odisha",
+    "year": 2017,
+    "total_energy_mu": 25890.7,
+    "peak_demand_mw": 4981.0,
+    "peak_date": "2017-03-28",
+    "avg_daily_mu": 77.06,
+    "days_recorded": 336
+  },
+  {
+    "state": "Odisha",
+    "year": 2018,
+    "total_energy_mu": 30695.0,
+    "peak_demand_mw": 5679.0,
+    "peak_date": "2018-08-23",
+    "avg_daily_mu": 85.5,
+    "days_recorded": 359
+  },
+  {
+    "state": "Odisha",
+    "year": 2019,
+    "total_energy_mu": 30452.9,
+    "peak_demand_mw": 5444.0,
+    "peak_date": "2019-04-06",
+    "avg_daily_mu": 84.12,
+    "days_recorded": 362
+  },
+  {
+    "state": "Odisha",
+    "year": 2020,
+    "total_energy_mu": 24589.4,
+    "peak_demand_mw": 5127.0,
+    "peak_date": "2020-01-23",
+    "avg_daily_mu": 77.81,
+    "days_recorded": 316
+  },
+  {
+    "state": "Odisha",
+    "year": 2021,
+    "total_energy_mu": 35221.7,
+    "peak_demand_mw": 6008.0,
+    "peak_date": "2021-07-26",
+    "avg_daily_mu": 100.06,
+    "days_recorded": 352
+  },
+  {
+    "state": "Odisha",
+    "year": 2022,
+    "total_energy_mu": 41774.8,
+    "peak_demand_mw": 6687.0,
+    "peak_date": "2022-09-24",
+    "avg_daily_mu": 115.72,
+    "days_recorded": 361
+  },
+  {
+    "state": "Odisha",
+    "year": 2023,
+    "total_energy_mu": 40750.5,
+    "peak_demand_mw": 7192.0,
+    "peak_date": "2023-04-19",
+    "avg_daily_mu": 111.95,
+    "days_recorded": 364
+  },
+  {
+    "state": "Odisha",
+    "year": 2024,
+    "total_energy_mu": 13408.4,
+    "peak_demand_mw": 6701.0,
+    "peak_date": "2024-04-19",
+    "avg_daily_mu": 112.68,
+    "days_recorded": 119
+  },
+  {
+    "state": "Puducherry",
+    "year": 2013,
+    "total_energy_mu": 1644.6,
+    "peak_demand_mw": 352.0,
+    "peak_date": "2013-05-06",
+    "avg_daily_mu": 6.07,
+    "days_recorded": 271
+  },
+  {
+    "state": "Puducherry",
+    "year": 2014,
+    "total_energy_mu": 2220.5,
+    "peak_demand_mw": 348.0,
+    "peak_date": "2014-04-08",
+    "avg_daily_mu": 6.24,
+    "days_recorded": 356
+  },
+  {
+    "state": "Puducherry",
+    "year": 2015,
+    "total_energy_mu": 2211.8,
+    "peak_demand_mw": 365.0,
+    "peak_date": "2015-03-23",
+    "avg_daily_mu": 6.28,
+    "days_recorded": 352
+  },
+  {
+    "state": "Puducherry",
+    "year": 2016,
+    "total_energy_mu": 2369.5,
+    "peak_demand_mw": 362.0,
+    "peak_date": "2016-05-10",
+    "avg_daily_mu": 6.73,
+    "days_recorded": 352
+  },
+  {
+    "state": "Puducherry",
+    "year": 2017,
+    "total_energy_mu": 2305.1,
+    "peak_demand_mw": 391.0,
+    "peak_date": "2017-12-29",
+    "avg_daily_mu": 6.86,
+    "days_recorded": 336
+  },
+  {
+    "state": "Puducherry",
+    "year": 2018,
+    "total_energy_mu": 2587.4,
+    "peak_demand_mw": 395.0,
+    "peak_date": "2018-05-31",
+    "avg_daily_mu": 7.21,
+    "days_recorded": 359
+  },
+  {
+    "state": "Puducherry",
+    "year": 2019,
+    "total_energy_mu": 2816.4,
+    "peak_demand_mw": 480.0,
+    "peak_date": "2019-04-18",
+    "avg_daily_mu": 7.78,
+    "days_recorded": 362
+  },
+  {
+    "state": "Puducherry",
+    "year": 2020,
+    "total_energy_mu": 2217.0,
+    "peak_demand_mw": 410.0,
+    "peak_date": "2020-05-26",
+    "avg_daily_mu": 7.02,
+    "days_recorded": 316
+  },
+  {
+    "state": "Puducherry",
+    "year": 2021,
+    "total_energy_mu": 2765.3,
+    "peak_demand_mw": 452.0,
+    "peak_date": "2021-08-03",
+    "avg_daily_mu": 7.86,
+    "days_recorded": 352
+  },
+  {
+    "state": "Puducherry",
+    "year": 2022,
+    "total_energy_mu": 3127.9,
+    "peak_demand_mw": 485.0,
+    "peak_date": "2022-06-29",
+    "avg_daily_mu": 8.66,
+    "days_recorded": 361
+  },
+  {
+    "state": "Puducherry",
+    "year": 2023,
+    "total_energy_mu": 3422.7,
+    "peak_demand_mw": 512.0,
+    "peak_date": "2023-05-17",
+    "avg_daily_mu": 9.4,
+    "days_recorded": 364
+  },
+  {
+    "state": "Puducherry",
+    "year": 2024,
+    "total_energy_mu": 1123.6,
+    "peak_demand_mw": 499.0,
+    "peak_date": "2024-04-16",
+    "avg_daily_mu": 9.44,
+    "days_recorded": 119
+  },
+  {
+    "state": "Punjab",
+    "year": 2013,
+    "total_energy_mu": 36627.1,
+    "peak_demand_mw": 8850.0,
+    "peak_date": "2013-07-30",
+    "avg_daily_mu": 135.16,
+    "days_recorded": 271
+  },
+  {
+    "state": "Punjab",
+    "year": 2014,
+    "total_energy_mu": 46775.8,
+    "peak_demand_mw": 11095.0,
+    "peak_date": "2014-08-22",
+    "avg_daily_mu": 131.39,
+    "days_recorded": 356
+  },
+  {
+    "state": "Punjab",
+    "year": 2015,
+    "total_energy_mu": 46121.0,
+    "peak_demand_mw": 10789.0,
+    "peak_date": "2015-07-05",
+    "avg_daily_mu": 131.03,
+    "days_recorded": 352
+  },
+  {
+    "state": "Punjab",
+    "year": 2016,
+    "total_energy_mu": 49904.6,
+    "peak_demand_mw": 10815.0,
+    "peak_date": "2016-08-04",
+    "avg_daily_mu": 141.77,
+    "days_recorded": 352
+  },
+  {
+    "state": "Punjab",
+    "year": 2017,
+    "total_energy_mu": 49169.1,
+    "peak_demand_mw": 11400.0,
+    "peak_date": "2017-07-10",
+    "avg_daily_mu": 146.34,
+    "days_recorded": 336
+  },
+  {
+    "state": "Punjab",
+    "year": 2018,
+    "total_energy_mu": 55144.4,
+    "peak_demand_mw": 12341.0,
+    "peak_date": "2018-07-10",
+    "avg_daily_mu": 153.61,
+    "days_recorded": 359
+  },
+  {
+    "state": "Punjab",
+    "year": 2019,
+    "total_energy_mu": 56186.0,
+    "peak_demand_mw": 13041.0,
+    "peak_date": "2019-07-03",
+    "avg_daily_mu": 155.21,
+    "days_recorded": 362
+  },
+  {
+    "state": "Punjab",
+    "year": 2020,
+    "total_energy_mu": 46676.5,
+    "peak_demand_mw": 13087.0,
+    "peak_date": "2020-07-02",
+    "avg_daily_mu": 147.71,
+    "days_recorded": 316
+  },
+  {
+    "state": "Punjab",
+    "year": 2021,
+    "total_energy_mu": 60187.0,
+    "peak_demand_mw": 13361.0,
+    "peak_date": "2021-07-02",
+    "avg_daily_mu": 170.99,
+    "days_recorded": 352
+  },
+  {
+    "state": "Punjab",
+    "year": 2022,
+    "total_energy_mu": 68004.9,
+    "peak_demand_mw": 14267.0,
+    "peak_date": "2022-08-22",
+    "avg_daily_mu": 188.38,
+    "days_recorded": 361
+  },
+  {
+    "state": "Punjab",
+    "year": 2023,
+    "total_energy_mu": 69441.4,
+    "peak_demand_mw": 15256.0,
+    "peak_date": "2023-06-24",
+    "avg_daily_mu": 190.77,
+    "days_recorded": 364
+  },
+  {
+    "state": "Punjab",
+    "year": 2024,
+    "total_energy_mu": 18468.0,
+    "peak_demand_mw": 10096.0,
+    "peak_date": "2024-03-20",
+    "avg_daily_mu": 155.19,
+    "days_recorded": 119
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2013,
+    "total_energy_mu": 42793.3,
+    "peak_demand_mw": 9742.0,
+    "peak_date": "2013-01-03",
+    "avg_daily_mu": 157.91,
+    "days_recorded": 271
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2014,
+    "total_energy_mu": 64694.1,
+    "peak_demand_mw": 10414.0,
+    "peak_date": "2014-12-31",
+    "avg_daily_mu": 181.72,
+    "days_recorded": 356
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2015,
+    "total_energy_mu": 66799.9,
+    "peak_demand_mw": 10822.0,
+    "peak_date": "2015-09-13",
+    "avg_daily_mu": 189.77,
+    "days_recorded": 352
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2016,
+    "total_energy_mu": 68698.7,
+    "peak_demand_mw": 10605.0,
+    "peak_date": "2016-01-27",
+    "avg_daily_mu": 195.17,
+    "days_recorded": 352
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2017,
+    "total_energy_mu": 65700.9,
+    "peak_demand_mw": 11211.0,
+    "peak_date": "2017-12-21",
+    "avg_daily_mu": 195.54,
+    "days_recorded": 336
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2018,
+    "total_energy_mu": 76026.8,
+    "peak_demand_mw": 13030.0,
+    "peak_date": "2018-12-28",
+    "avg_daily_mu": 211.77,
+    "days_recorded": 359
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2019,
+    "total_energy_mu": 80440.1,
+    "peak_demand_mw": 13128.0,
+    "peak_date": "2019-12-31",
+    "avg_daily_mu": 222.21,
+    "days_recorded": 362
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2020,
+    "total_energy_mu": 71396.0,
+    "peak_demand_mw": 14209.0,
+    "peak_date": "2020-02-06",
+    "avg_daily_mu": 225.94,
+    "days_recorded": 316
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2021,
+    "total_energy_mu": 85060.6,
+    "peak_demand_mw": 15696.0,
+    "peak_date": "2021-12-24",
+    "avg_daily_mu": 241.65,
+    "days_recorded": 352
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2022,
+    "total_energy_mu": 97287.0,
+    "peak_demand_mw": 16468.0,
+    "peak_date": "2022-12-30",
+    "avg_daily_mu": 269.49,
+    "days_recorded": 361
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2023,
+    "total_energy_mu": 103546.0,
+    "peak_demand_mw": 17772.0,
+    "peak_date": "2023-09-02",
+    "avg_daily_mu": 284.47,
+    "days_recorded": 364
+  },
+  {
+    "state": "Rajasthan",
+    "year": 2024,
+    "total_energy_mu": 35716.7,
+    "peak_demand_mw": 17949.0,
+    "peak_date": "2024-01-20",
+    "avg_daily_mu": 300.14,
+    "days_recorded": 119
+  },
+  {
+    "state": "Sikkim",
+    "year": 2013,
+    "total_energy_mu": 345.6,
+    "peak_demand_mw": 132.0,
+    "peak_date": "2013-11-08",
+    "avg_daily_mu": 1.28,
+    "days_recorded": 271
+  },
+  {
+    "state": "Sikkim",
+    "year": 2014,
+    "total_energy_mu": 459.5,
+    "peak_demand_mw": 125.0,
+    "peak_date": "2014-07-12",
+    "avg_daily_mu": 1.29,
+    "days_recorded": 356
+  },
+  {
+    "state": "Sikkim",
+    "year": 2015,
+    "total_energy_mu": 463.7,
+    "peak_demand_mw": 160.0,
+    "peak_date": "2015-02-26",
+    "avg_daily_mu": 1.32,
+    "days_recorded": 352
+  },
+  {
+    "state": "Sikkim",
+    "year": 2016,
+    "total_energy_mu": 466.8,
+    "peak_demand_mw": 146.0,
+    "peak_date": "2016-10-28",
+    "avg_daily_mu": 1.33,
+    "days_recorded": 352
+  },
+  {
+    "state": "Sikkim",
+    "year": 2017,
+    "total_energy_mu": 432.0,
+    "peak_demand_mw": 123.0,
+    "peak_date": "2017-01-09",
+    "avg_daily_mu": 1.29,
+    "days_recorded": 336
+  },
+  {
+    "state": "Sikkim",
+    "year": 2018,
+    "total_energy_mu": 465.3,
+    "peak_demand_mw": 157.0,
+    "peak_date": "2018-01-24",
+    "avg_daily_mu": 1.3,
+    "days_recorded": 359
+  },
+  {
+    "state": "Sikkim",
+    "year": 2019,
+    "total_energy_mu": 432.9,
+    "peak_demand_mw": 138.0,
+    "peak_date": "2019-12-26",
+    "avg_daily_mu": 1.2,
+    "days_recorded": 362
+  },
+  {
+    "state": "Sikkim",
+    "year": 2020,
+    "total_energy_mu": 447.4,
+    "peak_demand_mw": 193.0,
+    "peak_date": "2020-01-24",
+    "avg_daily_mu": 1.42,
+    "days_recorded": 316
+  },
+  {
+    "state": "Sikkim",
+    "year": 2021,
+    "total_energy_mu": 495.6,
+    "peak_demand_mw": 147.0,
+    "peak_date": "2021-01-12",
+    "avg_daily_mu": 1.41,
+    "days_recorded": 352
+  },
+  {
+    "state": "Sikkim",
+    "year": 2022,
+    "total_energy_mu": 570.0,
+    "peak_demand_mw": 132.0,
+    "peak_date": "2022-12-29",
+    "avg_daily_mu": 1.58,
+    "days_recorded": 361
+  },
+  {
+    "state": "Sikkim",
+    "year": 2023,
+    "total_energy_mu": 518.5,
+    "peak_demand_mw": 132.0,
+    "peak_date": "2023-01-04",
+    "avg_daily_mu": 1.42,
+    "days_recorded": 364
+  },
+  {
+    "state": "Sikkim",
+    "year": 2024,
+    "total_energy_mu": 212.2,
+    "peak_demand_mw": 137.0,
+    "peak_date": "2024-01-11",
+    "avg_daily_mu": 1.78,
+    "days_recorded": 119
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2013,
+    "total_energy_mu": 64985.7,
+    "peak_demand_mw": 12635.0,
+    "peak_date": "2013-01-07",
+    "avg_daily_mu": 239.8,
+    "days_recorded": 271
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2014,
+    "total_energy_mu": 91493.8,
+    "peak_demand_mw": 14028.0,
+    "peak_date": "2014-03-29",
+    "avg_daily_mu": 257.01,
+    "days_recorded": 356
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2015,
+    "total_energy_mu": 92465.0,
+    "peak_demand_mw": 13766.0,
+    "peak_date": "2015-07-02",
+    "avg_daily_mu": 262.68,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2016,
+    "total_energy_mu": 102644.2,
+    "peak_demand_mw": 15240.0,
+    "peak_date": "2016-04-29",
+    "avg_daily_mu": 291.6,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2017,
+    "total_energy_mu": 96849.3,
+    "peak_demand_mw": 15361.0,
+    "peak_date": "2017-04-27",
+    "avg_daily_mu": 288.24,
+    "days_recorded": 336
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2018,
+    "total_energy_mu": 108088.0,
+    "peak_demand_mw": 15411.0,
+    "peak_date": "2018-04-27",
+    "avg_daily_mu": 301.08,
+    "days_recorded": 359
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2019,
+    "total_energy_mu": 110477.2,
+    "peak_demand_mw": 16386.0,
+    "peak_date": "2019-04-03",
+    "avg_daily_mu": 305.19,
+    "days_recorded": 362
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2020,
+    "total_energy_mu": 89508.2,
+    "peak_demand_mw": 15591.0,
+    "peak_date": "2020-03-19",
+    "avg_daily_mu": 283.25,
+    "days_recorded": 316
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2021,
+    "total_energy_mu": 106053.1,
+    "peak_demand_mw": 16846.0,
+    "peak_date": "2021-04-10",
+    "avg_daily_mu": 301.29,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2022,
+    "total_energy_mu": 114440.1,
+    "peak_demand_mw": 17563.0,
+    "peak_date": "2022-04-29",
+    "avg_daily_mu": 317.01,
+    "days_recorded": 361
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2023,
+    "total_energy_mu": 122963.0,
+    "peak_demand_mw": 19387.0,
+    "peak_date": "2023-04-20",
+    "avg_daily_mu": 337.81,
+    "days_recorded": 364
+  },
+  {
+    "state": "Tamil Nadu",
+    "year": 2024,
+    "total_energy_mu": 43988.0,
+    "peak_demand_mw": 20583.0,
+    "peak_date": "2024-04-26",
+    "avg_daily_mu": 369.65,
+    "days_recorded": 119
+  },
+  {
+    "state": "Telangana",
+    "year": 2013,
+    "total_energy_mu": 0.0,
+    "peak_demand_mw": 0.0,
+    "peak_date": "",
+    "avg_daily_mu": 0.0,
+    "days_recorded": 271
+  },
+  {
+    "state": "Telangana",
+    "year": 2014,
+    "total_energy_mu": 27295.5,
+    "peak_demand_mw": 6648.0,
+    "peak_date": "2014-10-22",
+    "avg_daily_mu": 76.67,
+    "days_recorded": 356
+  },
+  {
+    "state": "Telangana",
+    "year": 2015,
+    "total_energy_mu": 47112.4,
+    "peak_demand_mw": 6849.0,
+    "peak_date": "2015-10-16",
+    "avg_daily_mu": 133.84,
+    "days_recorded": 352
+  },
+  {
+    "state": "Telangana",
+    "year": 2016,
+    "total_energy_mu": 49068.8,
+    "peak_demand_mw": 8220.0,
+    "peak_date": "2016-09-09",
+    "avg_daily_mu": 139.4,
+    "days_recorded": 352
+  },
+  {
+    "state": "Telangana",
+    "year": 2017,
+    "total_energy_mu": 53433.3,
+    "peak_demand_mw": 9500.0,
+    "peak_date": "2017-09-13",
+    "avg_daily_mu": 159.03,
+    "days_recorded": 336
+  },
+  {
+    "state": "Telangana",
+    "year": 2018,
+    "total_energy_mu": 65867.0,
+    "peak_demand_mw": 10818.0,
+    "peak_date": "2018-09-11",
+    "avg_daily_mu": 183.47,
+    "days_recorded": 359
+  },
+  {
+    "state": "Telangana",
+    "year": 2019,
+    "total_energy_mu": 66093.9,
+    "peak_demand_mw": 11703.0,
+    "peak_date": "2019-08-30",
+    "avg_daily_mu": 182.58,
+    "days_recorded": 362
+  },
+  {
+    "state": "Telangana",
+    "year": 2020,
+    "total_energy_mu": 57551.8,
+    "peak_demand_mw": 13168.0,
+    "peak_date": "2020-02-28",
+    "avg_daily_mu": 182.13,
+    "days_recorded": 316
+  },
+  {
+    "state": "Telangana",
+    "year": 2021,
+    "total_energy_mu": 70666.2,
+    "peak_demand_mw": 13688.0,
+    "peak_date": "2021-03-26",
+    "avg_daily_mu": 200.76,
+    "days_recorded": 352
+  },
+  {
+    "state": "Telangana",
+    "year": 2022,
+    "total_energy_mu": 72490.3,
+    "peak_demand_mw": 14160.0,
+    "peak_date": "2022-03-29",
+    "avg_daily_mu": 200.8,
+    "days_recorded": 361
+  },
+  {
+    "state": "Telangana",
+    "year": 2023,
+    "total_energy_mu": 84101.2,
+    "peak_demand_mw": 15370.0,
+    "peak_date": "2023-09-20",
+    "avg_daily_mu": 231.05,
+    "days_recorded": 364
+  },
+  {
+    "state": "Telangana",
+    "year": 2024,
+    "total_energy_mu": 31453.7,
+    "peak_demand_mw": 15623.0,
+    "peak_date": "2024-03-08",
+    "avg_daily_mu": 264.32,
+    "days_recorded": 119
+  },
+  {
+    "state": "Tripura",
+    "year": 2013,
+    "total_energy_mu": 846.5,
+    "peak_demand_mw": 250.0,
+    "peak_date": "2013-10-10",
+    "avg_daily_mu": 3.12,
+    "days_recorded": 271
+  },
+  {
+    "state": "Tripura",
+    "year": 2014,
+    "total_energy_mu": 1035.7,
+    "peak_demand_mw": 270.0,
+    "peak_date": "2014-04-11",
+    "avg_daily_mu": 2.91,
+    "days_recorded": 356
+  },
+  {
+    "state": "Tripura",
+    "year": 2015,
+    "total_energy_mu": 1101.8,
+    "peak_demand_mw": 264.0,
+    "peak_date": "2015-09-15",
+    "avg_daily_mu": 3.13,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tripura",
+    "year": 2016,
+    "total_energy_mu": 1302.2,
+    "peak_demand_mw": 344.0,
+    "peak_date": "2016-03-26",
+    "avg_daily_mu": 3.7,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tripura",
+    "year": 2017,
+    "total_energy_mu": 1273.5,
+    "peak_demand_mw": 304.0,
+    "peak_date": "2017-06-19",
+    "avg_daily_mu": 3.79,
+    "days_recorded": 336
+  },
+  {
+    "state": "Tripura",
+    "year": 2018,
+    "total_energy_mu": 1428.1,
+    "peak_demand_mw": 293.0,
+    "peak_date": "2018-09-19",
+    "avg_daily_mu": 3.98,
+    "days_recorded": 359
+  },
+  {
+    "state": "Tripura",
+    "year": 2019,
+    "total_energy_mu": 1547.5,
+    "peak_demand_mw": 340.0,
+    "peak_date": "2019-09-20",
+    "avg_daily_mu": 4.27,
+    "days_recorded": 362
+  },
+  {
+    "state": "Tripura",
+    "year": 2020,
+    "total_energy_mu": 1263.7,
+    "peak_demand_mw": 330.0,
+    "peak_date": "2020-10-04",
+    "avg_daily_mu": 4.0,
+    "days_recorded": 316
+  },
+  {
+    "state": "Tripura",
+    "year": 2021,
+    "total_energy_mu": 1536.8,
+    "peak_demand_mw": 339.0,
+    "peak_date": "2021-06-12",
+    "avg_daily_mu": 4.37,
+    "days_recorded": 352
+  },
+  {
+    "state": "Tripura",
+    "year": 2022,
+    "total_energy_mu": 1638.3,
+    "peak_demand_mw": 330.0,
+    "peak_date": "2022-07-21",
+    "avg_daily_mu": 4.54,
+    "days_recorded": 361
+  },
+  {
+    "state": "Tripura",
+    "year": 2023,
+    "total_energy_mu": 1752.3,
+    "peak_demand_mw": 370.0,
+    "peak_date": "2023-06-07",
+    "avg_daily_mu": 4.81,
+    "days_recorded": 364
+  },
+  {
+    "state": "Tripura",
+    "year": 2024,
+    "total_energy_mu": 510.4,
+    "peak_demand_mw": 363.0,
+    "peak_date": "2024-04-24",
+    "avg_daily_mu": 4.29,
+    "days_recorded": 119
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2013,
+    "total_energy_mu": 60628.1,
+    "peak_demand_mw": 12327.0,
+    "peak_date": "2013-11-03",
+    "avg_daily_mu": 223.72,
+    "days_recorded": 271
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2014,
+    "total_energy_mu": 84988.8,
+    "peak_demand_mw": 16313.0,
+    "peak_date": "2014-12-10",
+    "avg_daily_mu": 238.73,
+    "days_recorded": 356
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2015,
+    "total_energy_mu": 88277.2,
+    "peak_demand_mw": 14503.0,
+    "peak_date": "2015-11-11",
+    "avg_daily_mu": 250.79,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2016,
+    "total_energy_mu": 97726.6,
+    "peak_demand_mw": 15501.0,
+    "peak_date": "2016-06-30",
+    "avg_daily_mu": 277.63,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2017,
+    "total_energy_mu": 107822.0,
+    "peak_demand_mw": 18061.0,
+    "peak_date": "2017-06-23",
+    "avg_daily_mu": 320.9,
+    "days_recorded": 336
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2018,
+    "total_energy_mu": 115086.6,
+    "peak_demand_mw": 20062.0,
+    "peak_date": "2018-06-16",
+    "avg_daily_mu": 320.58,
+    "days_recorded": 359
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2019,
+    "total_energy_mu": 119708.4,
+    "peak_demand_mw": 22057.0,
+    "peak_date": "2019-05-22",
+    "avg_daily_mu": 330.69,
+    "days_recorded": 362
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2020,
+    "total_energy_mu": 100893.9,
+    "peak_demand_mw": 24184.0,
+    "peak_date": "2020-06-28",
+    "avg_daily_mu": 319.28,
+    "days_recorded": 316
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2021,
+    "total_energy_mu": 121456.5,
+    "peak_demand_mw": 24795.0,
+    "peak_date": "2021-07-16",
+    "avg_daily_mu": 345.05,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2022,
+    "total_energy_mu": 140903.3,
+    "peak_demand_mw": 26002.0,
+    "peak_date": "2022-09-10",
+    "avg_daily_mu": 390.31,
+    "days_recorded": 361
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2023,
+    "total_energy_mu": 145393.4,
+    "peak_demand_mw": 28553.0,
+    "peak_date": "2023-07-25",
+    "avg_daily_mu": 399.43,
+    "days_recorded": 364
+  },
+  {
+    "state": "Uttar Pradesh",
+    "year": 2024,
+    "total_energy_mu": 43402.9,
+    "peak_demand_mw": 24603.0,
+    "peak_date": "2024-04-28",
+    "avg_daily_mu": 364.73,
+    "days_recorded": 119
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2013,
+    "total_energy_mu": 8440.8,
+    "peak_demand_mw": 1781.0,
+    "peak_date": "2013-01-02",
+    "avg_daily_mu": 31.15,
+    "days_recorded": 271
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2014,
+    "total_energy_mu": 11658.0,
+    "peak_demand_mw": 1864.0,
+    "peak_date": "2014-12-27",
+    "avg_daily_mu": 32.75,
+    "days_recorded": 356
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2015,
+    "total_energy_mu": 12242.9,
+    "peak_demand_mw": 2025.0,
+    "peak_date": "2015-12-23",
+    "avg_daily_mu": 34.78,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2016,
+    "total_energy_mu": 12526.1,
+    "peak_demand_mw": 2034.0,
+    "peak_date": "2016-01-29",
+    "avg_daily_mu": 35.59,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2017,
+    "total_energy_mu": 12104.4,
+    "peak_demand_mw": 2033.0,
+    "peak_date": "2017-09-16",
+    "avg_daily_mu": 36.02,
+    "days_recorded": 336
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2018,
+    "total_energy_mu": 13431.9,
+    "peak_demand_mw": 2753.0,
+    "peak_date": "2018-06-08",
+    "avg_daily_mu": 37.41,
+    "days_recorded": 359
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2019,
+    "total_energy_mu": 13885.7,
+    "peak_demand_mw": 2246.0,
+    "peak_date": "2019-06-11",
+    "avg_daily_mu": 38.36,
+    "days_recorded": 362
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2020,
+    "total_energy_mu": 10964.3,
+    "peak_demand_mw": 2287.0,
+    "peak_date": "2020-12-24",
+    "avg_daily_mu": 34.7,
+    "days_recorded": 316
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2021,
+    "total_energy_mu": 13719.6,
+    "peak_demand_mw": 2372.0,
+    "peak_date": "2021-01-22",
+    "avg_daily_mu": 38.98,
+    "days_recorded": 352
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2022,
+    "total_energy_mu": 15137.4,
+    "peak_demand_mw": 2517.0,
+    "peak_date": "2022-06-15",
+    "avg_daily_mu": 41.93,
+    "days_recorded": 361
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2023,
+    "total_energy_mu": 15393.3,
+    "peak_demand_mw": 2536.0,
+    "peak_date": "2023-06-17",
+    "avg_daily_mu": 42.29,
+    "days_recorded": 364
+  },
+  {
+    "state": "Uttarakhand",
+    "year": 2024,
+    "total_energy_mu": 5079.2,
+    "peak_demand_mw": 2527.0,
+    "peak_date": "2024-01-24",
+    "avg_daily_mu": 42.68,
+    "days_recorded": 119
+  },
+  {
+    "state": "West Bengal",
+    "year": 2013,
+    "total_energy_mu": 32203.5,
+    "peak_demand_mw": 7189.0,
+    "peak_date": "2013-09-05",
+    "avg_daily_mu": 118.83,
+    "days_recorded": 271
+  },
+  {
+    "state": "West Bengal",
+    "year": 2014,
+    "total_energy_mu": 45260.9,
+    "peak_demand_mw": 7787.0,
+    "peak_date": "2014-09-12",
+    "avg_daily_mu": 127.14,
+    "days_recorded": 356
+  },
+  {
+    "state": "West Bengal",
+    "year": 2015,
+    "total_energy_mu": 46311.5,
+    "peak_demand_mw": 7986.0,
+    "peak_date": "2015-03-28",
+    "avg_daily_mu": 131.57,
+    "days_recorded": 352
+  },
+  {
+    "state": "West Bengal",
+    "year": 2016,
+    "total_energy_mu": 47279.0,
+    "peak_demand_mw": 8349.0,
+    "peak_date": "2016-01-25",
+    "avg_daily_mu": 134.32,
+    "days_recorded": 352
+  },
+  {
+    "state": "West Bengal",
+    "year": 2017,
+    "total_energy_mu": 44095.0,
+    "peak_demand_mw": 8698.0,
+    "peak_date": "2017-10-16",
+    "avg_daily_mu": 131.24,
+    "days_recorded": 336
+  },
+  {
+    "state": "West Bengal",
+    "year": 2018,
+    "total_energy_mu": 51145.8,
+    "peak_demand_mw": 9143.0,
+    "peak_date": "2018-06-18",
+    "avg_daily_mu": 142.47,
+    "days_recorded": 359
+  },
+  {
+    "state": "West Bengal",
+    "year": 2019,
+    "total_energy_mu": 52966.0,
+    "peak_demand_mw": 9989.0,
+    "peak_date": "2019-06-14",
+    "avg_daily_mu": 146.31,
+    "days_recorded": 362
+  },
+  {
+    "state": "West Bengal",
+    "year": 2020,
+    "total_energy_mu": 41603.1,
+    "peak_demand_mw": 8860.0,
+    "peak_date": "2020-10-17",
+    "avg_daily_mu": 131.66,
+    "days_recorded": 316
+  },
+  {
+    "state": "West Bengal",
+    "year": 2021,
+    "total_energy_mu": 51947.3,
+    "peak_demand_mw": 9316.0,
+    "peak_date": "2021-04-27",
+    "avg_daily_mu": 147.58,
+    "days_recorded": 352
+  },
+  {
+    "state": "West Bengal",
+    "year": 2022,
+    "total_energy_mu": 56591.8,
+    "peak_demand_mw": 9880.0,
+    "peak_date": "2022-04-26",
+    "avg_daily_mu": 156.76,
+    "days_recorded": 361
+  },
+  {
+    "state": "West Bengal",
+    "year": 2023,
+    "total_energy_mu": 63927.4,
+    "peak_demand_mw": 11868.0,
+    "peak_date": "2023-04-18",
+    "avg_daily_mu": 175.62,
+    "days_recorded": 364
+  },
+  {
+    "state": "West Bengal",
+    "year": 2024,
+    "total_energy_mu": 20514.8,
+    "peak_demand_mw": 12313.0,
+    "peak_date": "2024-04-28",
+    "avg_daily_mu": 172.39,
+    "days_recorded": 119
+  }
+]

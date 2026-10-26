@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnergySense India | National Power System & Clean Transition Observatory</title>
+  <meta name="description" content="Comprehensive analytical observatory of India's electricity demand, peak load, thermal climate sensitivity, and renewable energy transition from 2013 to 2025.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Navigation & Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-wrapper">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="url(#boltGrad)" stroke="none"/>
+            <defs>
+              <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="50%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#10b981"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">EnergySense <span class="badge-country">INDIA</span></h1>
+          <p class="brand-sub">National Power System & Clean Transition Observatory</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-center">
+      <div class="data-status-pill">
+        <span class="live-pulse"></span>
+        <span class="status-label">3,900+ Daily Grid Records</span>
+        <span class="status-sep">•</span>
+        <span class="status-tag">2013 – 2024</span>
+        <span class="status-sep">•</span>
+        <span class="status-source">POSOCO / CEA / Ember / ERA5</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button id="btnRefresh" class="btn-icon" title="Refresh Live Insights">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 4v6h-6M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+        </svg>
+      </button>
+      <a href="#sqlSandbox" class="btn-secondary" id="btnHeaderSQL">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7c0-2-1.5-3-3.5-3h-9C5.5 4 4 5 4 7z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        SQL Sandbox
+      </a>
+      <a href="#downloads" class="btn-primary" id="btnHeaderExport">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Export Data
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <!-- KPI Metrics Ribbon -->
+    <section class="kpi-ribbon" id="kpiRibbon">
+      <div class="kpi-card" id="kpiPeakMet">
+        <div class="kpi-header">
+          <span class="kpi-title">All-Time Peak Met</span>
+          <span class="kpi-badge badge-cyan">Record</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valPeakMet">249,623</span>
+          <span class="kpi-unit">MW</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub" id="datePeakMet">Sep 1, 2023 • Summer Surge</span>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiDailyEnergy">
+        <div class="kpi-header">
+          <span class="kpi-title">All-Time Daily Energy</span>
+          <span class="kpi-badge badge-blue">Peak Load</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valDailyEnergy">5,224.3</span>
+          <span class="kpi-unit">MU</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub" id="dateDailyEnergy">Sep 2, 2023 • All-India Demand</span>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiCAGR">
+        <div class="kpi-header">
+          <span class="kpi-title">10-Year Demand CAGR</span>
+          <span class="kpi-badge badge-emerald">+Growth</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valCAGR">+8.27%</span>
+          <span class="kpi-unit">p.a.</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub">716.8k MU (2013) → 1.58M MU (2023)</span>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiDeficit">
+        <div class="kpi-header">
+          <span class="kpi-title">Peak Deficit Reduction</span>
+          <span class="kpi-badge badge-purple">Reliability</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valDeficit">-93.3%</span>
+          <span class="kpi-unit">Cut</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub">5,686 MW (2013) → 383 MW (2023)</span>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiSolarSurge">
+        <div class="kpi-header">
+          <span class="kpi-title">Solar Gen Expansion</span>
+          <span class="kpi-badge badge-amber">Clean Boom</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valSolarSurge">2.89x</span>
+          <span class="kpi-unit">5-Yr</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub">46.3 TWh (2019) → 133.8 TWh (2024)</span>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiLockdown">
+        <div class="kpi-header">
+          <span class="kpi-title">COVID Shock & Rebound</span>
+          <span class="kpi-badge badge-rose">Resilience</span>
+        </div>
+        <div class="kpi-value-group">
+          <span class="kpi-value" id="valCovidShock">-24.0%</span>
+          <span class="kpi-unit">Dip</span>
+        </div>
+        <div class="kpi-footer">
+          <span class="kpi-sub">April 2020 Drop → +40.4% 2021 V-Shape</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" data-tab="tabDemand" id="tabBtnDemand">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        National Demand & Peak (2013–2024)
+      </button>
+
+      <button class="nav-tab" data-tab="tabClimate" id="tabBtnClimate">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v10m0 0a4 4 0 100 8 4 4 0 000-8z"/>
+          <path d="M12 7a2 2 0 100-4 2 2 0 000 4z"/>
+        </svg>
+        Climate & Heatwave Elasticity (UTCI)
+      </button>
+
+      <button class="nav-tab" data-tab="tabGeneration" id="tabBtnGeneration">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        Fuel Mix & Decarbonization (Ember)
+      </button>
+
+      <button class="nav-tab" data-tab="tabStates" id="tabBtnStates">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/>
+          <path d="M9 3v15M15 6v15"/>
+        </svg>
+        State Matrix & Leaderboards
+      </button>
+
+      <button class="nav-tab" data-tab="tabReports" id="tabBtnReports">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+        </svg>
+        Analytical Reports & Case Studies
+      </button>
+
+      <button class="nav-tab" data-tab="tabSql" id="tabBtnSql">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"/>
+          <line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+        SQL Sandbox & Downloads
+      </button>
+    </nav>
+
+    <!-- TAB 1: National Demand & Peak Load -->
+    <section class="tab-panel active" id="tabDemand">
+      <div class="panel-card chart-container-card">
+        <div class="panel-card-header">
+          <div class="header-titles">
+            <h2 class="panel-title">All-India Electricity Demand & Deficit Trajectory (2013–2024)</h2>
+            <p class="panel-subtitle">Explore daily power consumption, peak demand met, and historical grid deficit reduction across 3,900+ days</p>
+          </div>
+          
+          <div class="chart-controls">
+            <!-- Metric Toggle -->
+            <div class="control-group">
+              <span class="control-label">Metric:</span>
+              <div class="btn-group" id="demandMetricGroup">
+                <button class="btn-pill active" data-metric="peak_met_mw" id="metricPeak">Peak Met (MW)</button>
+                <button class="btn-pill" data-metric="energy_met_mu" id="metricEnergy">Daily Energy (MU)</button>
+                <button class="btn-pill" data-metric="peak_unmet_mw" id="metricDeficit">Peak Deficit (MW)</button>
+                <button class="btn-pill" data-metric="deficit_pct" id="metricDeficitPct">Deficit %</button>
+              </div>
+            </div>
+
+            <!-- 7-day MA Toggle -->
+            <label class="toggle-checkbox" id="lblMaToggle">
+              <input type="checkbox" id="chkMovingAvg" checked>
+              <span class="toggle-switch"></span>
+              <span class="toggle-text">7-Day Moving Avg</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Year Selector Buttons -->
+        <div class="year-selector-bar" id="yearSelectorBar">
+          <span class="year-label">Time Window:</span>
+          <div class="year-buttons">
+            <button class="btn-year active" data-year="all" id="btnYearAll">All (11 Yrs)</button>
+            <button class="btn-year" data-year="2024" id="btnYear2024">2024</button>
+            <button class="btn-year" data-year="2023" id="btnYear2023">2023</button>
+            <button class="btn-year" data-year="2022" id="btnYear2022">2022</button>
+            <button class="btn-year" data-year="2021" id="btnYear2021">2021</button>
+            <button class="btn-year" data-year="2020" id="btnYear2020">2020 (Lockdown)</button>
+            <button class="btn-year" data-year="2019" id="btnYear2019">2019</button>
+            <button class="btn-year" data-year="2018" id="btnYear2018">2018</button>
+            <button class="btn-year" data-year="2017" id="btnYear2017">2017</button>
+            <button class="btn-year" data-year="2016" id="btnYear2016">2016</button>
+            <button class="btn-year" data-year="2015" id="btnYear2015">2015</button>
+            <button class="btn-year" data-year="2014" id="btnYear2014">2014</button>
+            <button class="btn-year" data-year="2013" id="btnYear2013">2013</button>
+          </div>
+        </div>
+
+        <!-- Canvas Chart Area -->
+        <div class="chart-canvas-wrapper" id="demandChartWrapper">
+          <canvas id="demandChartCanvas"></canvas>
+          <div class="chart-tooltip" id="demandChartTooltip"></div>
+        </div>
+
+        <!-- Chart Summary Stats Footer -->
+        <div class="chart-summary-bar" id="demandSummaryBar">
+          <div class="sum-item">
+            <span class="sum-label">Period Maximum:</span>
+            <span class="sum-val" id="sumPeriodMax">--</span>
+          </div>
+          <div class="sum-item">
+            <span class="sum-label">Period Minimum:</span>
+            <span class="sum-val" id="sumPeriodMin">--</span>
+          </div>
+          <div class="sum-item">
+            <span class="sum-label">Daily Average:</span>
+            <span class="sum-val" id="sumPeriodAvg">--</span>
+          </div>
+          <div class="sum-item">
+            <span class="sum-label">Peak Deficit in Period:</span>
+            <span class="sum-val" id="sumPeriodDeficit">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historical Milestone Cards Grid -->
+      <div class="milestones-grid">
+        <div class="milestone-card border-cyan">
+          <div class="ms-icon-box">⚡</div>
+          <div class="ms-content">
+            <span class="ms-tag">Record Peak Day</span>
+            <h4 class="ms-heading">249,623 MW Peak Demand</h4>
+            <p class="ms-desc">On September 1, 2023, extreme delayed monsoon conditions and high industrial demand triggered India's highest ever recorded peak electricity load, met seamlessly by the grid.</p>
+            <span class="ms-stat">Deficit: <0.5% (Total Met: 99.6%)</span>
+          </div>
+        </div>
+
+        <div class="milestone-card border-rose">
+          <div class="ms-icon-box">📉</div>
+          <div class="ms-content">
+            <span class="ms-tag">Black Swan Shock</span>
+            <h4 class="ms-heading">April 2020 COVID Lockdown</h4>
+            <p class="ms-desc">National lockdown caused electricity demand to plunge by 24.0% in April 2020 (averaging 2,838 MU/day vs 3,733 MU/day in 2019), followed by a swift V-shaped recovery (+40.4% in 2021).</p>
+            <span class="ms-stat">Lowest Daily: 2,596 MU</span>
+          </div>
+        </div>
+
+        <div class="milestone-card border-purple">
+          <div class="ms-icon-box">🛡️</div>
+          <div class="ms-content">
+            <span class="ms-tag">Structural Transformation</span>
+            <h4 class="ms-heading">93.3% Deficit Reduction</h4>
+            <p class="ms-desc">In 2013, India experienced average daily peak deficits of 5,685 MW (spiking to 12,251 MW). By 2023, transmission expansions and capacity additions reduced deficits to just 383 MW.</p>
+            <span class="ms-stat">Grid Availability: >99.7%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Climate & Heatwave Elasticity -->
+    <section class="tab-panel" id="tabClimate">
+      <div class="dual-panel-grid">
+        <!-- Climate Overlay Chart -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">Thermal Climate Index (UTCI) vs Daily Peak Demand</h2>
+              <p class="panel-subtitle">Dual-axis correlation of Universal Thermal Climate Index (°C) and Indian peak electricity demand</p>
+            </div>
+            <div class="badge-tag">ERA5 Reanalysis + POSOCO</div>
+          </div>
+          <div class="chart-canvas-wrapper" style="height: 380px;">
+            <canvas id="climateChartCanvas"></canvas>
+            <div class="chart-tooltip" id="climateChartTooltip"></div>
+          </div>
+          <div class="chart-legend-box">
+            <span class="legend-item"><span class="legend-color bg-cyan"></span> Peak Demand (MW)</span>
+            <span class="legend-item"><span class="legend-color bg-amber"></span> Thermal Climate Index (°C)</span>
+          </div>
+        </div>
+
+        <!-- Temperature Sensitivity & Heat Elasticity -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">Heat Elasticity & Cooling Demand Elasticity</h2>
+              <p class="panel-subtitle">Quantifying the surge in cooling load during intense heatwaves</p>
+            </div>
+            <span class="kpi-badge badge-amber">+199.7 MW / °C</span>
+          </div>
+
+          <div class="scatter-stats-box">
+            <div class="stat-mini">
+              <span class="mini-label">Heat Sensitivity Slope</span>
+              <span class="mini-val text-amber">~200 MW / °C</span>
+              <span class="mini-sub">Marginal peak load per 1°C ambient thermal rise</span>
+            </div>
+            <div class="stat-mini">
+              <span class="mini-label">Summer Peak Timing</span>
+              <span class="mini-val text-cyan">May – June & Aug – Sep</span>
+              <span class="mini-sub">Pre-monsoon heat & post-monsoon humidity peaks</span>
+            </div>
+          </div>
+
+          <div class="chart-canvas-wrapper" style="height: 250px;">
+            <canvas id="climateScatterCanvas"></canvas>
+          </div>
+
+          <div class="insight-callout">
+            <div class="callout-icon">💡</div>
+            <div class="callout-text">
+              <strong>The Cooling Conundrum:</strong> India's air conditioning penetration is currently under 10% but growing at 15% annually. During extreme summer days with UTCI > 32°C, daily peak electricity demand surges by over 20,000–35,000 MW above normal baseline load.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Generation Fuel Mix & Decarbonization -->
+    <section class="tab-panel" id="tabGeneration">
+      <div class="panel-card chart-container-card">
+        <div class="panel-card-header">
+          <div>
+            <h2 class="panel-title">Monthly Electricity Generation Mix by Fuel (2019–2025)</h2>
+            <p class="panel-subtitle">Monthly TWh generation from Coal, Solar, Wind, Hydro, Nuclear, Gas, and Bioenergy (Ember Electricity Data)</p>
+          </div>
+          <div class="chart-controls">
+            <div class="btn-group" id="genViewToggle">
+              <button class="btn-pill active" data-gen="stacked" id="btnGenStacked">Stacked Fuel (TWh)</button>
+              <button class="btn-pill" data-gen="shares" id="btnGenShares">Clean vs Fossil Share (%)</button>
+              <button class="btn-pill" data-gen="emissions" id="btnGenEmissions">Emissions & Intensity</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-canvas-wrapper" style="height: 400px;">
+          <canvas id="genChartCanvas"></canvas>
+          <div class="chart-tooltip" id="genChartTooltip"></div>
+        </div>
+
+        <div class="fuel-legend-ribbon" id="fuelLegendRibbon">
+          <span class="f-legend"><span class="f-dot" style="background: #64748b;"></span> Coal</span>
+          <span class="f-legend"><span class="f-dot" style="background: #f59e0b;"></span> Solar</span>
+          <span class="f-legend"><span class="f-dot" style="background: #06b6d4;"></span> Wind</span>
+          <span class="f-legend"><span class="f-dot" style="background: #3b82f6;"></span> Hydro</span>
+          <span class="f-legend"><span class="f-dot" style="background: #a855f7;"></span> Nuclear</span>
+          <span class="f-legend"><span class="f-dot" style="background: #f97316;"></span> Gas</span>
+          <span class="f-legend"><span class="f-dot" style="background: #10b981;"></span> Bioenergy</span>
+        </div>
+      </div>
+
+      <!-- Clean Transition Highlights -->
+      <div class="clean-kpi-grid">
+        <div class="clean-card">
+          <span class="clean-card-title">Solar Generation Growth</span>
+          <div class="clean-card-stat text-amber">46.3 → 133.8 TWh</div>
+          <p class="clean-card-desc">Solar output grew by 189% between 2019 and 2024, now supplying over 8% of all national electricity generation.</p>
+        </div>
+
+        <div class="clean-card">
+          <span class="clean-card-title">Peak Clean Energy Share</span>
+          <div class="clean-card-stat text-emerald">35.74% of Total</div>
+          <p class="clean-card-desc">Achieved in July 2025 during peak monsoon hydro and wind generation season, breaking all previous clean electricity records.</p>
+        </div>
+
+        <div class="clean-card">
+          <span class="clean-card-title">Grid Carbon Intensity</span>
+          <div class="clean-card-stat text-purple">~705 gCO2 / kWh</div>
+          <p class="clean-card-desc">Emissions intensity has trended downward from >770 gCO2/kWh in 2019 due to the massive buildout of utility solar and wind farms.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: State Matrix & Leaderboards -->
+    <section class="tab-panel" id="tabStates">
+      <div class="state-layout-grid">
+        <!-- State Leaderboard Table -->
+        <div class="panel-card state-table-card">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">State-Wise Power Matrix (36 States & UTs)</h2>
+              <p class="panel-subtitle">Annual consumption, peak demand, and renewable shares</p>
+            </div>
+            <div class="table-controls">
+              <select class="custom-select" id="stateYearSelect">
+                <option value="2023" selected>Year 2023</option>
+                <option value="2022">Year 2022</option>
+                <option value="2021">Year 2021</option>
+                <option value="2020">Year 2020</option>
+                <option value="2019">Year 2019</option>
+                <option value="2018">Year 2018</option>
+                <option value="2015">Year 2015</option>
+                <option value="2013">Year 2013</option>
+              </select>
+              <input type="text" id="stateSearchInput" class="table-search" placeholder="Search state...">
+            </div>
+          </div>
+
+          <div class="table-scroll-wrapper">
+            <table class="data-table" id="statesTable">
+              <thead>
+                <tr>
+                  <th data-sort="rank">Rank</th>
+                  <th data-sort="state">State / Region</th>
+                  <th data-sort="total_energy_mu" class="text-right">Total Energy (MU)</th>
+                  <th data-sort="peak_demand_mw" class="text-right">Peak Demand (MW)</th>
+                  <th data-sort="avg_daily_mu" class="text-right">Daily Avg (MU)</th>
+                  <th data-sort="peak_date">Peak Date</th>
+                </tr>
+              </thead>
+              <tbody id="statesTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Selected State Deep Dive Card -->
+        <div class="panel-card state-detail-card" id="stateDetailCard">
+          <div class="panel-card-header">
+            <div>
+              <span class="detail-badge" id="detailStateRank">#1 Consumer</span>
+              <h3 class="panel-title" id="detailStateName">Maharashtra</h3>
+              <p class="panel-subtitle" id="detailStateRegion">Western Grid Region</p>
+            </div>
+          </div>
+
+          <div class="state-stats-row">
+            <div class="st-stat">
+              <span class="st-stat-lbl">Annual Energy Met</span>
+              <span class="st-stat-val text-cyan" id="detailStateEnergy">199,747 MU</span>
+            </div>
+            <div class="st-stat">
+              <span class="st-stat-lbl">Peak Load Met</span>
+              <span class="st-stat-val text-emerald" id="detailStatePeak">28,584 MW</span>
+            </div>
+            <div class="st-stat">
+              <span class="st-stat-lbl">Daily Average</span>
+              <span class="st-stat-val text-blue" id="detailStateDaily">547.3 MU/day</span>
+            </div>
+          </div>
+
+          <!-- State Historical Trajectory Chart -->
+          <div class="sub-chart-header">
+            <h4>10-Year Annual Demand Growth (MU)</h4>
+          </div>
+          <div class="chart-canvas-wrapper" style="height: 180px;">
+            <canvas id="stateTrendCanvas"></canvas>
+          </div>
+
+          <!-- Installed Capacity Mix for State -->
+          <div class="sub-chart-header" style="margin-top: 15px;">
+            <h4>Installed Generation Capacity Mix (MW)</h4>
+          </div>
+          <div class="capacity-breakdown" id="stateCapacityMix">
+            <!-- Dynamic fuel bars -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Analytical Reports & Case Studies -->
+    <section class="tab-panel" id="tabReports">
+      <div class="reports-container">
+        <!-- Brief 1 -->
+        <article class="report-card">
+          <div class="report-header">
+            <div class="report-badge-num">CASE STUDY 01</div>
+            <span class="report-category">Grid Transformation</span>
+          </div>
+          <h3 class="report-title">The Vanishing Deficit: How India Conquered Structural Peak Shortages</h3>
+          <p class="report-summary">
+            A decade ago in 2013, India's power grid was plagued by frequent load shedding and severe transmission bottlenecks, with daily peak deficit averaging <strong>5,685 MW</strong> and maximum recorded shortages reaching <strong>12,251 MW</strong> (over 8.5% of total demand). By 2023, through the creation of the One Nation, One Grid synchronous interconnection, rapid transmission highway buildout, and over 150 GW of thermal and renewable additions, average peak deficits plummeted by <strong>93.3% to just 383 MW</strong> (<0.2% of peak demand). Today, grid reliability stands at unprecedented historic highs.
+          </p>
+          <div class="report-metrics-row">
+            <div class="rm-box">
+              <span class="rm-label">2013 Avg Daily Deficit</span>
+              <span class="rm-val text-rose">5,686 MW</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">2023 Avg Daily Deficit</span>
+              <span class="rm-val text-emerald">383 MW</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Deficit Reduction</span>
+              <span class="rm-val text-purple">-93.3%</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Power Availability</span>
+              <span class="rm-val text-cyan">>99.7%</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Brief 2 -->
+        <article class="report-card">
+          <div class="report-header">
+            <div class="report-badge-num">CASE STUDY 02</div>
+            <span class="report-category">Economic Shocks</span>
+          </div>
+          <h3 class="report-title">The COVID-19 Demand Shock & The Resilient V-Shaped Rebound</h3>
+          <p class="report-summary">
+            When India implemented the nationwide lockdown on March 24, 2020, industrial and commercial operations ceased overnight. Analysis of the daily energy data reveals an unprecedented <strong>24.0% contraction</strong> in electricity consumption in April 2020 (falling from 3,733 MU/day in April 2019 to 2,838 MU/day). However, as manufacturing resumed and agricultural demand held firm, India staged a dramatic recovery: by April 2021, daily demand rebounded by <strong>40.4%</strong> to 3,985 MU/day, surpassing pre-pandemic levels and highlighting the country's underlying economic momentum.
+          </p>
+          <div class="report-metrics-row">
+            <div class="rm-box">
+              <span class="rm-label">Pre-Lockdown (Apr 2019)</span>
+              <span class="rm-val">3,733 MU/day</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Lockdown Dip (Apr 2020)</span>
+              <span class="rm-val text-rose">2,839 MU/day</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Rebound (Apr 2021)</span>
+              <span class="rm-val text-emerald">3,985 MU/day</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Net Rebound</span>
+              <span class="rm-val text-cyan">+40.4% YoY</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Brief 3 -->
+        <article class="report-card">
+          <div class="report-header">
+            <div class="report-badge-num">CASE STUDY 03</div>
+            <span class="report-category">Clean Transition</span>
+          </div>
+          <h3 class="report-title">The Solar Surge: Scaling from 46 TWh to 134 TWh in Five Years</h3>
+          <p class="report-summary">
+            India's renewable electricity journey represents one of the fastest solar deployments globally. Monthly generation data from Ember shows annual solar generation expanding from <strong>46,267 GWh in 2019 to 133,795 GWh in 2024</strong>—a <strong>2.89x increase</strong>. In July 2025, clean energy generation (solar, wind, hydro, and nuclear) set an all-time record, accounting for <strong>35.74%</strong> of total monthly electricity generation. The states of Rajasthan and Gujarat have emerged as national clean power engines, each possessing over 20 GW of installed renewable generation.
+          </p>
+          <div class="report-metrics-row">
+            <div class="rm-box">
+              <span class="rm-label">2019 Solar Output</span>
+              <span class="rm-val">46.3 TWh</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">2024 Solar Output</span>
+              <span class="rm-val text-amber">133.8 TWh</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Growth Multiple</span>
+              <span class="rm-val text-emerald">2.89x</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Peak Clean Share</span>
+              <span class="rm-val text-purple">35.7%</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Brief 4 -->
+        <article class="report-card">
+          <div class="report-header">
+            <div class="report-badge-num">CASE STUDY 04</div>
+            <span class="report-category">Climate & Grid Dynamics</span>
+          </div>
+          <h3 class="report-title">Extreme Heat & Cooling Demand: The Temperature Elasticity of India's Grid</h3>
+          <p class="report-summary">
+            By merging the daily Universal Thermal Climate Index (UTCI) with grid demand, we observe a dramatic rise in peak electricity sensitivity to heatwaves. In peak summer months, each 1°C increase in thermal heat index adds approximately <strong>~200 MW</strong> of immediate peak load nationally, driven by rapid urbanization and the proliferation of room air conditioning. As heatwaves intensify in frequency and duration across Northern and Central India, grid operators must plan for sharper evening cooling peaks as residential cooling coincides with solar sunset.
+          </p>
+          <div class="report-metrics-row">
+            <div class="rm-box">
+              <span class="rm-label">Heat Sensitivity</span>
+              <span class="rm-val text-amber">~200 MW / °C</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Peak Summer Load</span>
+              <span class="rm-val text-cyan">249,623 MW</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">AC Penetration</span>
+              <span class="rm-val"><10% (Growing)</span>
+            </div>
+            <div class="rm-box">
+              <span class="rm-label">Critical Window</span>
+              <span class="rm-val text-rose">7 PM - 11 PM</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TAB 6: SQL Sandbox & Data Export -->
+    <section class="tab-panel" id="tabSql">
+      <div class="sql-sandbox-wrapper" id="sqlSandbox">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">Interactive SQLite Query Sandbox</h2>
+              <p class="panel-subtitle">Execute read-only SQL queries against <code>energysense.db</code> (Tables: <code>daily_india_demand</code>, <code>state_annual_summary</code>, <code>state_daily_demand</code>, <code>monthly_generation</code>)</p>
+            </div>
+            <div class="sql-badge">Live SQLite Engine</div>
+          </div>
+
+          <!-- Quick Query Preset Chips -->
+          <div class="sql-preset-bar">
+            <span class="preset-label">Query Presets:</span>
+            <button class="btn-preset" data-sql="SELECT date, peak_met_mw, energy_met_mu, deficit_pct FROM daily_india_demand ORDER BY peak_met_mw DESC LIMIT 10;">Top 10 Peak Days</button>
+            <button class="btn-preset" data-sql="SELECT state, year, total_energy_mu, peak_demand_mw FROM state_annual_summary WHERE year = 2023 ORDER BY total_energy_mu DESC LIMIT 10;">Top 10 States 2023</button>
+            <button class="btn-preset" data-sql="SELECT date, solar_gwh, wind_gwh, coal_gwh, clean_share_pct FROM monthly_generation ORDER BY clean_share_pct DESC LIMIT 12;">Highest Clean Months</button>
+            <button class="btn-preset" data-sql="SELECT year, AVG(peak_unmet_mw) as avg_deficit_mw, MAX(peak_unmet_mw) as max_deficit_mw FROM daily_india_demand GROUP BY year ORDER BY year ASC;">Yearly Deficit Trend</button>
+          </div>
+
+          <!-- SQL Textarea & Run Button -->
+          <div class="sql-input-area">
+            <textarea id="sqlInput" class="sql-editor" rows="4">SELECT date, peak_met_mw, energy_met_mu, deficit_pct FROM daily_india_demand ORDER BY peak_met_mw DESC LIMIT 10;</textarea>
+            <div class="sql-actions">
+              <button id="btnRunSql" class="btn-primary">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Execute Query
+              </button>
+              <span id="sqlExecutionStatus" class="sql-status-text">Ready</span>
+            </div>
+          </div>
+
+          <!-- SQL Results Table -->
+          <div class="sql-results-area">
+            <div class="table-scroll-wrapper" style="max-height: 340px;">
+              <table class="data-table" id="sqlResultsTable">
+                <thead id="sqlResultsHead"></thead>
+                <tbody id="sqlResultsBody">
+                  <tr><td class="text-center text-muted" colspan="10">Run a query above to see live results</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Downloads & Data Export Section -->
+        <div class="panel-card" id="downloads" style="margin-top: 24px;">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">Download Clean Research Datasets</h2>
+              <p class="panel-subtitle">Export cleaned, normalized CSV and JSON files for your own research and models</p>
+            </div>
+          </div>
+
+          <div class="downloads-grid">
+            <div class="dl-item">
+              <div class="dl-icon">📊</div>
+              <div class="dl-info">
+                <h4>All-India Daily Demand (2013–2024)</h4>
+                <p>Date, Energy Met (MU), Peak Met (MW), Peak Unmet (MW), Deficit %, UTCI Climate Index</p>
+                <span class="dl-meta">3,900 rows • CSV (360 KB)</span>
+              </div>
+              <a href="/api/download?file=daily_demand" download="daily_demand_india.csv" class="btn-download">Download CSV</a>
+            </div>
+
+            <div class="dl-item">
+              <div class="dl-icon">⚡</div>
+              <div class="dl-info">
+                <h4>Monthly Fuel Generation & Emissions</h4>
+                <p>Monthly generation by fuel (Coal, Solar, Wind, Hydro, Nuclear, Gas) & CO2 emissions</p>
+                <span class="dl-meta">83 months • CSV (14 KB)</span>
+              </div>
+              <a href="/api/download?file=monthly_generation" download="monthly_generation_india.csv" class="btn-download">Download CSV</a>
+            </div>
+
+            <div class="dl-item">
+              <div class="dl-icon">🗺️</div>
+              <div class="dl-info">
+                <h4>State Annual Summaries (2013–2024)</h4>
+                <p>State-by-state annual consumption, peak loads, daily averages, and dates for all 36 states</p>
+                <span class="dl-meta">456 rows • CSV (28 KB)</span>
+              </div>
+              <a href="/api/download?file=state_annual" download="state_annual_summary.csv" class="btn-download">Download CSV</a>
+            </div>
+
+            <div class="dl-item">
+              <div class="dl-icon">🧠</div>
+              <div class="dl-info">
+                <h4>Curated Analytics & Milestones</h4>
+                <p>Precomputed historical records, COVID impact, 10-year CAGR, and clean milestones</p>
+                <span class="dl-meta">JSON Structure (3 KB)</span>
+              </div>
+              <a href="/api/download?file=insights" download="insights_analytics.json" class="btn-download">Download JSON</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        <strong>EnergySense India</strong> — Open Data & Power System Intelligence
+        <p class="footer-sub">Sources: National Load Despatch Centre (POSOCO / Grid-India), Central Electricity Authority (CEA), Zenodo (DOI: 10.5281/zenodo.14983362), Ember Climate Electricity Data, and ERA5 Climate Reanalysis.</p>
+      </div>
+      <div class="footer-right">
+        <span class="badge-tag">Zero-Config Standalone</span>
+        <span class="badge-tag">SQLite High-Perf Engine</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

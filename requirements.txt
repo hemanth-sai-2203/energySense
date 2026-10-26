@@ -1,0 +1,9 @@
+# EnergySense Core Runtime Dependencies
+# Python >= 3.10
+# Note: Core data pipeline, SQLite database, HTTP API server, and web dashboard
+# run strictly on the Python Standard Library (zero external packages required).
+
+# Optional scientific packages for offline data manipulation & future forecasting:
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.4.0

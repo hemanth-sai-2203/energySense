@@ -15,9 +15,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "data", "clean", "energysense.db")
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 T0 = datetime.date(2013, 1, 1)
+TWO_PI_OVER_YEAR = 2.0 * math.pi / 365.25
+FOUR_PI_OVER_YEAR = 4.0 * math.pi / 365.25
 
-# In-memory artifact cache
+# In-memory artifact and bounds cache
 _ARTIFACT_CACHE: Dict[str, Any] = {}
+_DATE_BOUNDS_CACHE: Optional[Tuple[datetime.date, datetime.date]] = None
 
 def load_model_artifact(target_slug: str) -> Optional[Dict[str, Any]]:
     """Loads and caches the certified model artifact from disk."""
@@ -37,14 +40,22 @@ def load_model_artifact(target_slug: str) -> Optional[Dict[str, Any]]:
         return None
 
 def get_latest_observed_date(db_path: str = DB_PATH) -> Tuple[datetime.date, datetime.date]:
-    """Returns (min_date, max_date) from daily_india_demand."""
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("SELECT MIN(date), MAX(date) FROM daily_india_demand WHERE energy_met_mu IS NOT NULL")
-    row = cur.fetchone()
-    conn.close()
+    """Returns (min_date, max_date) from daily_india_demand with in-memory caching."""
+    global _DATE_BOUNDS_CACHE
+    if db_path == DB_PATH and _DATE_BOUNDS_CACHE is not None:
+        return _DATE_BOUNDS_CACHE
+
+    with sqlite3.connect(db_path) as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT MIN(date), MAX(date) FROM daily_india_demand WHERE energy_met_mu IS NOT NULL")
+        row = cur.fetchone()
+
     min_dt = datetime.date.fromisoformat(row[0]) if row and row[0] else datetime.date(2013, 1, 1)
     max_dt = datetime.date.fromisoformat(row[1]) if row and row[1] else datetime.date(2024, 4, 28)
+    
+    if db_path == DB_PATH:
+        _DATE_BOUNDS_CACHE = (min_dt, max_dt)
+        
     return min_dt, max_dt
 
 def fetch_historical_series_around_origin(
@@ -54,17 +65,16 @@ def fetch_historical_series_around_origin(
     db_path: str = DB_PATH
 ) -> Dict[datetime.date, float]:
     """Fetches observed values strictly up to and including origin_dt."""
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
     start_dt = origin_dt - datetime.timedelta(days=lookback_days)
-    cur.execute(f"""
-        SELECT date, {target_col} 
-        FROM daily_india_demand 
-        WHERE date >= ? AND date <= ? AND {target_col} IS NOT NULL
-        ORDER BY date ASC
-    """, (start_dt.isoformat(), origin_dt.isoformat()))
-    rows = cur.fetchall()
-    conn.close()
+    with sqlite3.connect(db_path) as conn:
+        cur = conn.cursor()
+        cur.execute(f"""
+            SELECT date, {target_col} 
+            FROM daily_india_demand 
+            WHERE date >= ? AND date <= ? AND {target_col} IS NOT NULL
+            ORDER BY date ASC
+        """, (start_dt.isoformat(), origin_dt.isoformat()))
+        rows = cur.fetchall()
     
     return {datetime.date.fromisoformat(r[0]): float(r[1]) for r in rows if r[1] is not None}
 
@@ -205,14 +215,14 @@ def generate_forecast(
 
     # 6. Generate multi-horizon predictions
     predictions = []
+    persist_val = round(y_origin, 2)
+    roll_7 = (sum(r7_vals) / len(r7_vals)) if r7_vals else 0.0
+    roll_28 = (sum(r28_vals) / len(r28_vals)) if r28_vals else 0.0
     
     for h in range(1, horizon_int + 1):
         target_dt = origin_dt + datetime.timedelta(days=h)
         
         # Baselines
-        # Persistence: y(D)
-        persist_val = round(y_origin, 2)
-        
         # Seasonal Naive: y(D + h - 7)
         sn_dt = target_dt - datetime.timedelta(days=7)
         sn_val = round(hist_map[sn_dt], 2) if sn_dt in hist_map else persist_val
@@ -232,15 +242,13 @@ def generate_forecast(
                     target_dt - datetime.timedelta(days=28)
                 ]
                 lags = [hist_map[ld] for ld in lag_dates]
-                roll_7 = sum(r7_vals) / len(r7_vals)
-                roll_28 = sum(r28_vals) / len(r28_vals)
                 
                 trend_years = (target_dt - T0).days / 365.25
                 doy = target_dt.timetuple().tm_yday
-                sin1 = math.sin(2.0 * math.pi * doy / 365.25)
-                cos1 = math.cos(2.0 * math.pi * doy / 365.25)
-                sin2 = math.sin(4.0 * math.pi * doy / 365.25)
-                cos2 = math.cos(4.0 * math.pi * doy / 365.25)
+                sin1 = math.sin(TWO_PI_OVER_YEAR * doy)
+                cos1 = math.cos(TWO_PI_OVER_YEAR * doy)
+                sin2 = math.sin(FOUR_PI_OVER_YEAR * doy)
+                cos2 = math.cos(FOUR_PI_OVER_YEAR * doy)
                 dow = target_dt.weekday()
                 dow_ohe = [1.0 if dow == k else 0.0 for k in range(6)]
                 

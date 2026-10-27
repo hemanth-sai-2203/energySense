@@ -12,6 +12,27 @@ PUBLIC_DIR = os.path.join(BASE_DIR, "public")
 DATA_DIR = os.path.join(BASE_DIR, "data", "clean")
 DB_PATH = os.path.join(DATA_DIR, "energysense.db")
 
+from scripts.forecast_service import generate_forecast
+
+def query_db(sql, params=(), as_dict=True, limit=None):
+    """Executes a query safely with guaranteed connection cleanup."""
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        if as_dict:
+            conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        cur.execute(sql, params)
+        if limit is not None:
+            rows = cur.fetchmany(limit)
+        else:
+            rows = cur.fetchall()
+        if as_dict:
+            return [dict(r) for r in rows]
+        columns = [desc[0] for desc in cur.description] if cur.description else []
+        return columns, rows
+    finally:
+        conn.close()
+
 class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=PUBLIC_DIR, **kwargs)
@@ -58,28 +79,28 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_error(404, "Endpoint not found")
 
-    def send_json(self, data):
-        body = json.dumps(data).encode("utf-8")
-        self.send_response(200)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
+    def _send_payload(self, body, content_type="application/json; charset=utf-8", code=200, extra_headers=None):
+        self.send_response(code)
+        self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Connection", "close")
         self.send_header("Access-Control-Allow-Origin", "*")
+        if extra_headers:
+            for k, v in extra_headers.items():
+                self.send_header(k, v)
         self.end_headers()
         self.wfile.write(body)
+
+    def send_json(self, data, code=200):
+        body = json.dumps(data).encode("utf-8")
+        self._send_payload(body, code=code)
 
     def send_error_json(self, msg, code=400, extra=None):
         payload = {"error": msg}
         if extra and isinstance(extra, dict):
             payload.update(extra)
         body = json.dumps(payload).encode("utf-8")
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_header("Connection", "close")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-        self.wfile.write(body)
+        self._send_payload(body, code=code)
 
     def handle_forecast(self, query):
         target = query.get("target", ["energy_met_mu"])[0]
@@ -87,7 +108,6 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         horizon = query.get("horizon", ["7"])[0]
         
         try:
-            from scripts.forecast_service import generate_forecast
             status_code, response_data = generate_forecast(
                 target=target,
                 origin_str=origin,
@@ -109,21 +129,11 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         if os.path.exists(filepath):
             with open(filepath, "rb") as f:
                 content = f.read()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(content)))
-            self.send_header("Connection", "close")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(content)
+            self._send_payload(content)
         else:
             self.send_error_json("File not found", 404)
 
     def handle_daily(self, query):
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-        
         year = query.get("year", [None])[0]
         start_date = query.get("start", [None])[0]
         end_date = query.get("end", [None])[0]
@@ -141,39 +151,22 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             params.append(end_date)
             
         sql += " ORDER BY date ASC"
-        cur.execute(sql, params)
-        rows = [dict(r) for r in cur.fetchall()]
-        conn.close()
+        rows = query_db(sql, params)
         self.send_json(rows)
 
     def handle_generation(self):
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM monthly_generation ORDER BY date ASC")
-        rows = [dict(r) for r in cur.fetchall()]
-        conn.close()
+        rows = query_db("SELECT * FROM monthly_generation ORDER BY date ASC")
         self.send_json(rows)
 
     def handle_states(self, query):
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
         year = query.get("year", [None])[0]
-        
         if year and year != "all":
-            cur.execute("SELECT * FROM state_annual_summary WHERE year = ? ORDER BY total_energy_mu DESC", (int(year),))
+            rows = query_db("SELECT * FROM state_annual_summary WHERE year = ? ORDER BY total_energy_mu DESC", (int(year),))
         else:
-            cur.execute("SELECT * FROM state_annual_summary ORDER BY state ASC, year ASC")
-            
-        rows = [dict(r) for r in cur.fetchall()]
-        conn.close()
+            rows = query_db("SELECT * FROM state_annual_summary ORDER BY state ASC, year ASC")
         self.send_json(rows)
 
     def handle_state_daily(self, query):
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cur = conn.cursor()
         state = query.get("state", [None])[0]
         year = query.get("year", [None])[0]
         
@@ -187,19 +180,12 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             params.append(int(year))
         sql += " ORDER BY date ASC"
         
-        cur.execute(sql, params)
-        rows = [dict(r) for r in cur.fetchall()]
-        conn.close()
+        rows = query_db(sql, params)
         self.send_json(rows)
 
     def handle_capacity(self):
         try:
-            conn = sqlite3.connect(DB_PATH)
-            conn.row_factory = sqlite3.Row
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM state_capacity_latest ORDER BY total_mw DESC")
-            rows = [dict(r) for r in cur.fetchall()]
-            conn.close()
+            rows = query_db("SELECT * FROM state_capacity_latest ORDER BY total_mw DESC")
             if rows:
                 self.send_json(rows)
                 return
@@ -220,12 +206,7 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
                 return
 
         try:
-            conn = sqlite3.connect(DB_PATH)
-            cur = conn.cursor()
-            cur.execute(clean_q)
-            columns = [desc[0] for desc in cur.description] if cur.description else []
-            rows = cur.fetchmany(200) # limit to 200 rows for response size
-            conn.close()
+            columns, rows = query_db(clean_q, as_dict=False, limit=200)
             self.send_json({"columns": columns, "rows": rows, "count": len(rows)})
         except Exception as e:
             self.send_error_json(f"SQL Execution Error: {str(e)}")
@@ -246,12 +227,11 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             if os.path.exists(fpath):
                 with open(fpath, "rb") as f:
                     content = f.read()
-                self.send_response(200)
-                self.send_header("Content-Type", "application/octet-stream")
-                self.send_header("Content-Disposition", f'attachment; filename="{fname}"')
-                self.send_header("Content-Length", str(len(content)))
-                self.end_headers()
-                self.wfile.write(content)
+                self._send_payload(
+                    content,
+                    content_type="application/octet-stream",
+                    extra_headers={"Content-Disposition": f'attachment; filename="{fname}"'}
+                )
                 return
         self.send_error(404, "Downloadable file not found")
 

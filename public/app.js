@@ -56,13 +56,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupRefresh();
   setupForecastControls();
 
-  // Load Initial Datasets
-  await loadAnalytics();
-  await loadDailyData();
-  await loadGenerationData();
-  await loadStatesData();
-  await loadCapacities();
-  await loadForecastData();
+  // Load Initial Datasets concurrently for optimal page load speed
+  await Promise.allSettled([
+    loadAnalytics(),
+    loadDailyData(),
+    loadGenerationData(),
+    loadStatesData(),
+    loadCapacities(),
+    loadForecastData()
+  ]);
 
   renderAllViews();
   setupResizeListener();
@@ -105,110 +107,63 @@ function setupNavigation() {
 // -------------------------------------------------------------
 // 2. Data Fetching API with Static File Fallback
 // -------------------------------------------------------------
-async function loadAnalytics() {
+async function fetchJsonWithFallback(apiUrl, fallbackUrl) {
   try {
-    const res = await fetch('/api/analytics');
-    if (res.ok) {
-      state.insights = await res.json();
-      updateKpiCards();
-      return;
-    }
+    const res = await fetch(apiUrl);
+    if (res.ok) return await res.json();
   } catch (err) {}
-  
-  try {
-    const res = await fetch('./data/insights_analytics.json');
-    if (res.ok) {
-      state.insights = await res.json();
-      updateKpiCards();
+  if (fallbackUrl) {
+    try {
+      const res = await fetch(fallbackUrl);
+      if (res.ok) return await res.json();
+    } catch (err) {
+      console.warn(`Fallback fetch error for ${fallbackUrl}:`, err);
     }
-  } catch (err) {
-    console.warn('Analytics load error:', err);
+  }
+  return null;
+}
+
+async function loadAnalytics() {
+  const data = await fetchJsonWithFallback('/api/analytics', './data/insights_analytics.json');
+  if (data) {
+    state.insights = data;
+    updateKpiCards();
   }
 }
 
 async function loadDailyData() {
-  try {
-    const res = await fetch('/api/daily');
-    if (res.ok) {
-      state.dailyData = await res.json();
-      filterDailyData();
-      return;
-    }
-  } catch (err) {}
-
-  try {
-    const res = await fetch('./data/daily_demand_india.json');
-    if (res.ok) {
-      state.dailyData = await res.json();
-      filterDailyData();
-    }
-  } catch (err) {
-    console.warn('Daily data load error:', err);
+  const data = await fetchJsonWithFallback('/api/daily', './data/daily_demand_india.json');
+  if (data) {
+    state.dailyData = data;
+    filterDailyData();
   }
 }
 
 async function loadGenerationData() {
-  try {
-    const res = await fetch('/api/generation');
-    if (res.ok) {
-      state.generationData = await res.json();
-      return;
-    }
-  } catch (err) {}
-
-  try {
-    const res = await fetch('./data/monthly_generation_india.json');
-    if (res.ok) {
-      state.generationData = await res.json();
-    }
-  } catch (err) {
-    console.warn('Generation data load error:', err);
+  const data = await fetchJsonWithFallback('/api/generation', './data/monthly_generation_india.json');
+  if (data) {
+    state.generationData = data;
   }
 }
 
 async function loadStatesData() {
-  try {
-    const res = await fetch(`/api/states?year=${state.stateYear}`);
-    if (res.ok) {
-      state.statesData = await res.json();
-      renderStatesTable();
-      renderStateDetail();
-      return;
+  const yr = parseInt(state.stateYear, 10);
+  let data = await fetchJsonWithFallback(`/api/states?year=${state.stateYear}`, './data/state_annual_summary.json');
+  if (data) {
+    if (Array.isArray(data) && data.length > 0 && data[0].year !== undefined && data[0].year !== yr) {
+      data = data.filter(s => s.year === yr).sort((a, b) => b.total_energy_mu - a.total_energy_mu);
     }
-  } catch (err) {}
-
-  try {
-    const res = await fetch('./data/state_annual_summary.json');
-    if (res.ok) {
-      const allStates = await res.json();
-      const yr = parseInt(state.stateYear, 10);
-      state.statesData = allStates.filter(s => s.year === yr).sort((a, b) => b.total_energy_mu - a.total_energy_mu);
-      renderStatesTable();
-      renderStateDetail();
-    }
-  } catch (err) {
-    console.warn('States data load error:', err);
+    state.statesData = data;
+    renderStatesTable();
+    renderStateDetail();
   }
 }
 
 async function loadCapacities() {
-  try {
-    const res = await fetch('/api/capacity');
-    if (res.ok) {
-      state.stateCapacities = await res.json();
-      renderStateCapacity();
-      return;
-    }
-  } catch (err) {}
-
-  try {
-    const res = await fetch('./data/state_capacity_latest.json');
-    if (res.ok) {
-      state.stateCapacities = await res.json();
-      renderStateCapacity();
-    }
-  } catch (err) {
-    console.warn('Capacities load error:', err);
+  const data = await fetchJsonWithFallback('/api/capacity', './data/state_capacity_latest.json');
+  if (data) {
+    state.stateCapacities = data;
+    renderStateCapacity();
   }
 }
 

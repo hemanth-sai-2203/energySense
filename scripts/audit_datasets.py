@@ -4,6 +4,10 @@ import os
 import sqlite3
 import datetime
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data", "clean")
+DB_PATH = os.path.join(DATA_DIR, "energysense.db")
+
 def audit_csv(path, date_col='date'):
     if not os.path.exists(path):
         print(f"File not found: {path}")
@@ -67,7 +71,7 @@ def audit_csv(path, date_col='date'):
     print()
 
 def audit_sqlite():
-    db_path = 'data/clean/energysense.db'
+    db_path = DB_PATH
     if not os.path.exists(db_path):
         print("SQLite DB not found!")
         return
@@ -87,7 +91,7 @@ def audit_sqlite():
 
 def audit_target_semantics():
     print("=== Target Semantics & Statistical Bounds ===")
-    with open('data/clean/daily_demand_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'daily_demand_india.csv'), 'r', encoding='utf-8') as f:
         r = csv.DictReader(f)
         rows = list(r)
     
@@ -108,7 +112,7 @@ def audit_target_semantics():
 
 def audit_monthly_gen():
     print("=== Monthly Generation Semantics ===")
-    with open('data/clean/monthly_generation_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'monthly_generation_india.csv'), 'r', encoding='utf-8') as f:
         r = csv.DictReader(f)
         rows = list(r)
     print(f"Monthly Records: {len(rows)}")
@@ -121,10 +125,10 @@ def audit_monthly_gen():
     print()
 
 if __name__ == '__main__':
-    audit_csv('data/clean/daily_demand_india.csv')
-    audit_csv('data/clean/monthly_generation_india.csv')
-    audit_csv('data/clean/state_annual_summary.csv', date_col='peak_date')
-    audit_csv('data/clean/state_daily_demand.csv')
+    audit_csv(os.path.join(DATA_DIR, 'daily_demand_india.csv'))
+    audit_csv(os.path.join(DATA_DIR, 'monthly_generation_india.csv'))
+    audit_csv(os.path.join(DATA_DIR, 'state_annual_summary.csv'), date_col='peak_date')
+    audit_csv(os.path.join(DATA_DIR, 'state_daily_demand.csv'))
     audit_sqlite()
     audit_target_semantics()
     audit_monthly_gen()

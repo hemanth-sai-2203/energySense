@@ -4,9 +4,12 @@ import os
 import datetime
 from collections import defaultdict
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data", "clean")
+
 def audit_missing_dates():
     print("=== Gaps & Missing Dates Analysis ===")
-    with open('data/clean/daily_demand_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'daily_demand_india.csv'), 'r', encoding='utf-8') as f:
         r = csv.DictReader(f)
         dates = [datetime.datetime.strptime(row['date'], '%Y-%m-%d').date() for row in r]
     
@@ -44,7 +47,7 @@ def audit_missing_dates():
 
 def audit_negative_unmet():
     print("\n=== Negative Unmet Peak Demand Anomaly ===")
-    with open('data/clean/daily_demand_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'daily_demand_india.csv'), 'r', encoding='utf-8') as f:
         r = csv.DictReader(f)
         neg_rows = [row for row in r if float(row['peak_unmet_mw']) < 0]
     print(f"Found {len(neg_rows)} rows with negative peak_unmet_mw:")
@@ -53,7 +56,7 @@ def audit_negative_unmet():
 
 def audit_claims():
     print("\n=== Audit of Report Claims ===")
-    with open('data/clean/insights_analytics.json', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'insights_analytics.json'), 'r', encoding='utf-8') as f:
         ins = json.load(f)
     print("Reported Insights JSON:")
     print(json.dumps(ins, indent=2))
@@ -61,7 +64,7 @@ def audit_claims():
     # 1. CAGR Claim: 8.27%
     # Report states: 2013 total = 716799.6 MU, 2023 total = 1586382.8 MU
     # Let's check 2013 recorded days: in 2013, how many days were recorded?
-    with open('data/clean/daily_demand_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'daily_demand_india.csv'), 'r', encoding='utf-8') as f:
         r = list(csv.DictReader(f))
     
     r_2013 = [x for x in r if x['year'] == '2013']
@@ -71,7 +74,8 @@ def audit_claims():
     print(f"\nCAGR Check:")
     print(f"  2013 rows: {len(r_2013)} days, Sum: {sum_2013:.1f} MU, Daily Avg: {sum_2013/len(r_2013):.1f} MU")
     print(f"  2023 rows: {len(r_2023)} days, Sum: {sum_2023:.1f} MU, Daily Avg: {sum_2023/len(r_2023):.1f} MU")
-    print(f"  Reported 2013 sum: {ins['growth_10yr_cagr']['total_mu_2013']}")
+    rep_2013 = ins['growth_10yr_cagr'].get('total_mu_2013', f"{sum_2013:.1f} (raw sum)")
+    print(f"  Reported 2013 sum: {rep_2013}")
     print(f"  Notice 2013 has only {len(r_2013)} days recorded (missing {365 - len(r_2013)} days)!")
     
     # Daily average annualized:
@@ -98,7 +102,7 @@ def audit_claims():
     print(f"  Methodological flaw: Naive bivariate OLS across 2013-2020 confounded by +8% annual load growth, no detrending, no seasonal controls.")
 
     # 4. Clean energy share peak: 35.74% in '2025-07-01'
-    with open('data/clean/monthly_generation_india.csv', 'r') as f:
+    with open(os.path.join(DATA_DIR, 'monthly_generation_india.csv'), 'r', encoding='utf-8') as f:
         gen = list(csv.DictReader(f))
     clean_shares = [(x['date'], float(x['clean_share_pct'])) for x in gen]
     clean_shares.sort(key=lambda x: x[1], reverse=True)

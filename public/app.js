@@ -18,7 +18,12 @@ const state = {
   genView: 'stacked',
   stateYear: '2023',
   selectedState: 'Maharashtra',
-  stateSearchQuery: ''
+  stateSearchQuery: '',
+  forecastTarget: 'energy_met_mu',
+  forecastHorizon: 7,
+  forecastOrigin: '2024-04-28',
+  forecastData: null,
+  forecastLoading: false
 };
 
 // Colors mapping
@@ -49,6 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupStateControls();
   setupSqlSandbox();
   setupRefresh();
+  setupForecastControls();
 
   // Load Initial Datasets
   await loadAnalytics();
@@ -56,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadGenerationData();
   await loadStatesData();
   await loadCapacities();
+  await loadForecastData();
 
   renderAllViews();
   setupResizeListener();
@@ -80,6 +87,7 @@ function setupNavigation() {
         // Re-render canvas for the newly active panel so dimensions match
         requestAnimationFrame(() => {
           if (state.activeTab === 'tabDemand') renderDemandChart();
+          else if (state.activeTab === 'tabForecast') renderForecastChart();
           else if (state.activeTab === 'tabClimate') { renderClimateChart(); renderClimateScatter(); }
           else if (state.activeTab === 'tabGeneration') renderGenChart();
           else if (state.activeTab === 'tabStates') renderStateDetail();
@@ -1096,6 +1104,7 @@ function renderSqlResults(columns, rows) {
 // -------------------------------------------------------------
 function renderAllViews() {
   renderDemandChart();
+  renderForecastChart();
   renderClimateChart();
   renderClimateScatter();
   renderGenChart();
@@ -1112,3 +1121,349 @@ function setupResizeListener() {
     }, 150);
   });
 }
+
+// -------------------------------------------------------------
+// 9. Tab Forecast: AI Forecasting Engine & Canvas Chart
+// -------------------------------------------------------------
+function setupForecastControls() {
+  // Target buttons (Energy Met vs Peak Met)
+  const targetBtns = document.querySelectorAll('#forecastTargetGroup .btn-pill');
+  targetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      targetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.forecastTarget = btn.dataset.target;
+      loadForecastData();
+    });
+  });
+
+  // Horizon buttons (1, 3, 5, 7 days)
+  const horizonBtns = document.querySelectorAll('#forecastHorizonGroup .btn-pill');
+  horizonBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      horizonBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.forecastHorizon = parseInt(btn.dataset.horizon, 10);
+      loadForecastData();
+    });
+  });
+
+  // Origin input date
+  const inputOrigin = document.getElementById('inputForecastOrigin');
+  if (inputOrigin) {
+    inputOrigin.addEventListener('change', (e) => {
+      state.forecastOrigin = e.target.value;
+      const presetSelect = document.getElementById('selectOriginPreset');
+      if (presetSelect) presetSelect.value = e.target.value;
+    });
+  }
+
+  // Preset dropdown
+  const selectPreset = document.getElementById('selectOriginPreset');
+  if (selectPreset) {
+    selectPreset.addEventListener('change', (e) => {
+      state.forecastOrigin = e.target.value;
+      if (inputOrigin) inputOrigin.value = e.target.value;
+      loadForecastData();
+    });
+  }
+
+  // Run Forecast button
+  const btnRun = document.getElementById('btnRunForecast');
+  if (btnRun) {
+    btnRun.addEventListener('click', () => {
+      if (inputOrigin) state.forecastOrigin = inputOrigin.value;
+      loadForecastData();
+    });
+  }
+}
+
+async function loadForecastData() {
+  const errorBox = document.getElementById('forecastErrorBox');
+  const btnRun = document.getElementById('btnRunForecast');
+  if (btnRun) {
+    btnRun.disabled = true;
+    btnRun.style.opacity = '0.6';
+  }
+
+  try {
+    const url = `/api/forecast?target=${state.forecastTarget}&origin=${state.forecastOrigin}&horizon=${state.forecastHorizon}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!res.ok || data.status === 'error') {
+      showForecastError(data.code || 'REQUEST_FAILED', data.message || 'Unable to generate forecast for requested origin.');
+      return;
+    }
+
+    if (errorBox) errorBox.style.display = 'none';
+    state.forecastData = data;
+
+    updateForecastKpis(data);
+    renderForecastTable(data);
+    renderForecastChart();
+  } catch (err) {
+    showForecastError('NETWORK_ERROR', 'Failed to connect to forecast service endpoint: ' + err.message);
+  } finally {
+    if (btnRun) {
+      btnRun.disabled = false;
+      btnRun.style.opacity = '1';
+    }
+  }
+}
+
+function showForecastError(code, message) {
+  const errorBox = document.getElementById('forecastErrorBox');
+  const titleEl = document.getElementById('forecastErrorTitle');
+  const msgEl = document.getElementById('forecastErrorMessage');
+
+  if (errorBox && titleEl && msgEl) {
+    titleEl.textContent = `Forecast Notice [${code}]`;
+    msgEl.textContent = message;
+    errorBox.style.display = 'flex';
+  }
+}
+
+function updateForecastKpis(data) {
+  if (!data || !data.predictions || data.predictions.length === 0) return;
+
+  const unit = data.units;
+  const preds = data.predictions;
+  const day1 = preds[0];
+
+  // Origin
+  const originVal = data.data_quality?.origin_observed_value;
+  document.getElementById('txtOriginDisplay').textContent = data.forecast_origin;
+  document.getElementById('txtOriginValue').textContent = originVal !== undefined
+    ? `Origin Actual: ${originVal.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${unit}`
+    : `Origin: ${data.forecast_origin}`;
+
+  // Day 1
+  document.getElementById('txtDay1Value').textContent = day1.predicted_value.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  document.getElementById('txtDay1Unit').textContent = unit;
+  document.getElementById('txtDay1Strategy').textContent = `Method: ${day1.recommended_model === 'ridge' ? 'Ridge ML' : 'Seasonal Naive'}`;
+
+  // Horizon Total / Avg
+  const sumVal = preds.reduce((acc, p) => acc + (p.predicted_value || 0), 0);
+  const avgVal = sumVal / preds.length;
+  document.getElementById('kpiHorizonBadge').textContent = `${preds.length} Days`;
+  document.getElementById('txtTrajectoryTotal').textContent = Math.round(sumVal).toLocaleString();
+  document.getElementById('txtTrajectoryUnit').textContent = unit.includes('MU') ? 'MU Total' : 'MW Sum';
+  document.getElementById('txtTrajectoryAvg').textContent = `Avg: ${avgVal.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${unit}/day`;
+
+  // Strategy badge
+  const txtStrategy = document.getElementById('txtStrategyTitle');
+  if (data.status === 'degraded') {
+    txtStrategy.textContent = 'Degraded Fallback';
+    txtStrategy.className = 'kpi-value-text text-amber';
+  } else {
+    txtStrategy.textContent = preds.length >= 7 ? 'Hybrid Multi-Step' : 'Direct Ridge ML';
+    txtStrategy.className = 'kpi-value-text text-emerald';
+  }
+
+  // Sync dates
+  const txtObs = document.getElementById('txtLatestObservedDate');
+  if (txtObs && data.data_freshness) txtObs.textContent = data.data_freshness.latest_observed_date;
+  const tableOrigin = document.getElementById('tableOriginDate');
+  if (tableOrigin) tableOrigin.textContent = data.forecast_origin;
+}
+
+function renderForecastTable(data) {
+  const tbody = document.getElementById('forecastTableBody');
+  if (!tbody || !data || !data.predictions) return;
+
+  tbody.innerHTML = '';
+  data.predictions.forEach(p => {
+    const tr = document.createElement('tr');
+
+    const badgeClass = p.recommended_model === 'ridge' ? 'badge-method-ridge' : 'badge-method-snaive';
+    const badgeLabel = p.recommended_model === 'ridge' ? 'Ridge ML' : 'Seasonal Naive';
+
+    tr.innerHTML = `
+      <td><strong>Day ${p.horizon}</strong> <span class="text-dim">(D+${p.horizon})</span></td>
+      <td>${p.target_date} <span class="text-dim">(${p.target_day_of_week.slice(0, 3)})</span></td>
+      <td><strong class="text-cyan">${p.predicted_value.toLocaleString(undefined, { maximumFractionDigits: 1 })} ${p.units}</strong></td>
+      <td><span class="${badgeClass}">${badgeLabel}</span></td>
+      <td>${p.ridge_prediction !== null ? p.ridge_prediction.toLocaleString(undefined, { maximumFractionDigits: 1 }) : '—'}</td>
+      <td>${p.persistence_baseline.toLocaleString(undefined, { maximumFractionDigits: 1 })}</td>
+      <td>${p.seasonal_naive_baseline.toLocaleString(undefined, { maximumFractionDigits: 1 })}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderForecastChart() {
+  const canvas = document.getElementById('forecastChartCanvas');
+  const tooltip = document.getElementById('forecastChartTooltip');
+  if (!canvas || !state.forecastData || !state.forecastData.predictions) return;
+
+  const data = state.forecastData;
+  const preds = data.predictions;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const width = rect.width;
+  const height = rect.height;
+  const padding = { top: 35, right: 35, bottom: 45, left: 70 };
+  const plotW = width - padding.left - padding.right;
+  const plotH = height - padding.top - padding.bottom;
+
+  ctx.clearRect(0, 0, width, height);
+
+  // Extract all value series to determine Y scale
+  const allVals = [];
+  preds.forEach(p => {
+    if (p.predicted_value) allVals.push(p.predicted_value);
+    if (p.ridge_prediction) allVals.push(p.ridge_prediction);
+    if (p.persistence_baseline) allVals.push(p.persistence_baseline);
+    if (p.seasonal_naive_baseline) allVals.push(p.seasonal_naive_baseline);
+  });
+  if (data.data_quality?.origin_observed_value) allVals.push(data.data_quality.origin_observed_value);
+
+  const rawMin = Math.min(...allVals);
+  const rawMax = Math.max(...allVals);
+  const span = rawMax - rawMin || 100;
+  const yMin = Math.floor((rawMin - span * 0.12) / 50) * 50;
+  const yMax = Math.ceil((rawMax + span * 0.12) / 50) * 50;
+
+  // Grid lines & Y Axis Labels
+  ctx.strokeStyle = COLORS.gridLine;
+  ctx.lineWidth = 1;
+  ctx.fillStyle = COLORS.axisText;
+  ctx.font = '11px "JetBrains Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+
+  const yTicks = 5;
+  for (let i = 0; i <= yTicks; i++) {
+    const val = yMin + (yMax - yMin) * (i / yTicks);
+    const y = padding.top + plotH - (plotH * (i / yTicks));
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(width - padding.right, y);
+    ctx.stroke();
+    ctx.fillText(Math.round(val).toLocaleString(), padding.left - 12, y);
+  }
+
+  // X Positions
+  const n = preds.length;
+  const xStep = n > 1 ? plotW / (n - 1) : plotW / 2;
+  const points = preds.map((p, idx) => {
+    const x = padding.left + (n > 1 ? idx * xStep : plotW / 2);
+    const yPred = padding.top + plotH - ((p.predicted_value - yMin) / (yMax - yMin)) * plotH;
+    const yRidge = p.ridge_prediction ? padding.top + plotH - ((p.ridge_prediction - yMin) / (yMax - yMin)) * plotH : null;
+    const yPersist = padding.top + plotH - ((p.persistence_baseline - yMin) / (yMax - yMin)) * plotH;
+    const ySNaive = padding.top + plotH - ((p.seasonal_naive_baseline - yMin) / (yMax - yMin)) * plotH;
+
+    return { x, yPred, yRidge, yPersist, ySNaive, data: p };
+  });
+
+  // X Axis labels
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  points.forEach((pt, i) => {
+    const label = `D+${pt.data.horizon} (${pt.data.target_date.slice(5)})`;
+    ctx.fillStyle = COLORS.axisText;
+    ctx.fillText(label, pt.x, height - padding.bottom + 12);
+  });
+
+  // Helper for line drawing
+  function drawLine(getY, strokeColor, lineWidth, dash = []) {
+    ctx.save();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+    ctx.setLineDash(dash);
+    ctx.beginPath();
+    let started = false;
+    points.forEach(pt => {
+      const y = getY(pt);
+      if (y !== null && !isNaN(y)) {
+        if (!started) { ctx.moveTo(pt.x, y); started = true; }
+        else { ctx.lineTo(pt.x, y); }
+      }
+    });
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 1. Persistence Baseline (Amber Dashed)
+  drawLine(pt => pt.yPersist, COLORS.amber, 2, [6, 4]);
+
+  // 2. Seasonal-Naive Baseline (Purple Dotted)
+  drawLine(pt => pt.ySNaive, COLORS.purple, 2, [3, 4]);
+
+  // 3. Raw Ridge ML (Blue Translucent)
+  drawLine(pt => pt.yRidge, 'rgba(59, 130, 246, 0.45)', 2, []);
+
+  // 4. Hybrid Selected Forecast (Solid Cyan with Neon Glow)
+  ctx.save();
+  ctx.shadowBlur = 12;
+  ctx.shadowColor = COLORS.cyan;
+  drawLine(pt => pt.yPred, COLORS.cyan, 3.5, []);
+  ctx.restore();
+
+  // Draw Points on Selected Forecast
+  points.forEach(pt => {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.yPred, 5, 0, Math.PI * 2);
+    ctx.fillStyle = pt.data.recommended_model === 'ridge' ? COLORS.cyan : COLORS.purple;
+    ctx.fill();
+    ctx.strokeStyle = '#0a0e17';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // Interactive Hover Tooltip
+  canvas.onmousemove = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - r.left;
+
+    let nearest = null;
+    let minDist = Infinity;
+    points.forEach(pt => {
+      const dist = Math.abs(pt.x - mouseX);
+      if (dist < minDist) {
+        minDist = dist;
+        nearest = pt;
+      }
+    });
+
+    if (nearest && minDist < 40) {
+      const p = nearest.data;
+      tooltip.style.display = 'block';
+      tooltip.style.left = `${nearest.x}px`;
+      tooltip.style.top = `${nearest.yPred - 20}px`;
+
+      const methodBadge = p.recommended_model === 'ridge'
+        ? '<span style="color:#38bdf8; font-weight:600;">[Ridge ML]</span>'
+        : '<span style="color:#a855f7; font-weight:600;">[Seasonal Naive]</span>';
+
+      tooltip.innerHTML = `
+        <div style="font-weight:700; color:#f8fafc; margin-bottom:4px;">
+          Day ${p.horizon}: ${p.target_date} (${p.target_day_of_week})
+        </div>
+        <div style="color:#38bdf8; font-size:12px; margin-bottom:6px;">
+          <strong>Selected:</strong> ${p.predicted_value.toLocaleString()} ${p.units} ${methodBadge}
+        </div>
+        <div style="font-size:11px; color:#94a3b8; display:grid; grid-template-columns:auto auto; gap:4px 8px;">
+          <span>Raw Ridge ML:</span><span style="color:#f8fafc;">${p.ridge_prediction ? p.ridge_prediction.toLocaleString() : '—'}</span>
+          <span>Day-0 Persist [y(D)]:</span><span style="color:#f59e0b;">${p.persistence_baseline.toLocaleString()}</span>
+          <span>Seasonal Naive:</span><span style="color:#a855f7;">${p.seasonal_naive_baseline.toLocaleString()}</span>
+        </div>
+      `;
+    } else {
+      tooltip.style.display = 'none';
+    }
+  };
+
+  canvas.onmouseleave = () => {
+    tooltip.style.display = 'none';
+  };
+}
+

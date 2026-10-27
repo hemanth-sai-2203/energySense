@@ -36,6 +36,8 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             self.handle_state_daily(query)
         elif path == "/api/capacity":
             self.handle_capacity()
+        elif path == "/api/forecast":
+            self.handle_forecast(query)
         elif path == "/api/download":
             self.handle_download(query)
         else:
@@ -66,8 +68,11 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def send_error_json(self, msg, code=400):
-        body = json.dumps({"error": msg}).encode("utf-8")
+    def send_error_json(self, msg, code=400, extra=None):
+        payload = {"error": msg}
+        if extra and isinstance(extra, dict):
+            payload.update(extra)
+        body = json.dumps(payload).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -75,6 +80,30 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(body)
+
+    def handle_forecast(self, query):
+        target = query.get("target", ["energy_met_mu"])[0]
+        origin = query.get("origin", [None])[0]
+        horizon = query.get("horizon", ["7"])[0]
+        
+        try:
+            from scripts.forecast_service import generate_forecast
+            status_code, response_data = generate_forecast(
+                target=target,
+                origin_str=origin,
+                horizon=horizon,
+                db_path=DB_PATH
+            )
+            if status_code == 200:
+                self.send_json(response_data)
+            else:
+                self.send_error_json(
+                    response_data.get("message", "Forecast request error"),
+                    code=status_code,
+                    extra=response_data
+                )
+        except Exception as e:
+            self.send_error_json(f"Forecast engine internal error: {str(e)}", code=500)
 
     def send_json_file(self, filepath):
         if os.path.exists(filepath):
@@ -231,7 +260,7 @@ def run(port=PORT):
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     for p in [port, port + 1, port + 80, 5000, 8080]:
         try:
-            server = socketserver.ThreadingTCPServer(("127.0.0.1", p), EnergySenseHandler)
+            server = socketserver.ThreadingTCPServer(("", p), EnergySenseHandler)
             print(f"EnergySense Server running at http://127.0.0.1:{p}", flush=True)
             server.serve_forever()
             break

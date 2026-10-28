@@ -1090,6 +1090,24 @@
               <a href="/api/download?file=insights" download="insights_analytics.json" class="btn-download">Download JSON</a>
             </div>
           </div>
+
+          <!-- Live Telemetry Ingestion Pipeline CLI Card -->
+          <div class="ingestion-cli-card" style="margin-top: 20px; padding: 16px; background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                <span>📡</span> Live Official Telemetry Ingestion Pipeline (Post-April 2024)
+              </h4>
+              <span class="badge-tag">CLI Tool</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">
+              Ingest post-benchmark data directly from Vidyut Pravah, Grid-India Daily PSP reports, or run offline seasonal benchmarks beyond April 28, 2024:
+            </p>
+            <pre style="background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono); font-size: 11.5px; overflow-x: auto; color: var(--accent-teal);"><code># Dry-run 30 days of post-freeze telemetry:
+python scripts/fetch_official_grid_data.py --source offline_benchmark --days 30 --dry-run
+
+# Save live extension records to CSV and SQLite extension table:
+python scripts/fetch_official_grid_data.py --source vidyutpravah --days 14 --output-csv data/clean/daily_demand_extended.csv --save-to-db</code></pre>
+          </div>
         </div>
       </div>
     </section>

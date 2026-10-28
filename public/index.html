@@ -35,7 +35,7 @@
     </div>
     
     <div class="header-center">
-      <div class="data-status-pill">
+      <div class="data-status-pill" id="btnHeaderStatusPill" role="button" tabindex="0" title="Click to inspect official data sources, governance audits, and regulatory architecture" aria-label="Open Data Provenance & Governance">
         <span class="status-indicator"></span>
         <span class="status-label">3,900+ Daily Grid Records</span>
         <span class="status-sep">•</span>
@@ -46,6 +46,12 @@
     </div>
 
     <div class="header-right">
+      <button class="btn-secondary" id="btnProvenance" title="Inspect official data sources, governance audits, and regulatory architecture" aria-label="Open Data Provenance & Governance">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        Data Provenance
+      </button>
       <button id="btnRefresh" class="btn-icon" title="Refresh Live Insights">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M23 4v6h-6M1 20v-6h6"/>
@@ -121,6 +127,13 @@
 
     <!-- TAB 1: National Demand & Peak Load -->
     <section class="tab-panel active" id="tabDemand">
+      <!-- Institutional Provenance Banner -->
+      <div class="tab-source-banner">
+        <span class="source-badge"><span class="badge-dot"></span> Primary Source: <strong>Grid-India (POSOCO)</strong> SCADA Telemetry</span>
+        <span class="source-meta">Research Benchmark Freeze: 2024-04-28 (Zenodo DOI: 10.5281/zenodo.14983362) • 3,900 Daily Records</span>
+        <button class="source-link-btn" onclick="openProvenanceModal('tabDemand')">Provenance &amp; Governance →</button>
+      </div>
+
       <!-- National Overview KPI Metrics Ribbon -->
       <div class="kpi-ribbon" id="kpiRibbon">
         <div class="kpi-card" id="kpiPeakMet">
@@ -305,6 +318,7 @@
         <div class="alert-meta">
           <span class="badge-freshness">Canonical History: 2013 – 2024</span>
           <span class="badge-status-certified">Model: Certified v2.1</span>
+          <button class="source-link-btn" onclick="openProvenanceModal('tabForecast')">Provenance Specs →</button>
         </div>
       </div>
 
@@ -585,6 +599,13 @@
 
     <!-- TAB 2: Climate & Heatwave Elasticity -->
     <section class="tab-panel" id="tabClimate">
+      <!-- Institutional Provenance Banner -->
+      <div class="tab-source-banner">
+        <span class="source-badge"><span class="badge-dot"></span> Climate Source: <strong>ECMWF ERA5 Reanalysis</strong></span>
+        <span class="source-meta">Universal Thermal Climate Index (2013–2020) • 1,196 Unmerged Post-Cutoff Days Noted in Audit • R² = 0.0035 Exploratory Baseline</span>
+        <button class="source-link-btn" onclick="openProvenanceModal('tabClimate')">Climate Audit Details →</button>
+      </div>
+
       <div class="dual-panel-grid">
         <!-- Climate Overlay Chart -->
         <div class="panel-card">
@@ -683,6 +704,13 @@
 
     <!-- TAB 3: Generation Fuel Mix & Decarbonization -->
     <section class="tab-panel" id="tabGeneration">
+      <!-- Institutional Provenance Banner -->
+      <div class="tab-source-banner">
+        <span class="source-badge"><span class="badge-dot"></span> Generation Source: <strong>Central Electricity Authority (CEA)</strong></span>
+        <span class="source-meta">Ingested via Ember Climate Open Pipeline (Jan 2019 – Nov 2025) • 83 Consecutive Monthly Generation Records</span>
+        <button class="source-link-btn" onclick="openProvenanceModal('tabGeneration')">CEA Accounting Methodology →</button>
+      </div>
+
       <div class="panel-card chart-container-card">
         <div class="panel-card-header">
           <div>
@@ -738,6 +766,13 @@
 
     <!-- TAB 4: State Matrix & Leaderboards -->
     <section class="tab-panel" id="tabStates">
+      <!-- Institutional Provenance Banner -->
+      <div class="tab-source-banner">
+        <span class="source-badge"><span class="badge-dot"></span> Spatial Source: <strong>Grid-India Regional Load Despatch Centres (RLDCs)</strong></span>
+        <span class="source-meta">37 States &amp; Union Territories • 32,072 Granular State-Day Records (2022–2024)</span>
+        <button class="source-link-btn" onclick="openProvenanceModal('tabStates')">State Telemetry Governance →</button>
+      </div>
+
       <!-- State Mode Switcher Bar -->
       <div class="state-mode-bar">
         <div class="btn-group" id="stateModeGroup">
@@ -943,6 +978,13 @@
 
     <!-- TAB 5: SQL Sandbox & Data Export -->
     <section class="tab-panel" id="tabSql">
+      <!-- Institutional Provenance Banner -->
+      <div class="tab-source-banner">
+        <span class="source-badge"><span class="badge-dot"></span> Forensic Engine: <strong>EnergySense SQLite Database</strong></span>
+        <span class="source-meta">Read-Only SQL Sandbox • 100% Invariant Compliance • Raw Anomaly Preservations Tracked</span>
+        <button class="source-link-btn" onclick="openProvenanceModal('tabSql')">Full Forensic Invariants →</button>
+      </div>
+
       <div class="sql-sandbox-wrapper" id="sqlSandbox">
         <div class="panel-card">
           <div class="panel-card-header">
@@ -1066,6 +1108,192 @@
       </div>
     </div>
   </footer>
+
+  <!-- Data Provenance & Governance Modal -->
+  <div id="provenanceModal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-badge-row">
+            <span class="modal-status-chip"><span class="badge-dot"></span> Regulatory &amp; Data Standard</span>
+            <span class="modal-status-chip chip-outline">Version 1.0.0</span>
+          </div>
+          <h2 id="modalTitle" class="modal-title">Data Provenance, Institutional Architecture &amp; Audit Governance</h2>
+          <p class="modal-subtitle">Official statutory authorities, telemetry vs accounting reconciliations, and academic benchmark invariants</p>
+        </div>
+        <button id="btnCloseModal" class="btn-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+
+      <!-- Quick Metrics Ribbon -->
+      <div class="modal-kpis">
+        <div class="modal-kpi">
+          <span class="kpi-num">4</span>
+          <span class="kpi-lbl">Core Authorities</span>
+          <span class="kpi-desc">Grid-India, CEA, CERC, Ember</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="kpi-num">3,900</span>
+          <span class="kpi-lbl">Daily Records</span>
+          <span class="kpi-desc">Benchmark Freeze: Apr 28, 2024</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="kpi-num">83</span>
+          <span class="kpi-lbl">Monthly Records</span>
+          <span class="kpi-desc">CEA Data to Nov 2025</span>
+        </div>
+        <div class="modal-kpi">
+          <span class="kpi-num">5.12%</span>
+          <span class="kpi-lbl">Audited CAGR</span>
+          <span class="kpi-desc">Corrected for 236 Missing Gaps</span>
+        </div>
+      </div>
+
+      <!-- Modal Tabs Navigation -->
+      <div class="modal-nav">
+        <button class="modal-tab-btn active" data-modaltab="modalTabInstitutions">Institutional Roles &amp; Sources</button>
+        <button class="modal-tab-btn" data-modaltab="modalTabAudits">Data Quality Audits &amp; Gaps</button>
+        <button class="modal-tab-btn" data-modaltab="modalTabFaq">Live Feeds &amp; Official APIs FAQ</button>
+      </div>
+
+      <!-- Modal Body Content Panes -->
+      <div class="modal-body">
+        <!-- Pane 1: Institutional Roles & Sources -->
+        <div class="modal-pane active" id="modalTabInstitutions">
+          <div class="institutional-grid">
+            <div class="inst-card">
+              <div class="inst-header">
+                <span class="inst-badge badge-grid">System Operator</span>
+                <h3>Grid-India (POSOCO)</h3>
+              </div>
+              <p class="inst-role">National System Operator under Electricity Act 2003 (NLDC + 5 Regional Load Despatch Centres).</p>
+              <ul class="inst-details">
+                <li><strong>Primary Stream:</strong> Real-time SCADA operational telemetry from substation transducers.</li>
+                <li><strong>Publication:</strong> Daily Power Supply Position (PSP) reports at ~09:00 IST the following morning.</li>
+                <li><strong>EnergySense Role:</strong> Powers Tab 1 &amp; Tab 2 (National Demand) and Tab 5 (State Matrix).</li>
+                <li><strong>Official Portal:</strong> <a href="https://grid-india.in" target="_blank" rel="noopener">grid-india.in</a> • <a href="https://vidyutpravah.in" target="_blank" rel="noopener">vidyutpravah.in</a></li>
+              </ul>
+            </div>
+
+            <div class="inst-card">
+              <div class="inst-header">
+                <span class="inst-badge badge-cea">Technical Authority</span>
+                <h3>Central Electricity Authority (CEA)</h3>
+              </div>
+              <p class="inst-role">Statutory technical authority under Section 73 of the Electricity Act 2003.</p>
+              <ul class="inst-details">
+                <li><strong>Primary Stream:</strong> National power planning, coal stock tracking, Load Generation Balance Report (LGBR), monthly generation accounting.</li>
+                <li><strong>Publication:</strong> Monthly generation reports &amp; executive summaries.</li>
+                <li><strong>EnergySense Role:</strong> Sourced via Ember's pipeline for Tab 4 (Fuel Mix to Nov 2025).</li>
+                <li><strong>Official Portal:</strong> <a href="https://cea.nic.in" target="_blank" rel="noopener">cea.nic.in</a> • <a href="https://npp.gov.in" target="_blank" rel="noopener">npp.gov.in</a></li>
+              </ul>
+            </div>
+
+            <div class="inst-card">
+              <div class="inst-header">
+                <span class="inst-badge badge-cerc">Economic Regulator</span>
+                <h3>CERC</h3>
+              </div>
+              <p class="inst-role">Quasi-judicial regulator under Section 76 of Electricity Act 2003.</p>
+              <ul class="inst-details">
+                <li><strong>Primary Stream:</strong> Interstate transmission tariffs, Indian Electricity Grid Code (IEGC), power exchange market monitoring (IEX, PXIL, HPX).</li>
+                <li><strong>Crucial Distinction:</strong> CERC does <em>not</em> operate physical dispatch or stream daily telemetry feeds.</li>
+                <li><strong>Official Portal:</strong> <a href="https://cercind.gov.in" target="_blank" rel="noopener">cercind.gov.in</a></li>
+              </ul>
+            </div>
+
+            <div class="inst-card">
+              <div class="inst-header">
+                <span class="inst-badge badge-ember">Open Data Pipeline</span>
+                <h3>Ember &amp; ECMWF ERA5</h3>
+              </div>
+              <p class="inst-role">Independent international energy think tank &amp; European climate reanalysis centre.</p>
+              <ul class="inst-details">
+                <li><strong>Ember Pipeline:</strong> Automated monthly ingestion of CEA generation statistics into structured decarbonization metrics.</li>
+                <li><strong>ECMWF ERA5:</strong> Universal Thermal Climate Index (UTCI) 2m temperature reanalysis (2013–2020) via Hunt &amp; Bloomfield.</li>
+                <li><strong>Official Portals:</strong> <a href="https://ember-energy.org" target="_blank" rel="noopener">ember-energy.org</a> • <a href="https://cds.climate.copernicus.eu" target="_blank" rel="noopener">Copernicus CDS</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="modal-callout">
+            <strong>Key Engineering Finding: SCADA Telemetry vs Commercial Settlement Accounts (REAs)</strong>
+            <p>Grid-India reports instantaneous operational telemetry from SCADA transducers published on T+1. Regional Power Committees (RPCs) under CERC regulations publish Regional Energy Accounts (REAs) 2–4 weeks later based on certified Special Energy Meters (SEMs). Because of transducer calibration drift, unmetered auxiliary consumption, and transmission losses, SCADA daily MU figures typically diverge from final commercial accounts by ±0.5% to 2.5%.</p>
+          </div>
+        </div>
+
+        <!-- Pane 2: Data Quality Audits & Gaps -->
+        <div class="modal-pane" id="modalTabAudits">
+          <div class="audit-breakdown-grid">
+            <div class="audit-card">
+              <h4>📅 236 Missing Calendar Dates (93 Clusters)</h4>
+              <p>The daily demand archive spans 4,136 elapsed calendar days between 2013-01-01 and 2024-04-28, but contains 3,900 observations. 236 days are missing, including an 82-day continuous gap in early 2013 (Jan 8 – Mar 30) and 50 days in 2020.</p>
+              <div class="math-box">
+                <strong>Why the Naive 8.27% CAGR Was Defective:</strong><br>
+                2013 only had 271 recorded days (716,800 MU) vs 364 in 2023 (1,586,383 MU). Comparing raw annual sums artificially deflated the 2013 baseline. Comparing normalized mean daily demand (2,645.0 MU/day in 2013 vs 4,358.2 MU/day in 2023) gives the true, defensible <strong>5.12% CAGR</strong>.
+              </div>
+            </div>
+
+            <div class="audit-card">
+              <h4>⚠️ 6 Negative Peak Unmet Deficit Records</h4>
+              <p>Under physical definitions, peak unmet deficit cannot be negative. However, the raw scraped `peak_unmet_MW.csv` contains 6 negative entries (down to -3,171 MW on 2014-07-23). These represent either transcription/OCR parsing errors in legacy PDF tables or misclassified surplus injections.</p>
+              <div class="math-box">
+                <strong>Data Governance Policy:</strong><br>
+                All raw negative values are strictly preserved in SQLite and the audit log (<code>anomaly_flag = 'NEGATIVE_UNMET_DEFICIT'</code>). Visual chart curves are clamped to 0 MW with explicit footnotes so as not to distort recruiter evaluation.
+              </div>
+            </div>
+
+            <div class="audit-card">
+              <h4>🌡️ ERA5 Climate Series Truncation (1,196 Dates)</h4>
+              <p>The ECMWF Universal Thermal Climate Index (UTCI) series ends on 2020-12-31, leaving 1,196 daily rows (30.7%) between 2021 and 2024 unmerged.</p>
+              <div class="math-box">
+                <strong>Statistical Insight (R² = 0.0035):</strong><br>
+                The empirical Pearson correlation between national mean UTCI and daily demand across 2013–2020 is r = 0.059. Simultaneous summer heatwaves in North India and monsoon cooling in the South wash out national aggregate correlation, confirming climate cannot be used as a naive univariate linear predictor.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 3: Live Feeds & Official APIs FAQ -->
+        <div class="modal-pane" id="modalTabFaq">
+          <div class="faq-list">
+            <div class="faq-item">
+              <h4>Q1: Can we get live feed or post-April 2024 data from official websites?</h4>
+              <div class="faq-answer">
+                <p><strong>Yes.</strong> The data exists and is produced every single day by Grid-India. Grid-India publishes daily Power Supply Position reports every morning at ~09:00 IST in PDF format, and Vidyut Pravah provides 15-minute dispatch snapshots.</p>
+                <p><strong>Why the April 28, 2024 cutoff?</strong> In scientific benchmarking, datasets are frozen at a published historical timestamp (Zenodo DOI: 10.5281/zenodo.14983362) to provide a standardized, reproducible testbed where models can be evaluated against verified ground truth without lookahead leakage. Note that Tab 4 (Fuel Mix) already extends into <strong>late 2025</strong> via Ember's monthly CEA pipeline.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h4>Q2: Is the data fully corrected, and are there regulatory ambiguities?</h4>
+              <div class="faq-answer">
+                <p><strong>The data reflects operational reality with documented, auditable corrections.</strong> Raw transcription anomalies (such as negative deficit rows) are preserved in the database for audit integrity while cleanly clamped in visual charts. Legitimate differences between Grid-India telemetry and CEA annual figures stem from SCADA instantaneous transducers vs post-facto Special Energy Meter (SEM) billing settlements.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <h4>Q3: What official APIs or datasets are available in India?</h4>
+              <div class="faq-answer">
+                <ul>
+                  <li><strong>CEA Data API Portal (cea.nic.in):</strong> Programmatic access to installed capacity, power supply position, and generation statistics.</li>
+                  <li><strong>National Power Portal (npp.gov.in):</strong> Centralized repository maintained by CEA and MoP for daily station generation and regional load summaries.</li>
+                  <li><strong>NITI Aayog ICED (iced.niti.gov.in):</strong> India Climate and Energy Dashboard with clean downloads of state-level load curves and generation time-series.</li>
+                  <li><strong>Vidyut Pravah (vidyutpravah.in):</strong> Near real-time operational portal operated by Grid-India with 15-minute dispatch and price updates.</li>
+                  <li><strong>Open Government Data (data.gov.in):</strong> Official REST API for statutory releases.</li>
+                  <li><strong>Ember Climate API:</strong> Free, open REST API providing monthly generation by fuel type for India (integrated into Tab 4).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a href="/docs/data_provenance_and_governance.md" target="_blank" class="btn-secondary">Technical Reference Doc</a>
+        <button id="btnFooterCloseModal" class="btn-primary">Dismiss</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

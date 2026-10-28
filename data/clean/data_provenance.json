@@ -1,0 +1,129 @@
+{
+  "system_overview": {
+    "title": "EnergySense India Data Provenance & Governance Standard",
+    "version": "1.0.0",
+    "updated_at": "2026-10-28T05:30:00Z",
+    "academic_freeze_date": "2024-04-28",
+    "generation_pipeline_date": "2025-11-01",
+    "status": "VERIFIED_AUDIT_COMPLIANT"
+  },
+  "institutions": {
+    "grid_india": {
+      "name": "Grid Controller of India Limited (Grid-India / POSOCO)",
+      "statutory_role": "National System Operator under Electricity Act 2003 (NLDC & 5 RLDCs)",
+      "primary_data_type": "SCADA Operational Telemetry & Daily Power Supply Position (PSP) Reports",
+      "reporting_cadence": "Daily (T+1 at ~09:00 IST)",
+      "url": "https://grid-india.in",
+      "portals": ["https://grid-india.in/reports/daily-reports", "https://vidyutpravah.in"]
+    },
+    "cea": {
+      "name": "Central Electricity Authority (CEA)",
+      "statutory_role": "Technical Authority under Section 73 of Electricity Act 2003",
+      "primary_data_type": "Monthly Generation Statistics, Load Generation Balance Report (LGBR), National Installed Capacity",
+      "reporting_cadence": "Monthly / Annual",
+      "url": "https://cea.nic.in",
+      "portals": ["https://npp.gov.in", "https://cea.nic.in"]
+    },
+    "cerc": {
+      "name": "Central Electricity Regulatory Commission (CERC)",
+      "statutory_role": "Quasi-Judicial Economic Regulator under Section 76 of Electricity Act 2003",
+      "primary_data_type": "Tariff Orders, Interstate Transmission Regulations, Monthly Market Monitoring (IEX/PXIL/HPX)",
+      "reporting_cadence": "Monthly / Regulatory Filing Basis",
+      "url": "https://cercind.gov.in",
+      "note": "CERC is an economic regulator and does not stream daily physical grid telemetry."
+    },
+    "ember": {
+      "name": "Ember Climate Global Electricity Data Pipeline",
+      "statutory_role": "Independent Energy Think Tank & Open Data Provider",
+      "primary_data_type": "Monthly Clean Power, Thermal Generation & Emissions derived from CEA monthly reports",
+      "reporting_cadence": "Monthly (through late 2025)",
+      "url": "https://ember-energy.org",
+      "api_endpoint": "https://ember-energy.org/data/api/"
+    },
+    "ecmwf": {
+      "name": "European Centre for Medium-Range Weather Forecasts (ECMWF)",
+      "statutory_role": "ERA5 Reanalysis Meteorological Provider",
+      "primary_data_type": "Universal Thermal Climate Index (UTCI) 2m temperature & thermal comfort (2013-2020)",
+      "reporting_cadence": "Historical Benchmark (Freeze Dec 2020)",
+      "url": "https://cds.climate.copernicus.eu"
+    }
+  },
+  "datasets": [
+    {
+      "id": "daily_national_demand",
+      "tab": "Tab 1 & Tab 2 (National Demand & Forecasting)",
+      "metric": "Daily Energy Met (MU), Peak Met (MW), Peak Unmet (MW)",
+      "source_agency": "Grid-India / POSOCO via Hunt & Bloomfield Benchmark (Zenodo 10.5281/zenodo.14983362)",
+      "coverage": "2013-01-01 to 2024-04-28",
+      "total_observations": 3900,
+      "cadence": "Daily Operational Telemetry",
+      "freeze_reason": "Standardized academic freeze for reproducible, leak-free machine learning backtesting"
+    },
+    {
+      "id": "state_daily_matrix",
+      "tab": "Tab 5 (Inter-State Matrix & Profiles)",
+      "metric": "State Energy Met (MU), Peak Met (MW), Unmet Deficit (MW) across 37 States/UTs",
+      "source_agency": "Grid-India RLDCs via Hunt & Bloomfield Benchmark",
+      "coverage": "2013-01-01 to 2024-04-28 (32,072 state-day rows for 2022-2024)",
+      "total_observations": 32072,
+      "cadence": "Daily Regional Telemetry"
+    },
+    {
+      "id": "monthly_generation_fuel_mix",
+      "tab": "Tab 4 (Fuel Mix & Clean Transition)",
+      "metric": "Monthly Thermal, Hydro, Solar, Wind, Nuclear, Bioenergy Generation (TWh / %)",
+      "source_agency": "Central Electricity Authority (CEA) via Ember Climate Pipeline",
+      "coverage": "2019-01-01 to 2025-11-01",
+      "total_observations": 83,
+      "cadence": "Monthly Statutory Accounting",
+      "status": "Continuously Updated through late 2025"
+    },
+    {
+      "id": "climate_thermal_utci",
+      "tab": "Tab 3 (Climate Sensitivity)",
+      "metric": "National Population-Weighted Mean Universal Thermal Climate Index (°C)",
+      "source_agency": "ECMWF ERA5 Reanalysis via Hunt & Bloomfield (2024)",
+      "coverage": "2013-01-01 to 2020-12-31",
+      "total_observations": 2704,
+      "cadence": "Daily Historical Reanalysis",
+      "unmerged_dates": 1196,
+      "correlation_note": "R² = 0.0035 (r = 0.059) indicates national aggregate temperature is unsuitable for operational dispatch without regional breakdown"
+    }
+  ],
+  "governance_invariants": {
+    "total_daily_records": 3900,
+    "missing_calendar_dates": 236,
+    "missing_date_clusters": 93,
+    "notable_gaps": [
+      {"period": "2013-01-08 to 2013-03-30", "duration_days": 82, "impact": "Deflated 2013 raw sum, causing naive 8.27% CAGR error"},
+      {"period": "2020-04-01 to 2020-07-20", "duration_days": 50, "impact": "Pandemic lockdown reporting disruption"}
+    ],
+    "negative_deficit_records": {
+      "count": 6,
+      "policy": "Preserved in raw SQLite database and audit log; clamped to 0 MW for visual charts with explicit audit footnote",
+      "sample_records": [
+        {"date": "2014-07-23", "peak_met_mw": 133792.0, "raw_peak_unmet_mw": -3171.0},
+        {"date": "2014-07-19", "peak_met_mw": 133430.0, "raw_peak_unmet_mw": -1665.0}
+      ]
+    },
+    "cagr_audit": {
+      "naive_unadjusted_sum_pct": 8.27,
+      "defensible_mean_daily_pct": 5.12,
+      "explanation": "2013 had 271 recorded days (2,645.0 MU/day) vs 364 days in 2023 (4,358.2 MU/day). Comparing normalized daily means yields 5.12%."
+    }
+  },
+  "faq": [
+    {
+      "q": "Can we get live feed or post-April 2024 data from official websites?",
+      "a": "Yes. Grid-India publishes daily PSP reports every morning at 09:00 IST in PDF format, and Vidyut Pravah provides 15-minute dispatch snapshots. Our daily series was frozen on April 28, 2024 to match the published peer-reviewed benchmark (Zenodo DOI: 10.5281/zenodo.14983362) for reproducible, leak-free machine learning evaluations. Note that Tab 4 (Fuel Mix) already extends into late 2025 via Ember's live CEA pipeline."
+    },
+    {
+      "q": "Is the data fully corrected, and are there ambiguities with CERC/CEA reports?",
+      "a": "The data reflects raw operational reality with audited corrections. Operational telemetry from Grid-India (SCADA transducers) naturally diverges by 0.5% to 2.5% from CEA/RPC commercial settlement accounts (Special Energy Meters) due to transmission wheeling losses and auxiliary power deductions. The 6 negative deficit records in raw telemetry are cataloged and audited."
+    },
+    {
+      "q": "What official APIs and datasets are available in India?",
+      "a": "Official sources include the CEA Data API Portal (cea.nic.in), National Power Portal (npp.gov.in), NITI Aayog ICED (iced.niti.gov.in), Open Government Data (data.gov.in), and Vidyut Pravah (vidyutpravah.in). Ember provides a free, open REST API for monthly generation statistics."
+    }
+  ]
+}

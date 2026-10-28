@@ -47,6 +47,8 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json_file(os.path.join(DATA_DIR, "insights_analytics.json"))
         elif path == "/api/audit":
             self.send_json_file(os.path.join(DATA_DIR, "data_audit_results.json"))
+        elif path == "/api/provenance":
+            self.send_json_file(os.path.join(DATA_DIR, "data_provenance.json"))
         elif path == "/api/daily":
             self.handle_daily(query)
         elif path == "/api/generation":
@@ -240,7 +242,7 @@ def run(port=PORT):
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     for p in [port, port + 1, port + 80, 5000, 8080]:
         try:
-            server = socketserver.ThreadingTCPServer(("", p), EnergySenseHandler)
+            server = socketserver.ThreadingTCPServer(("127.0.0.1", p), EnergySenseHandler)
             print(f"EnergySense Server running at http://127.0.0.1:{p}", flush=True)
             server.serve_forever()
             break

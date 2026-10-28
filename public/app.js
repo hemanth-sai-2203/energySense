@@ -57,6 +57,7 @@ const COLORS = {
 // Initialize Application
 document.addEventListener('DOMContentLoaded', async () => {
   setupNavigation();
+  setupProvenanceModal();
   setupDemandControls();
   setupGenControls();
   setupStateControls();
@@ -113,6 +114,85 @@ function setupNavigation() {
   document.getElementById('btnHeaderSQL')?.addEventListener('click', (e) => {
     e.preventDefault();
     document.getElementById('tabBtnSql')?.click();
+  });
+}
+
+// -------------------------------------------------------------
+// 1b. Data Provenance & Governance Modal Controller
+// -------------------------------------------------------------
+function setupProvenanceModal() {
+  const modal = document.getElementById('provenanceModal');
+  const btnProvenance = document.getElementById('btnProvenance');
+  const btnStatusPill = document.getElementById('btnHeaderStatusPill');
+  const btnCloseModal = document.getElementById('btnCloseModal');
+  const btnFooterClose = document.getElementById('btnFooterCloseModal');
+  const tabButtons = document.querySelectorAll('.modal-tab-btn');
+  const tabPanes = document.querySelectorAll('.modal-pane');
+
+  if (!modal) return;
+
+  function openModal(initialTabId) {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (initialTabId) {
+      switchModalTab(initialTabId);
+    }
+    if (btnCloseModal) btnCloseModal.focus();
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (btnProvenance) btnProvenance.focus();
+  }
+
+  function switchModalTab(tabId) {
+    tabButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.modaltab === tabId);
+    });
+    tabPanes.forEach(pane => {
+      pane.classList.toggle('active', pane.id === tabId);
+    });
+  }
+
+  window.openProvenanceModal = function(tabHint) {
+    let targetPane = 'modalTabInstitutions';
+    if (tabHint === 'tabClimate' || tabHint === 'tabSql') targetPane = 'modalTabAudits';
+    if (tabHint === 'tabForecast' || tabHint === 'tabDemand') targetPane = 'modalTabFaq';
+    openModal(targetPane);
+  };
+
+  if (btnProvenance) {
+    btnProvenance.addEventListener('click', () => openModal('modalTabInstitutions'));
+  }
+  if (btnStatusPill) {
+    btnStatusPill.addEventListener('click', () => openModal('modalTabInstitutions'));
+    btnStatusPill.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal('modalTabInstitutions');
+      }
+    });
+  }
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (btnFooterClose) btnFooterClose.addEventListener('click', closeModal);
+
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) {
+      closeModal();
+    }
+  });
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchModalTab(btn.dataset.modaltab);
+    });
   });
 }
 

@@ -7,10 +7,10 @@
   <meta name="description" content="Comprehensive analytical observatory of India's electricity demand, peak load, thermal climate sensitivity, and renewable energy transition from 2013 to 2025.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="dark-theme">
+<body>
   <!-- Top Navigation & Header -->
   <header class="app-header">
     <div class="header-left">
@@ -36,7 +36,7 @@
     
     <div class="header-center">
       <div class="data-status-pill">
-        <span class="live-pulse"></span>
+        <span class="status-indicator"></span>
         <span class="status-label">3,900+ Daily Grid Records</span>
         <span class="status-sep">•</span>
         <span class="status-tag">2013 – 2024</span>
@@ -70,93 +70,6 @@
 
   <!-- Main Container -->
   <main class="main-wrapper">
-    <!-- KPI Metrics Ribbon -->
-    <section class="kpi-ribbon" id="kpiRibbon">
-      <div class="kpi-card" id="kpiPeakMet">
-        <div class="kpi-header">
-          <span class="kpi-title">All-Time Peak Met</span>
-          <span class="kpi-badge badge-cyan">Record</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valPeakMet">249,623</span>
-          <span class="kpi-unit">MW</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub" id="datePeakMet">Sep 1, 2023 • Summer Surge</span>
-        </div>
-      </div>
-
-      <div class="kpi-card" id="kpiDailyEnergy">
-        <div class="kpi-header">
-          <span class="kpi-title">All-Time Daily Energy</span>
-          <span class="kpi-badge badge-blue">Peak Load</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valDailyEnergy">5,224.3</span>
-          <span class="kpi-unit">MU</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub" id="dateDailyEnergy">Sep 2, 2023 • All-India Demand</span>
-        </div>
-      </div>
-
-      <div class="kpi-card" id="kpiCAGR">
-        <div class="kpi-header">
-          <span class="kpi-title">10-Year Demand CAGR</span>
-          <span class="kpi-badge badge-emerald">+Growth</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valCAGR">+8.27%</span>
-          <span class="kpi-unit">p.a.</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub">716.8k MU (2013) → 1.58M MU (2023)</span>
-        </div>
-      </div>
-
-      <div class="kpi-card" id="kpiDeficit">
-        <div class="kpi-header">
-          <span class="kpi-title">Peak Deficit Reduction</span>
-          <span class="kpi-badge badge-purple">Reliability</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valDeficit">-93.3%</span>
-          <span class="kpi-unit">Cut</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub">5,686 MW (2013) → 383 MW (2023)</span>
-        </div>
-      </div>
-
-      <div class="kpi-card" id="kpiSolarSurge">
-        <div class="kpi-header">
-          <span class="kpi-title">Solar Gen Expansion</span>
-          <span class="kpi-badge badge-amber">Clean Boom</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valSolarSurge">2.89x</span>
-          <span class="kpi-unit">5-Yr</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub">46.3 TWh (2019) → 133.8 TWh (2024)</span>
-        </div>
-      </div>
-
-      <div class="kpi-card" id="kpiLockdown">
-        <div class="kpi-header">
-          <span class="kpi-title">COVID Shock & Rebound</span>
-          <span class="kpi-badge badge-rose">Resilience</span>
-        </div>
-        <div class="kpi-value-group">
-          <span class="kpi-value" id="valCovidShock">-24.0%</span>
-          <span class="kpi-unit">Dip</span>
-        </div>
-        <div class="kpi-footer">
-          <span class="kpi-sub">April 2020 Drop → +40.4% 2021 V-Shape</span>
-        </div>
-      </div>
-    </section>
-
     <!-- Navigation Tabs Bar -->
     <nav class="nav-tabs" id="navTabs">
       <button class="nav-tab active" data-tab="tabDemand" id="tabBtnDemand">
@@ -197,14 +110,6 @@
         State Matrix & Leaderboards
       </button>
 
-      <button class="nav-tab" data-tab="tabReports" id="tabBtnReports">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-          <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-        </svg>
-        Analytical Reports & Case Studies
-      </button>
-
       <button class="nav-tab" data-tab="tabSql" id="tabBtnSql">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="4 17 10 11 4 5"/>
@@ -216,6 +121,93 @@
 
     <!-- TAB 1: National Demand & Peak Load -->
     <section class="tab-panel active" id="tabDemand">
+      <!-- National Overview KPI Metrics Ribbon -->
+      <div class="kpi-ribbon" id="kpiRibbon">
+        <div class="kpi-card" id="kpiPeakMet">
+          <div class="kpi-header">
+            <span class="kpi-title">All-Time Peak Met</span>
+            <span class="kpi-badge badge-cyan">Record</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valPeakMet">249,623</span>
+            <span class="kpi-unit">MW</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub" id="datePeakMet">Sep 1, 2023 • Summer Surge</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpiDailyEnergy">
+          <div class="kpi-header">
+            <span class="kpi-title">All-Time Daily Energy</span>
+            <span class="kpi-badge badge-blue">Peak Load</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valDailyEnergy">5,224.3</span>
+            <span class="kpi-unit">MU</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub" id="dateDailyEnergy">Sep 2, 2023 • All-India Demand</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpiCAGR">
+          <div class="kpi-header">
+            <span class="kpi-title">10-Yr Demand CAGR</span>
+            <span class="kpi-badge badge-emerald">Audited</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valCAGR">+5.12%</span>
+            <span class="kpi-unit">p.a.</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub" id="cagrSubText">Daily Mean CAGR (5.12% vs 8.27% unadjusted)</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpiDeficit">
+          <div class="kpi-header">
+            <span class="kpi-title">Peak Deficit Reduction</span>
+            <span class="kpi-badge badge-purple">Reliability</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valDeficit">-93.3%</span>
+            <span class="kpi-unit">Cut</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub">5,686 MW (2013) → 383 MW (2023)</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpiSolarSurge">
+          <div class="kpi-header">
+            <span class="kpi-title">Solar Gen Expansion</span>
+            <span class="kpi-badge badge-amber">Clean Boom</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valSolarSurge">2.89x</span>
+            <span class="kpi-unit">5-Yr</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub">46.3 TWh (2019) → 133.8 TWh (2024)</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpiLockdown">
+          <div class="kpi-header">
+            <span class="kpi-title">COVID Shock & Rebound</span>
+            <span class="kpi-badge badge-rose">Resilience</span>
+          </div>
+          <div class="kpi-value-group">
+            <span class="kpi-value" id="valCovidShock">-24.0%</span>
+            <span class="kpi-unit">Dip</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-sub">April 2020 Drop → +40.4% 2021 V-Shape</span>
+          </div>
+        </div>
+      </div>
+
       <div class="panel-card chart-container-card">
         <div class="panel-card-header">
           <div class="header-titles">
@@ -290,39 +282,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Historical Milestone Cards Grid -->
-      <div class="milestones-grid">
-        <div class="milestone-card border-cyan">
-          <div class="ms-icon-box">⚡</div>
-          <div class="ms-content">
-            <span class="ms-tag">Record Peak Day</span>
-            <h4 class="ms-heading">249,623 MW Peak Demand</h4>
-            <p class="ms-desc">On September 1, 2023, extreme delayed monsoon conditions and high industrial demand triggered India's highest ever recorded peak electricity load, met seamlessly by the grid.</p>
-            <span class="ms-stat">Deficit: <0.5% (Total Met: 99.6%)</span>
-          </div>
-        </div>
-
-        <div class="milestone-card border-rose">
-          <div class="ms-icon-box">📉</div>
-          <div class="ms-content">
-            <span class="ms-tag">Black Swan Shock</span>
-            <h4 class="ms-heading">April 2020 COVID Lockdown</h4>
-            <p class="ms-desc">National lockdown caused electricity demand to plunge by 24.0% in April 2020 (averaging 2,838 MU/day vs 3,733 MU/day in 2019), followed by a swift V-shaped recovery (+40.4% in 2021).</p>
-            <span class="ms-stat">Lowest Daily: 2,596 MU</span>
-          </div>
-        </div>
-
-        <div class="milestone-card border-purple">
-          <div class="ms-icon-box">🛡️</div>
-          <div class="ms-content">
-            <span class="ms-tag">Structural Transformation</span>
-            <h4 class="ms-heading">93.3% Deficit Reduction</h4>
-            <p class="ms-desc">In 2013, India experienced average daily peak deficits of 5,685 MW (spiking to 12,251 MW). By 2023, transmission expansions and capacity additions reduced deficits to just 383 MW.</p>
-            <span class="ms-stat">Grid Availability: >99.7%</span>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- TAB FORECAST: AI Forecasting Engine (1–7 Days) -->
@@ -385,6 +344,16 @@
                 <option value="2022-12-20">Validation Period (2022-12-20)</option>
               </select>
             </div>
+          </div>
+
+          <!-- Backtest Mode Toggle -->
+          <div class="control-col">
+            <label class="control-label">Evaluation Mode</label>
+            <label class="toggle-checkbox" id="lblBacktestToggle" title="Compare forecast against ground-truth observations on historical origins">
+              <input type="checkbox" id="chkBacktestMode" checked>
+              <span class="toggle-switch"></span>
+              <span class="toggle-text">Backtest Ground Truth</span>
+            </label>
           </div>
 
           <!-- Action Button -->
@@ -465,6 +434,35 @@
         </div>
       </div>
 
+      <!-- Realized Episode Accuracy Card (Ground Truth Comparison) -->
+      <div class="forecast-backtest-card" id="forecastBacktestCard" style="display: none;">
+        <div class="fbc-header">
+          <div class="fbc-title-group">
+            <span class="fbc-badge-icon">🎯</span>
+            <span class="fbc-title">Realized Episode Accuracy (Ground Truth Verification)</span>
+          </div>
+          <span class="fbc-badge" id="fbcStatusBadge">Backtest Active</span>
+        </div>
+        <div class="fbc-grid">
+          <div class="fbc-item">
+            <span class="fbc-lbl">Realized Episode MAE</span>
+            <span class="fbc-val text-emerald" id="fbcRealizedMae">--</span>
+          </div>
+          <div class="fbc-item">
+            <span class="fbc-lbl">Realized Episode MAPE</span>
+            <span class="fbc-val text-cyan" id="fbcRealizedMape">--</span>
+          </div>
+          <div class="fbc-item">
+            <span class="fbc-lbl">Persistence Baseline MAE</span>
+            <span class="fbc-val text-amber" id="fbcPersistMae">--</span>
+          </div>
+          <div class="fbc-item">
+            <span class="fbc-lbl">Model Performance vs Persist</span>
+            <span class="fbc-val text-purple" id="fbcGainPct">--</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Main Forecast Chart Card -->
       <div class="panel-card chart-container-card">
         <div class="panel-card-header">
@@ -473,6 +471,7 @@
             <p class="panel-subtitle">Comparing certified direct Ridge regression against Day-0 persistence and weekly seasonal-naive</p>
           </div>
           <div class="chart-legend-box" id="forecastChartLegend">
+            <span class="legend-item" id="legendActualGroundTruth" style="display: none;"><span class="legend-color" style="background: #10b981;"></span> Actual Ground Truth</span>
             <span class="legend-item"><span class="legend-color" style="background: var(--accent-cyan);"></span> Selected Hybrid Forecast</span>
             <span class="legend-item"><span class="legend-color" style="background: var(--accent-blue);"></span> Raw Ridge ML</span>
             <span class="legend-item"><span class="legend-color" style="background: var(--accent-amber);"></span> Day-0 Persistence [y(D)]</span>
@@ -504,6 +503,8 @@
                   <th>Horizon</th>
                   <th>Target Date</th>
                   <th>Selected Value</th>
+                  <th>Actual Observed</th>
+                  <th>Realized Error</th>
                   <th>Active Method</th>
                   <th>Ridge ML</th>
                   <th>Persistence</th>
@@ -608,17 +609,17 @@
         <div class="panel-card">
           <div class="panel-card-header">
             <div>
-              <h2 class="panel-title">Heat Elasticity & Cooling Demand Elasticity</h2>
-              <p class="panel-subtitle">Quantifying the surge in cooling load during intense heatwaves</p>
+              <h2 class="panel-title">Thermal Sensitivity & Bivariate Correlation (UTCI)</h2>
+              <p class="panel-subtitle">Exploratory correlation between daily peak load and national mean UTCI thermal stress</p>
             </div>
-            <span class="kpi-badge badge-amber">+199.7 MW / °C</span>
+            <span class="kpi-badge badge-amber">+199.7 MW / °C (Exploratory, R²=0.0035)</span>
           </div>
 
           <div class="scatter-stats-box">
             <div class="stat-mini">
-              <span class="mini-label">Heat Sensitivity Slope</span>
-              <span class="mini-val text-amber">~200 MW / °C</span>
-              <span class="mini-sub">Marginal peak load per 1°C ambient thermal rise</span>
+              <span class="mini-label">Bivariate Slope</span>
+              <span class="mini-val text-amber">+199.7 MW / °C</span>
+              <span class="mini-sub">Unadjusted OLS slope; R² = 0.0035 (exploratory)</span>
             </div>
             <div class="stat-mini">
               <span class="mini-label">Summer Peak Timing</span>
@@ -630,11 +631,50 @@
           <div class="chart-canvas-wrapper" style="height: 250px;">
             <canvas id="climateScatterCanvas"></canvas>
           </div>
+          <p class="chart-footnote" style="font-size:11px; color:var(--text-secondary); margin-top:8px; line-height:1.4;">* <strong>Methodological Disclosure:</strong> Raw bivariate OLS yields Pearson r = 0.059 (R² = 0.0035). Peak demand is dominated by long-term secular economic growth (+5.1% CAGR) and monsoon seasonal variations rather than simple ambient temperature alone. This relationship is exploratory and not suitable for operational dispatch forecasting.</p>
 
-          <div class="insight-callout">
-            <div class="callout-icon">💡</div>
-            <div class="callout-text">
-              <strong>The Cooling Conundrum:</strong> India's air conditioning penetration is currently under 10% but growing at 15% annually. During extreme summer days with UTCI > 32°C, daily peak electricity demand surges by over 20,000–35,000 MW above normal baseline load.
+          <!-- Exploratory Heat Sensitivity Correlation Tool -->
+          <div class="simulator-card" id="coolingSimulatorCard">
+            <div class="sim-header">
+              <div class="sim-title-wrap">
+                <span class="sim-icon">📊</span>
+                <span class="sim-title">Exploratory Thermal Slope Calculator</span>
+              </div>
+              <span class="sim-badge badge-amber" id="simStressBadge">Exploratory (R² = 0.0035)</span>
+            </div>
+            
+            <div class="sim-controls">
+              <div class="sim-slider-row">
+                <div class="sim-label-wrap">
+                  <label for="rangeTempAnomaly">Heat Anomaly (ΔT):</label>
+                  <span class="sim-val-display" id="valTempAnomaly">+2.0°C</span>
+                </div>
+                <input type="range" id="rangeTempAnomaly" min="0.5" max="5.0" step="0.5" value="2.0" class="sim-slider">
+                <div class="sim-scale-labels">
+                  <span>+0.5°C</span>
+                  <span>+2.0°C</span>
+                  <span>+3.5°C</span>
+                  <span>+5.0°C (High Anomaly)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sim-metrics-grid">
+              <div class="sim-metric-box">
+                <span class="sim-metric-lbl">Bivariate Slope Estimate</span>
+                <span class="sim-metric-val text-amber" id="simLoadSurge">~399 MW</span>
+                <span class="sim-metric-sub">~199.7 MW/°C raw regression</span>
+              </div>
+              <div class="sim-metric-box">
+                <span class="sim-metric-lbl">Daily Energy Scaling</span>
+                <span class="sim-metric-val text-cyan" id="simEnergySurge">~6.4 MU/day</span>
+                <span class="sim-metric-sub">16h unadjusted diurnal reference</span>
+              </div>
+              <div class="sim-metric-box">
+                <span class="sim-metric-lbl">Statistical Validity</span>
+                <span class="sim-metric-val text-emerald" id="simReserveAdvisory">Non-Predictive Bivariate Slope</span>
+                <span class="sim-metric-sub" id="simReserveNote">Exploratory data only. Raw Pearson r = 0.059 (R² = 0.0035) indicates this relationship is not suitable for operational forecasting.</span>
+              </div>
             </div>
           </div>
         </div>
@@ -698,7 +738,16 @@
 
     <!-- TAB 4: State Matrix & Leaderboards -->
     <section class="tab-panel" id="tabStates">
-      <div class="state-layout-grid">
+      <!-- State Mode Switcher Bar -->
+      <div class="state-mode-bar">
+        <div class="btn-group" id="stateModeGroup">
+          <button class="btn-pill active" id="btnModeSingleState" data-mode="single">Single State Deep Dive</button>
+          <button class="btn-pill" id="btnModeCompareStates" data-mode="compare">Head-to-Head State Compare</button>
+        </div>
+      </div>
+
+      <!-- Mode 1: Single State Layout Grid -->
+      <div class="state-layout-grid" id="stateSingleLayout">
         <!-- State Leaderboard Table -->
         <div class="panel-card state-table-card">
           <div class="panel-card-header">
@@ -782,141 +831,124 @@
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- TAB 5: Analytical Reports & Case Studies -->
-    <section class="tab-panel" id="tabReports">
-      <div class="reports-container">
-        <!-- Brief 1 -->
-        <article class="report-card">
-          <div class="report-header">
-            <div class="report-badge-num">CASE STUDY 01</div>
-            <span class="report-category">Grid Transformation</span>
-          </div>
-          <h3 class="report-title">The Vanishing Deficit: How India Conquered Structural Peak Shortages</h3>
-          <p class="report-summary">
-            A decade ago in 2013, India's power grid was plagued by frequent load shedding and severe transmission bottlenecks, with daily peak deficit averaging <strong>5,685 MW</strong> and maximum recorded shortages reaching <strong>12,251 MW</strong> (over 8.5% of total demand). By 2023, through the creation of the One Nation, One Grid synchronous interconnection, rapid transmission highway buildout, and over 150 GW of thermal and renewable additions, average peak deficits plummeted by <strong>93.3% to just 383 MW</strong> (<0.2% of peak demand). Today, grid reliability stands at unprecedented historic highs.
-          </p>
-          <div class="report-metrics-row">
-            <div class="rm-box">
-              <span class="rm-label">2013 Avg Daily Deficit</span>
-              <span class="rm-val text-rose">5,686 MW</span>
+      <!-- Mode 2: Head-to-Head Compare Layout Grid -->
+      <div class="state-compare-layout" id="stateCompareLayout" style="display: none;">
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <div>
+              <h2 class="panel-title">Head-to-Head State Energy Benchmark</h2>
+              <p class="panel-subtitle">Select any two states to contrast power demand, 10-year trajectories, and clean generation capacity</p>
             </div>
-            <div class="rm-box">
-              <span class="rm-label">2023 Avg Daily Deficit</span>
-              <span class="rm-val text-emerald">383 MW</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Deficit Reduction</span>
-              <span class="rm-val text-purple">-93.3%</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Power Availability</span>
-              <span class="rm-val text-cyan">>99.7%</span>
+            <div class="compare-selectors">
+              <div class="compare-select-col">
+                <span class="cs-label text-cyan">State A:</span>
+                <select id="selectStateA" class="custom-select select-compare"></select>
+              </div>
+              <div class="compare-vs">VS</div>
+              <div class="compare-select-col">
+                <span class="cs-label text-amber">State B:</span>
+                <select id="selectStateB" class="custom-select select-compare"></select>
+              </div>
             </div>
           </div>
-        </article>
 
-        <!-- Brief 2 -->
-        <article class="report-card">
-          <div class="report-header">
-            <div class="report-badge-num">CASE STUDY 02</div>
-            <span class="report-category">Economic Shocks</span>
-          </div>
-          <h3 class="report-title">The COVID-19 Demand Shock & The Resilient V-Shaped Rebound</h3>
-          <p class="report-summary">
-            When India implemented the nationwide lockdown on March 24, 2020, industrial and commercial operations ceased overnight. Analysis of the daily energy data reveals an unprecedented <strong>24.0% contraction</strong> in electricity consumption in April 2020 (falling from 3,733 MU/day in April 2019 to 2,838 MU/day). However, as manufacturing resumed and agricultural demand held firm, India staged a dramatic recovery: by April 2021, daily demand rebounded by <strong>40.4%</strong> to 3,985 MU/day, surpassing pre-pandemic levels and highlighting the country's underlying economic momentum.
-          </p>
-          <div class="report-metrics-row">
-            <div class="rm-box">
-              <span class="rm-label">Pre-Lockdown (Apr 2019)</span>
-              <span class="rm-val">3,733 MU/day</span>
+          <!-- Comparative KPI Grid -->
+          <div class="compare-kpi-grid">
+            <div class="compare-kpi-col border-cyan">
+              <h3 id="cmpNameA" class="cmp-state-title text-cyan">Maharashtra</h3>
+              <div class="cmp-stats-list">
+                <div class="cmp-stat-row">
+                  <span>Annual Energy Met:</span>
+                  <strong id="cmpEnergyA" class="font-mono text-cyan">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Peak Demand Met:</span>
+                  <strong id="cmpPeakA" class="font-mono text-emerald">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Daily Average Load:</span>
+                  <strong id="cmpDailyA" class="font-mono text-muted">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Total Installed Capacity:</span>
+                  <strong id="cmpCapTotalA" class="font-mono">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Clean Capacity Share:</span>
+                  <strong id="cmpCleanShareA" class="font-mono text-emerald">--</strong>
+                </div>
+              </div>
             </div>
-            <div class="rm-box">
-              <span class="rm-label">Lockdown Dip (Apr 2020)</span>
-              <span class="rm-val text-rose">2,839 MU/day</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Rebound (Apr 2021)</span>
-              <span class="rm-val text-emerald">3,985 MU/day</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Net Rebound</span>
-              <span class="rm-val text-cyan">+40.4% YoY</span>
-            </div>
-          </div>
-        </article>
 
-        <!-- Brief 3 -->
-        <article class="report-card">
-          <div class="report-header">
-            <div class="report-badge-num">CASE STUDY 03</div>
-            <span class="report-category">Clean Transition</span>
-          </div>
-          <h3 class="report-title">The Solar Surge: Scaling from 46 TWh to 134 TWh in Five Years</h3>
-          <p class="report-summary">
-            India's renewable electricity journey represents one of the fastest solar deployments globally. Monthly generation data from Ember shows annual solar generation expanding from <strong>46,267 GWh in 2019 to 133,795 GWh in 2024</strong>—a <strong>2.89x increase</strong>. In July 2025, clean energy generation (solar, wind, hydro, and nuclear) set an all-time record, accounting for <strong>35.74%</strong> of total monthly electricity generation. The states of Rajasthan and Gujarat have emerged as national clean power engines, each possessing over 20 GW of installed renewable generation.
-          </p>
-          <div class="report-metrics-row">
-            <div class="rm-box">
-              <span class="rm-label">2019 Solar Output</span>
-              <span class="rm-val">46.3 TWh</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">2024 Solar Output</span>
-              <span class="rm-val text-amber">133.8 TWh</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Growth Multiple</span>
-              <span class="rm-val text-emerald">2.89x</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Peak Clean Share</span>
-              <span class="rm-val text-purple">35.7%</span>
+            <div class="compare-kpi-col border-amber">
+              <h3 id="cmpNameB" class="cmp-state-title text-amber">Gujarat</h3>
+              <div class="cmp-stats-list">
+                <div class="cmp-stat-row">
+                  <span>Annual Energy Met:</span>
+                  <strong id="cmpEnergyB" class="font-mono text-amber">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Peak Demand Met:</span>
+                  <strong id="cmpPeakB" class="font-mono text-emerald">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Daily Average Load:</span>
+                  <strong id="cmpDailyB" class="font-mono text-muted">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Total Installed Capacity:</span>
+                  <strong id="cmpCapTotalB" class="font-mono">--</strong>
+                </div>
+                <div class="cmp-stat-row">
+                  <span>Clean Capacity Share:</span>
+                  <strong id="cmpCleanShareB" class="font-mono text-emerald">--</strong>
+                </div>
+              </div>
             </div>
           </div>
-        </article>
 
-        <!-- Brief 4 -->
-        <article class="report-card">
-          <div class="report-header">
-            <div class="report-badge-num">CASE STUDY 04</div>
-            <span class="report-category">Climate & Grid Dynamics</span>
-          </div>
-          <h3 class="report-title">Extreme Heat & Cooling Demand: The Temperature Elasticity of India's Grid</h3>
-          <p class="report-summary">
-            By merging the daily Universal Thermal Climate Index (UTCI) with grid demand, we observe a dramatic rise in peak electricity sensitivity to heatwaves. In peak summer months, each 1°C increase in thermal heat index adds approximately <strong>~200 MW</strong> of immediate peak load nationally, driven by rapid urbanization and the proliferation of room air conditioning. As heatwaves intensify in frequency and duration across Northern and Central India, grid operators must plan for sharper evening cooling peaks as residential cooling coincides with solar sunset.
-          </p>
-          <div class="report-metrics-row">
-            <div class="rm-box">
-              <span class="rm-label">Heat Sensitivity</span>
-              <span class="rm-val text-amber">~200 MW / °C</span>
+          <!-- Dual 10-Year Growth Comparison Chart -->
+          <div class="compare-chart-section">
+            <div class="panel-card-header" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+              <div>
+                <h3 class="panel-title">10-Year Demand Growth Trajectory Comparison</h3>
+                <p class="panel-subtitle">Annual electricity met (MU) from 2013 to 2024</p>
+              </div>
+              <div class="chart-legend-box">
+                <span class="legend-item"><span class="legend-color bg-cyan"></span> <span id="cmpLegendA">State A</span></span>
+                <span class="legend-item"><span class="legend-color bg-amber"></span> <span id="cmpLegendB">State B</span></span>
+              </div>
             </div>
-            <div class="rm-box">
-              <span class="rm-label">Peak Summer Load</span>
-              <span class="rm-val text-cyan">249,623 MW</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">AC Penetration</span>
-              <span class="rm-val"><10% (Growing)</span>
-            </div>
-            <div class="rm-box">
-              <span class="rm-label">Critical Window</span>
-              <span class="rm-val text-rose">7 PM - 11 PM</span>
+            <div class="chart-canvas-wrapper" style="height: 240px;">
+              <canvas id="stateCompareCanvas"></canvas>
+              <div class="chart-tooltip" id="stateCompareTooltip"></div>
             </div>
           </div>
-        </article>
+
+          <!-- Side-by-Side Capacity Mix Comparison -->
+          <div class="compare-capacity-grid">
+            <div class="cmp-cap-card">
+              <h4 id="cmpCapTitleA" class="text-cyan">State A Installed Capacity (MW)</h4>
+              <div class="capacity-breakdown" id="cmpCapMixA"></div>
+            </div>
+            <div class="cmp-cap-card">
+              <h4 id="cmpCapTitleB" class="text-amber">State B Installed Capacity (MW)</h4>
+              <div class="capacity-breakdown" id="cmpCapMixB"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- TAB 6: SQL Sandbox & Data Export -->
+    <!-- TAB 5: SQL Sandbox & Data Export -->
     <section class="tab-panel" id="tabSql">
       <div class="sql-sandbox-wrapper" id="sqlSandbox">
         <div class="panel-card">
           <div class="panel-card-header">
             <div>
               <h2 class="panel-title">Interactive SQLite Query Sandbox</h2>
-              <p class="panel-subtitle">Execute read-only SQL queries against <code>energysense.db</code> (Tables: <code>daily_india_demand</code>, <code>state_annual_summary</code>, <code>state_daily_demand</code>, <code>monthly_generation</code>)</p>
+              <p class="panel-subtitle">Execute read-only SQL queries against <code>energysense.db</code> (Tables: <code>daily_india_demand</code>, <code>state_annual_summary</code>, <code>state_daily_demand</code>, <code>monthly_generation</code>, <code>data_quality_gap_log</code>)</p>
             </div>
             <div class="sql-badge">Live SQLite Engine</div>
           </div>
@@ -926,7 +958,10 @@
             <span class="preset-label">Query Presets:</span>
             <button class="btn-preset" data-sql="SELECT date, peak_met_mw, energy_met_mu, deficit_pct FROM daily_india_demand ORDER BY peak_met_mw DESC LIMIT 10;">Top 10 Peak Days</button>
             <button class="btn-preset" data-sql="SELECT state, year, total_energy_mu, peak_demand_mw FROM state_annual_summary WHERE year = 2023 ORDER BY total_energy_mu DESC LIMIT 10;">Top 10 States 2023</button>
+            <button class="btn-preset" data-sql="SELECT month, ROUND(AVG(energy_met_mu), 1) as avg_daily_mu, MAX(peak_met_mw) as max_peak_mw FROM daily_india_demand GROUP BY month ORDER BY month ASC;">Monthly Seasonal Profile</button>
+            <button class="btn-preset" data-sql="SELECT date, energy_met_mu, peak_met_mw, utci_celsius FROM daily_india_demand WHERE utci_celsius > 32 ORDER BY peak_met_mw DESC LIMIT 10;">Heatwave High-Load Days</button>
             <button class="btn-preset" data-sql="SELECT date, solar_gwh, wind_gwh, coal_gwh, clean_share_pct FROM monthly_generation ORDER BY clean_share_pct DESC LIMIT 12;">Highest Clean Months</button>
+            <button class="btn-preset" data-sql="SELECT gap_start_date, gap_end_date, missing_days_count, notes FROM data_quality_gap_log ORDER BY missing_days_count DESC LIMIT 10;">Data Gaps Audit Log</button>
             <button class="btn-preset" data-sql="SELECT year, AVG(peak_unmet_mw) as avg_deficit_mw, MAX(peak_unmet_mw) as max_deficit_mw FROM daily_india_demand GROUP BY year ORDER BY year ASC;">Yearly Deficit Trend</button>
           </div>
 
@@ -939,6 +974,12 @@
                   <polygon points="5 3 19 12 5 21 5 3"/>
                 </svg>
                 Execute Query
+              </button>
+              <button id="btnExportSqlCsv" class="btn-secondary" title="Download current query results as CSV file">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                Export CSV
               </button>
               <span id="sqlExecutionStatus" class="sql-status-text">Ready</span>
             </div>

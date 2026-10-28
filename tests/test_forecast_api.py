@@ -204,5 +204,41 @@ class TestForecastApi(unittest.TestCase):
             with urllib.request.urlopen(req, timeout=5) as resp:
                 self.assertEqual(resp.getcode(), 200, f"Endpoint {ep} must return 200")
 
+    def test_backtesting_historical_origin_ground_truth(self):
+        """Verify backtesting evaluation computes realized MAE/MAPE on historical origin with ground truth."""
+        status, data = generate_forecast(target="energy_met_mu", origin_str="2024-04-15", horizon=7)
+        self.assertEqual(status, 200)
+        self.assertIn("episode_evaluation", data)
+        eval_data = data["episode_evaluation"]
+        self.assertTrue(eval_data["ground_truth_available"])
+        self.assertEqual(eval_data["evaluated_points"], 7)
+        self.assertIsInstance(eval_data["realized_mae"], float)
+        self.assertGreater(eval_data["realized_mae"], 0.0)
+        self.assertIsInstance(eval_data["realized_mape_pct"], float)
+        self.assertIsInstance(eval_data["realized_gain_vs_persistence_pct"], float)
+
+        for p in data["predictions"]:
+            self.assertIsNotNone(p["actual_observed_value"])
+            self.assertIsNotNone(p["realized_error"])
+            self.assertIsNotNone(p["realized_ape_pct"])
+            self.assertAlmostEqual(
+                p["realized_error"],
+                round(abs(p["predicted_value"] - p["actual_observed_value"]), 2),
+                places=1
+            )
+
+    def test_backtesting_latest_origin_pending(self):
+        """Verify origin on latest date has ground_truth_available=False with pending metrics."""
+        status, data = generate_forecast(target="energy_met_mu", origin_str="2024-04-28", horizon=7)
+        self.assertEqual(status, 200)
+        eval_data = data["episode_evaluation"]
+        self.assertFalse(eval_data["ground_truth_available"])
+        self.assertEqual(eval_data["evaluated_points"], 0)
+        self.assertIsNone(eval_data["realized_mae"])
+
+        for p in data["predictions"]:
+            self.assertIsNone(p["actual_observed_value"])
+            self.assertIsNone(p["realized_error"])
+
 if __name__ == "__main__":
     unittest.main()

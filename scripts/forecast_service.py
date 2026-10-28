@@ -78,6 +78,27 @@ def fetch_historical_series_around_origin(
     
     return {datetime.date.fromisoformat(r[0]): float(r[1]) for r in rows if r[1] is not None}
 
+def fetch_forward_ground_truth(
+    origin_dt: datetime.date,
+    horizon: int = 7,
+    target_col: str = "energy_met_mu",
+    db_path: str = DB_PATH
+) -> Dict[datetime.date, float]:
+    """Fetches observed ground truth strictly for target dates D+1..D+h to enable evaluation."""
+    start_dt = origin_dt + datetime.timedelta(days=1)
+    end_dt = origin_dt + datetime.timedelta(days=horizon)
+    with sqlite3.connect(db_path) as conn:
+        cur = conn.cursor()
+        cur.execute(f"""
+            SELECT date, {target_col} 
+            FROM daily_india_demand 
+            WHERE date >= ? AND date <= ? AND {target_col} IS NOT NULL
+            ORDER BY date ASC
+        """, (start_dt.isoformat(), end_dt.isoformat()))
+        rows = cur.fetchall()
+    
+    return {datetime.date.fromisoformat(r[0]): float(r[1]) for r in rows if r[1] is not None}
+
 def run_ridge_inference(model_dict: Dict[str, Any], features: List[float]) -> float:
     """Runs pure Python inference from serialized RidgeRegressor dictionary."""
     scaler = model_dict["scaler"]
@@ -219,6 +240,12 @@ def generate_forecast(
     roll_7 = (sum(r7_vals) / len(r7_vals)) if r7_vals else 0.0
     roll_28 = (sum(r28_vals) / len(r28_vals)) if r28_vals else 0.0
     
+    # Ground truth lookup for backtesting historical episodes
+    ground_truth_map = fetch_forward_ground_truth(origin_dt, horizon=horizon_int, target_col=target, db_path=db_path)
+    realized_errors = []
+    realized_apes = []
+    realized_persist_errors = []
+
     for h in range(1, horizon_int + 1):
         target_dt = origin_dt + datetime.timedelta(days=h)
         
@@ -280,11 +307,29 @@ def generate_forecast(
             selected_pred = sn_val
             baseline_status = "seasonal_anchor_preferred"
 
+        # Ground truth comparison if observed
+        actual_val = ground_truth_map.get(target_dt)
+        if actual_val is not None:
+            actual_val_round = round(actual_val, 2)
+            realized_err = round(abs(selected_pred - actual_val_round), 2)
+            realized_ape = round((realized_err / actual_val_round) * 100, 2)
+            persist_err = round(abs(persist_val - actual_val_round), 2)
+            realized_errors.append(realized_err)
+            realized_apes.append(realized_ape)
+            realized_persist_errors.append(persist_err)
+        else:
+            actual_val_round = None
+            realized_err = None
+            realized_ape = None
+
         predictions.append({
             "horizon": h,
             "target_date": target_dt.isoformat(),
             "target_day_of_week": target_dt.strftime("%A"),
             "predicted_value": selected_pred,
+            "actual_observed_value": actual_val_round,
+            "realized_error": realized_err,
+            "realized_ape_pct": realized_ape,
             "recommended_model": recommended_model,
             "ridge_prediction": raw_ridge_val,
             "persistence_baseline": persist_val,
@@ -292,6 +337,30 @@ def generate_forecast(
             "baseline_status": baseline_status,
             "units": unit
         })
+
+    # Episode evaluation summary (for historical backtest mode)
+    if realized_errors:
+        episode_eval = {
+            "ground_truth_available": True,
+            "evaluated_points": len(realized_errors),
+            "observed_steps_count": len(realized_errors),
+            "horizon_requested": horizon,
+            "realized_mae": round(sum(realized_errors) / len(realized_errors), 2),
+            "realized_mape_pct": round(sum(realized_apes) / len(realized_apes), 2),
+            "realized_persistence_mae": round(sum(realized_persist_errors) / len(realized_persist_errors), 2),
+            "realized_gain_vs_persistence_pct": round(
+                ((sum(realized_persist_errors) - sum(realized_errors)) / sum(realized_persist_errors)) * 100, 2
+            ) if sum(realized_persist_errors) > 0 else 0.0
+        }
+    else:
+        episode_eval = {
+            "ground_truth_available": False,
+            "evaluated_points": 0,
+            "observed_steps_count": 0,
+            "horizon_requested": horizon,
+            "realized_mae": None,
+            "message": "Forecast origin is at or beyond dataset frontier; ground truth cannot be observed."
+        }
 
     # Validation metadata from artifact
     val_meta = {}
@@ -324,6 +393,7 @@ def generate_forecast(
         "requested_horizon_days": horizon_int,
         "selection_policy": "Horizons 1–5: Direct Ridge ML; Horizon 6: Direct Ridge (parity watch); Horizon 7: Seasonal-Naive Weekly Anchor.",
         "predictions": predictions,
+        "episode_evaluation": episode_eval,
         "validation_metadata": val_meta,
         "data_quality": {
             "origin_available": True,

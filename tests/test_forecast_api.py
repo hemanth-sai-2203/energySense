@@ -158,34 +158,44 @@ class TestForecastApi(unittest.TestCase):
             
         url = f"{SERVER_URL}/api/forecast?target=energy_met_mu&origin=2024-04-28&horizon=7"
         req = urllib.request.Request(url)
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            self.assertEqual(resp.getcode(), 200)
-            self.assertEqual(resp.headers.get_content_type(), "application/json")
-            data = json.loads(resp.read().decode("utf-8"))
-            self.assertEqual(data["status"], "success")
-            self.assertEqual(data["forecast_origin"], "2024-04-28")
-            self.assertEqual(len(data["predictions"]), 7)
+        try:
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                self.assertEqual(resp.getcode(), 200)
+                self.assertEqual(resp.headers.get_content_type(), "application/json")
+                data = json.loads(resp.read().decode("utf-8"))
+                self.assertEqual(data["status"], "success")
+                self.assertEqual(data["forecast_origin"], "2024-04-28")
+                self.assertEqual(len(data["predictions"]), 7)
+        except urllib.error.URLError as e:
+            if "10013" in str(e) or isinstance(getattr(e, "reason", None), PermissionError):
+                self.skipTest(f"Loopback socket blocked by OS environment: {e}")
+            raise
 
     def test_live_http_error_handling(self):
         """Verify live HTTP error responses return appropriate HTTP status codes."""
         if not self.server_live:
             self.skipTest("Live server not running on port 8000")
             
-        # 1. Future date -> HTTP 400
-        url_future = f"{SERVER_URL}/api/forecast?origin=2026-10-26"
-        with self.assertRaises(urllib.error.HTTPError) as ctx:
-            urllib.request.urlopen(url_future, timeout=5)
-        self.assertEqual(ctx.exception.code, 400)
-        body = json.loads(ctx.exception.read().decode("utf-8"))
-        self.assertEqual(body["code"], "FUTURE_ORIGIN_NOT_OBSERVED")
+        try:
+            # 1. Future date -> HTTP 400
+            url_future = f"{SERVER_URL}/api/forecast?origin=2026-10-26"
+            with self.assertRaises(urllib.error.HTTPError) as ctx:
+                urllib.request.urlopen(url_future, timeout=5)
+            self.assertEqual(ctx.exception.code, 400)
+            body = json.loads(ctx.exception.read().decode("utf-8"))
+            self.assertEqual(body["code"], "FUTURE_ORIGIN_NOT_OBSERVED")
 
-        # 2. Unavailable lag -> HTTP 422
-        url_gap = f"{SERVER_URL}/api/forecast?origin=2023-03-31"
-        with self.assertRaises(urllib.error.HTTPError) as ctx:
-            urllib.request.urlopen(url_gap, timeout=5)
-        self.assertEqual(ctx.exception.code, 422)
-        body = json.loads(ctx.exception.read().decode("utf-8"))
-        self.assertEqual(body["code"], "UNAVAILABLE_HISTORICAL_LAGS")
+            # 2. Unavailable lag -> HTTP 422
+            url_gap = f"{SERVER_URL}/api/forecast?origin=2023-03-31"
+            with self.assertRaises(urllib.error.HTTPError) as ctx:
+                urllib.request.urlopen(url_gap, timeout=5)
+            self.assertEqual(ctx.exception.code, 422)
+            body = json.loads(ctx.exception.read().decode("utf-8"))
+            self.assertEqual(body["code"], "UNAVAILABLE_HISTORICAL_LAGS")
+        except urllib.error.URLError as e:
+            if "10013" in str(e) or isinstance(getattr(e, "reason", None), PermissionError):
+                self.skipTest(f"Loopback socket blocked by OS environment: {e}")
+            raise
 
     def test_existing_endpoints_remain_functional(self):
         """Verify existing API endpoints continue to work without regression."""
@@ -199,10 +209,15 @@ class TestForecastApi(unittest.TestCase):
             "/api/capacity",
             "/api/audit"
         ]
-        for ep in endpoints:
-            req = urllib.request.Request(f"{SERVER_URL}{ep}")
-            with urllib.request.urlopen(req, timeout=5) as resp:
-                self.assertEqual(resp.getcode(), 200, f"Endpoint {ep} must return 200")
+        try:
+            for ep in endpoints:
+                req = urllib.request.Request(f"{SERVER_URL}{ep}")
+                with urllib.request.urlopen(req, timeout=5) as resp:
+                    self.assertEqual(resp.getcode(), 200, f"Endpoint {ep} must return 200")
+        except urllib.error.URLError as e:
+            if "10013" in str(e) or isinstance(getattr(e, "reason", None), PermissionError):
+                self.skipTest(f"Loopback socket blocked by OS environment: {e}")
+            raise
 
     def test_backtesting_historical_origin_ground_truth(self):
         """Verify backtesting evaluation computes realized MAE/MAPE on historical origin with ground truth."""

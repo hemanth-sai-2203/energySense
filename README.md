@@ -3,16 +3,17 @@
 # ⚡ EnergySense India
 ### National Power System Analytics Observatory & Machine Learning Forecasting Engine
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-energysense--india.onrender.com-0d7a6b?style=for-the-badge&logo=render&logoColor=white)](https://energysense-india.onrender.com)
+
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero%20External-success)](https://docs.python.org/3/library/)
 [![Database](https://img.shields.io/badge/Database-SQLite%203%20(4.1%20MB)-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![UI](https://img.shields.io/badge/UI-Native%20HTML5%20Canvas%20(60fps)-E34F26?logo=html5&logoColor=white)](public/index.html)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI Tests](https://img.shields.io/badge/CI%20Suite-46%20Tests%20Passing-emerald)](tests/)
 
 *An authoritative, high-performance platform synthesizing 11 years of Indian electricity grid telemetry, institutional fuel generation accounting, and leakage-safe machine learning forecasting.*
 
-[Features](#-key-features) • [Data Forensic Audits](#-forensic-data-hygiene--audited-discoveries) • [Forecasting Benchmarks](#-machine-learning-forecasting-engine) • [Architecture](#-high-level-system-architecture) • [Quick Start](#-quick-start-run-in-30-seconds) • [Documentation](#-flagship-technical-documentation)
+[🌐 Live Demo](https://energysense-india.onrender.com) • [Features](#-key-features) • [Data Forensic Audits](#-forensic-data-hygiene--audited-discoveries) • [Forecasting Benchmarks](#-machine-learning-forecasting-engine) • [Architecture](#-high-level-system-architecture) • [Quick Start](#-quick-start-run-in-30-seconds) • [Documentation](#-flagship-technical-documentation)
 
 ---
 

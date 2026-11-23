@@ -145,9 +145,9 @@ energySense/
 │   ├── data_provenance_and_governance.md     # Institutional jurisdictions & SCADA vs REA guide
 │   └── complete_project_master_guide.md      # This comprehensive project master guide
 ├── models/                                   # Certified machine learning artifacts
-│   ├── certified_energy_met_mu_model.json    # Ridge weights & scalers for Daily Energy Met
-│   ├── certified_peak_met_mw_model.json      # Ridge weights & scalers for Daily Peak Load
-│   └── model_registry.json                   # Metadata registry & evaluation test metrics
+│   ├── certified_energy_model.json           # Ridge weights & scalers for Daily Energy Met
+│   ├── certified_peak_model.json             # Ridge weights & scalers for Daily Peak Load
+│   └── (eval results: data/clean/forecast_evaluation_results.json)
 ├── public/                                   # Frontend web application
 │   ├── data/                                 # Static fallback JSON mirrors for offline resilience
 │   ├── index.html                            # Semantic HTML5 dashboard with 6 tabs & modals

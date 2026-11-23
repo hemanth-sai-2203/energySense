@@ -6,7 +6,7 @@ import json
 import sqlite3
 import urllib.parse
 
-PORT = 8000
+PORT = int(os.environ.get("PORT", 8000))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PUBLIC_DIR = os.path.join(BASE_DIR, "public")
 DATA_DIR = os.path.join(BASE_DIR, "data", "clean")
@@ -240,10 +240,11 @@ class EnergySenseHandler(http.server.SimpleHTTPRequestHandler):
 def run(port=PORT):
     os.makedirs(PUBLIC_DIR, exist_ok=True)
     socketserver.ThreadingTCPServer.allow_reuse_address = True
+    host = os.environ.get("HOST", "0.0.0.0" if "PORT" in os.environ else "127.0.0.1")
     for p in [port, port + 1, port + 80, 5000, 8080]:
         try:
-            server = socketserver.ThreadingTCPServer(("127.0.0.1", p), EnergySenseHandler)
-            print(f"EnergySense Server running at http://127.0.0.1:{p}", flush=True)
+            server = socketserver.ThreadingTCPServer((host, p), EnergySenseHandler)
+            print(f"EnergySense Server running at http://{host}:{p}", flush=True)
             server.serve_forever()
             break
         except OSError as e:

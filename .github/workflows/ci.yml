@@ -1,0 +1,34 @@
+name: EnergySense CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Run Unit Tests & Data Invariant Audits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run Full Test Suite
+        run: |
+          python -m unittest discover -s tests -p "test_*.py"
+
+      - name: Verify Forecast Protocol & Baseline Benchmarks
+        run: |
+          python scripts/verify_forecast_protocol.py
+
+      - name: Verify Live Ingestion Engine Dry-Run
+        run: |
+          python scripts/fetch_official_grid_data.py --source offline_benchmark --days 7 --dry-run
+

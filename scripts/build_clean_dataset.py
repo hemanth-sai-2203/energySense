@@ -8,7 +8,7 @@ import shutil
 from collections import defaultdict
 from datetime import datetime, timedelta
 
-BASE_DIR = r"c:\Users\heman\Desktop\project_working\energySense"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 CLEAN_DIR = os.path.join(BASE_DIR, "data", "clean")
 PUBLIC_DATA_DIR = os.path.join(BASE_DIR, "public", "data")
